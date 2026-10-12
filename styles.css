@@ -18,6 +18,7 @@
 }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (max-width:819px){html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{
   margin:0;background:var(--page);color:var(--ink);
