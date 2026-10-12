@@ -92,23 +92,26 @@ p{margin:0 0 .9em}
 .nav a[aria-current="true"]{background:var(--ink);color:var(--paper)}
 
 /* ---------- Hero ---------- */
-.hero{position:relative;border-radius:var(--r-cut);overflow:hidden;margin:6px 0 18px;background:#e9eef0;aspect-ratio:3/4.2}
-@media (min-width:700px){.hero{aspect-ratio:9/5;width:min(100vw - 40px,1100px);left:50%;transform:translateX(-50%)}.hero .names{width:min(34%,340px)}}
+.hero{position:relative;container-type:inline-size;border-radius:var(--r-cut);overflow:hidden;margin:6px 0 18px;background:#e9eef0;aspect-ratio:3/4.2}
+@media (min-width:700px){.hero{aspect-ratio:9/5;width:min(100vw - 40px,1100px);left:50%;transform:translateX(-50%)}}
 .hero picture,.hero picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero .hash{position:absolute;top:4.5%;left:0;right:0;text-align:center;font-family:var(--latin);font-weight:500;color:#566;font-size:clamp(12px,2.2vw,16px)}
-.hero .from{position:absolute;top:10%;left:6%;width:88%}
-@media (min-width:700px){.hero .from{top:14%;left:18%;width:64%}}
-.hero .names{position:absolute;left:5%;bottom:5%;width:min(46%,320px)}
+@media (min-width:700px){.hero picture img{object-position:center 100%}}
+.hero .hash{position:absolute;top:4.5%;left:0;right:0;text-align:center;font-family:var(--latin);font-weight:500;color:#566;font-size:clamp(9px,1.45cqw,16px)}
+.hero .from{position:absolute;top:10%;left:50%;transform:translateX(-50%);width:82cqw}
+@media (min-width:700px){.hero .from{top:14%;width:65cqw}}
+.hero .names{position:absolute;left:5%;bottom:5%;width:38cqw}
+@media (min-width:700px){.hero .names{width:28cqw}}
 .hero .when{position:absolute;right:5%;bottom:5%;text-align:right;color:var(--cream)}
-.hero .when img{width:min(40vw,250px);margin-left:auto}
-.hero .when span{display:block;font-family:var(--latin);font-size:clamp(11px,1.9vw,14px);margin-top:4px;text-shadow:0 1px 6px rgba(0,0,0,.35)}
-.hero .flower{position:absolute;top:4%;right:4%;width:22px}
-@media (max-width:699px){
+.hero .when img{width:min(20cqw,210px);margin-left:auto}
+.hero .when span{display:block;width:35cqw;font-family:var(--latin);font-size:clamp(6px,2.2cqw,12px);margin:4px 0 0 auto;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.hero .flower{position:absolute;top:4%;right:4%;width:clamp(14px,3.5cqw,30px)}
+@media (max-width:700px){
+  .hero .hash{font-size:clamp(2px,4cqw,12px)}
   .hero .from{top:9%}
-  .hero .names{left:5%;bottom:5.5%;width:47%}
+  .hero .names{left:5%;bottom:5.5%}
   .hero .when{right:5%;bottom:4%}
-  .hero .when img{width:38vw}
-  .hero .when span{font-size:9.5px;max-width:40vw;margin-left:auto}
+  .hero .when img{width:26cqw}
+  .hero .when span{width:auto;white-space:nowrap}
 }
 
 /* ---------- Letter ---------- */
