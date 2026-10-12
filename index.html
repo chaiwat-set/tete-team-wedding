@@ -23,7 +23,7 @@
   --cream:#FAF3CB;
   --muted:#5B6F8F;
   --line:#D6E6FA;
-  --page:var(--frame);
+  --page:#B5DAFF;
   --d-blue:#9CBFE5; --d-green:#B2D795; --d-yellow:#F7D887; --d-orange:#F8A56D; --d-pink:#F59DA3;
   --thai:"IBM Plex Sans Thai Looped","Noto Sans Thai Looped","Leelawadee UI",Tahoma,sans-serif;
   --latin:"Jost","Futura","Century Gothic","Avenir Next",sans-serif;
@@ -32,10 +32,6 @@
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){ --page:#173765; --muted:#5B6F8F; }
-}
-:root[data-theme="dark"]{ --page:#173765; }
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
