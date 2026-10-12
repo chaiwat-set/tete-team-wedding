@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -35,7 +36,6 @@
     <li><a href="#surin">เที่ยวสุรินทร์</a></li>
     <li><a href="#rsvp">ตอบรับ</a></li>
     <li><a href="#faq">คำถามที่พบบ่อย</a></li>
-    <li><a href="#contact">ติดต่อ</a></li>
   </ul>
 </nav>
 
@@ -63,21 +63,42 @@
     <p>ตอนนี้ <strong>เตเต้ (วิริยา วิริยพัตร)</strong> และ <strong>ทีม (ชัยวัฒน์ เศรษฐวิพัฒนชัย)</strong> เราทั้ง 2 คนได้ตัดสินใจแล้วว่าจะผนึกกำลังเพื่อร่วมเส้นทางเดินไปด้วยกัน เลยตั้งใจมาก ๆ ที่อยากจะชวนทุกคนมาเจอ มาทานอาหาร อร่อยๆ และร่วมยินดีไปกับพวกเรา</p>
     <p>ซึ่งพวกเราไม่ได้มากันแค่ 2 คน แต่จะมี <strong><span class="person">ปาป๊าศุภชัย</span> – <span class="person">หม่าม้าหทัยรัตน์</span> <span class="person">วิริยพัตร</span></strong> และ <strong><span class="person">อาม่าสมจิตต์</span>, <span class="person">ปาป๊าประเสริฐ</span> – <span class="person">หม่าม้าเพชรรัตน์</span> <span class="person">เศรษฐวิพัฒนชัย</span></strong> ที่จะคอยยินดีต้อนรับผู้รับจดหมายฉบับนี้ในงานเลี้ยงฉลองครั้งนี้แน่นอน!</p>
     <p>เคลียร์คิวไว้ล่วงหน้า แล้วมาเจอกันนะคะ/นะครับ</p>
-    <img class="families" src="images/families.webp" alt="ภาพวาดสมาชิกครอบครัววิริยพัตรและเศรษฐวิพัฒนชัย">
-    <div class="fam-labels"><span>วิริยพัตร</span><span>เศรษฐวิพัฒนชัย</span></div>
+    <img class="families wide" src="images/families.webp" alt="ภาพวาดสมาชิกครอบครัววิริยพัตรและเศรษฐวิพัฒนชัย">
+    <div class="fam-labels wide"><span>วิริยพัตร</span><span>เศรษฐวิพัฒนชัย</span></div>
   </section>
 
   <!-- 3 Countdown -->
-  <section class="sheet" aria-labelledby="h-count">
-    <h2 id="h-count">อีกไม่นานเจอกัน</h2>
-    <p class="small">นับถึงเช้าวันศุกร์ที่ 15 มกราคม 2570 เวลา 06.00 น.</p>
-    <div class="count" id="count" aria-live="off">
-      <div><b data-k="d">–</b><span>วัน</span></div>
-      <div><b data-k="h">–</b><span>ชั่วโมง</span></div>
-      <div><b data-k="m">–</b><span>นาที</span></div>
-      <div><b data-k="s">–</b><span>วินาที</span></div>
+  <section class="sheet countdown" aria-labelledby="h-count">
+    <div class="count-grid wide">
+      <div class="datecard" aria-label="วันศุกร์ที่ 15 มกราคม 2570">
+        <span class="dc-day">วันศุกร์</span>
+        <span class="dc-num en">15</span>
+        <span class="dc-month">มกราคม 2570</span>
+        <span class="dc-en en">Friday · 15.01.2027</span>
+      </div>
+      <div>
+        <!-- ข้อความ 3 ช่วง: ก่อนวันงาน / วันงาน / หลังวันงาน — เปลี่ยนข้อความได้ใน data-state ด้านล่าง -->
+        <div class="cd-state" data-state="before">
+          <h2 id="h-count">อีกไม่นานเจอกัน</h2>
+          <p class="small">นับถอยหลังถึงเช้าวันงาน 06.00 น.</p>
+          <div class="count" id="count" aria-live="off">
+            <div><b data-k="d">–</b><span>วัน</span></div>
+            <div><b data-k="h">–</b><span>ชั่วโมง</span></div>
+            <div><b data-k="m">–</b><span>นาที</span></div>
+            <div><b data-k="s">–</b><span>วินาที</span></div>
+          </div>
+        </div>
+        <div class="cd-state" data-state="today" hidden>
+          <p class="cd-big en">Today, Tete forms her team!</p>
+          <p>วันนี้แหละ! ทีมเตเต้–ทีมรวมตัวสำเร็จ เจอกันที่ Hall 3 นะ</p>
+          <a class="btn" href="#schedule">ดูกำหนดการวันนี้</a>
+        </div>
+        <div class="cd-state" data-state="after" hidden>
+          <p class="cd-big en">Team formed, officially.</p>
+          <p>ขอบคุณที่มาเป็นส่วนหนึ่งของทีมเรา ตอนนี้เราเป็นทีมเดียวกันมาแล้ว <b id="since">0</b> วัน</p>
+        </div>
+      </div>
     </div>
-    <p class="countdone" id="countdone">วันนี้แหละ! แล้วเจอกันที่งานนะ</p>
   </section>
 
   <!-- 4 Schedule -->
@@ -126,10 +147,13 @@
           <li><strong>สนามบินใกล้สุด</strong> ท่าอากาศยานบุรีรัมย์ ขับรถราว 1 ชั่วโมง</li>
         </ul>
         <div class="btn-row">
-          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Beelive+Convention+Hall+and+Hotel+Surin" target="_blank" rel="noopener">เปิดแผนที่ Google Maps</a>
+          <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Beelive+Convention+Hall+and+Hotel+Surin&destination_place_id=ChIJ54ahJO7jGTER6nCVblJdptQ" target="_blank" rel="noopener">นำทางด้วย Google Maps</a>
         </div>
       </div>
-      <img src="images/dance.webp" alt="" style="align-self:end;max-width:320px;margin-inline:auto">
+      <img src="images/dance.webp" alt="" class="venue-art">
+    </div>
+    <div class="mapframe wide">
+      <iframe title="แผนที่ Beelive Convention Hall and Hotel" src="https://maps.google.com/maps?q=Beelive%20Convention%20Hall%20and%20Hotel%20Surin&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -156,13 +180,14 @@
         <!-- ✏️ เรื่องราวของเรา: ลบ <span class="todo">...</span> ทั้งก้อน แล้วพิมพ์เรื่องราวแทน -->
         <p><span class="todo">ใส่เรื่องราวของเรา 3–4 บรรทัด เช่น เจอกันครั้งแรกที่ไหน เป็นเพื่อนกันมานานแค่ไหน และวันที่ตัดสินใจจับมือกัน</span></p>
       </div>
-      <img src="images/faces.webp" alt="ภาพวาดหน้าเตเต้และทีม">
+      <img class="faces" src="images/faces.webp" alt="ภาพวาดหน้าเตเต้และทีม">
     </div>
-    <div class="gallery">
-      <figure><img src="images/hero-sq.jpg" alt="ภาพพรีเวดดิ้งเตเต้และทีม"></figure>
-      <!-- ✏️ รูปแกลเลอรี: อัปโหลดไฟล์ชื่อ gallery-2.jpg และ gallery-3.jpg ไว้ในโฟลเดอร์ images แล้วรูปจะขึ้นเอง -->
-      <figure><span class="todo">ภาพที่ 2</span><img src="images/gallery-2.jpg" alt="ภาพพรีเวดดิ้ง" onerror="this.remove()" style="position:absolute;inset:0"></figure>
-      <figure><span class="todo">ภาพที่ 3</span><img src="images/gallery-3.jpg" alt="ภาพพรีเวดดิ้ง" onerror="this.remove()" style="position:absolute;inset:0"></figure>
+    <!-- ✏️ รูปแกลเลอรี: แก้รายชื่อรูปได้ใน script.js ตรง "var GALLERY=[" แล้วอัปโหลดรูปชื่อเดียวกันไว้ใน images -->
+    <div class="gallery wide" aria-roledescription="carousel" aria-label="แกลเลอรีภาพ">
+      <div class="g-track" id="gTrack" tabindex="0"></div>
+      <button class="g-nav prev" type="button" aria-label="ภาพก่อนหน้า">‹</button>
+      <button class="g-nav next" type="button" aria-label="ภาพถัดไป">›</button>
+      <div class="g-dots" id="gDots" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -171,6 +196,7 @@
     <h2 id="h-surin">มาสุรินทร์ทั้งที แวะต่อกันได้</h2>
     <p>ร้านและที่เที่ยวที่เราอยากให้ลอง ส่วนใหญ่อยู่ในตัวเมือง ไม่ไกลจากโรงแรม</p>
     <!-- ✏️ รายชื่อร้าน/ที่เที่ยว แก้ได้ในไฟล์ script.js ตรง "var G={" -->
+    <div class="guide-map wide" id="guideMap" role="region" aria-label="แผนที่ร้านและที่เที่ยวในสุรินทร์"></div>
     <div class="tabs" role="tablist" aria-label="หมวดสถานที่แนะนำ" id="tabs"></div>
     <div id="panels"></div>
     <p class="small guide-note">เวลาเปิด-ปิดอาจเปลี่ยนได้ เช็กในแผนที่อีกครั้งก่อนออกไปนะ</p>
@@ -215,10 +241,15 @@
         <label for="f-wish">ข้อความถึงบ่าวสาว</label>
         <textarea id="f-wish" rows="3"></textarea>
       </div>
-      <div><button class="btn" type="submit">สร้างข้อความตอบรับ</button></div>
+      <div><button class="btn" type="submit" id="rsvpBtn">ส่งคำตอบ</button></div>
     </form>
+    <div class="result" id="sent" aria-live="polite">
+      <strong id="sentTitle">ได้รับคำตอบแล้ว ขอบคุณมาก!</strong>
+      <p class="small" id="sentNote" style="margin:6px 0 12px">ถ้าอยากแก้คำตอบ ส่งใหม่ได้เลย เราจะใช้คำตอบล่าสุด</p>
+      <button class="btn ghost" id="again" type="button">ส่งคำตอบอีกครั้ง</button>
+    </div>
     <div class="result" id="result" aria-live="polite">
-      <strong>เกือบเสร็จแล้ว ส่งข้อความนี้ให้เราได้เลย</strong>
+      <strong>ส่งเข้าระบบไม่สำเร็จ ส่งข้อความนี้ให้เราทาง LINE แทนได้เลย</strong>
       <pre id="msg"></pre>
       <div class="btn-row">
         <a class="btn" id="lineBtn" href="#" target="_blank" rel="noopener">ส่งทาง LINE</a>
@@ -240,36 +271,26 @@
     <details><summary>แต่งตัวแบบไหนดี</summary><p>ชุดโทนพาสเทล ฟ้า เขียว เหลือง ส้ม หรือชมพู ดูได้ที่ <a href="#dress">การแต่งกาย</a></p></details>
   </section>
 
-  <!-- 11 Contact & gift -->
-  <section class="sheet" id="contact" aria-labelledby="h-contact">
-    <h2 id="h-contact">ติดต่อเรา</h2>
-    <!-- ✏️ ติดต่อ: แทน <span class="todo">ชื่อ · เบอร์โทร</span> ด้วยข้อมูลจริง เช่น พี่เอ 081-234-5678 -->
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h3>ฝั่งเจ้าสาว</h3>
-        <p class="small" style="margin:0"><span class="todo">ชื่อ · เบอร์โทร</span></p>
-      </div>
-      <div class="contact-card">
-        <h3>ฝั่งเจ้าบ่าว</h3>
-        <p class="small" style="margin:0"><span class="todo">ชื่อ · เบอร์โทร</span></p>
-      </div>
-      <div class="contact-card" style="grid-column:1/-1">
-        <h3>ร่วมแสดงความยินดี</h3>
-        <p class="small" style="margin:0">สำหรับคนที่มาไม่ได้แต่อยากส่งความยินดี <span class="todo">ใส่ QR พร้อมเพย์ หรือเลือกไม่ใส่ส่วนนี้</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Thank you -->
-  <section class="sheet thanks" aria-labelledby="h-thx">
-    <h2 id="h-thx" class="en">THANK YOU<br>SO MUCH</h2>
-    <p>ขอบคุณที่คอยสนับสนุนพวกเรามาตลอดค่ะ/ครับ</p>
-    <img class="flowers" src="images/flowers.webp" alt="">
-    <div class="tag">#TeteFormsHerTeam</div>
-  </section>
 </main>
-<footer>เตเต้ &amp; ทีม · 15.01.2570</footer>
 
+<!-- Thank you + วิวท้ายเว็บ (เปลี่ยนรูปได้ที่ images/scene-bg.jpg และ scene-bg-m.jpg) -->
+<div class="scene">
+  <picture class="scene-bg" aria-hidden="true">
+    <source media="(max-width:699px)" srcset="images/scene-bg-m.jpg">
+    <img src="images/scene-bg.jpg" alt="">
+  </picture>
+  <div class="wrap">
+    <section class="sheet thanks" aria-labelledby="h-thx">
+      <h2 id="h-thx" class="en">THANK YOU<br>SO MUCH</h2>
+      <p>ขอบคุณที่คอยสนับสนุนพวกเรามาตลอดค่ะ/ครับ</p>
+      <img class="flowers" src="images/flowers.webp" alt="">
+      <div class="tag">#TeteFormsHerTeam</div>
+    </section>
+  </div>
+  <footer>เตเต้ &amp; ทีม · 15.01.2570</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
