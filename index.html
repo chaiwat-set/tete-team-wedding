@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>เตเต้ & ทีม · 15 มกราคม 2570</title>
+<meta name="description" content="การ์ดเชิญงานแต่งงาน เตเต้ & ทีม 15 มกราคม 2570 ณ Beelive Convention Hall and Hotel จังหวัดสุรินทร์">
+<!-- ✏️ ภาพตัวอย่างเวลาแชร์ลิงก์ใน LINE/Facebook: เปลี่ยน YOUR-USERNAME และ YOUR-REPO ให้ตรงกับของคุณ -->
+<meta property="og:title" content="เตเต้ & ทีม · 15 มกราคม 2570">
+<meta property="og:description" content="From Best Friends to Forever Partners · Beelive Convention Hall and Hotel สุรินทร์">
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/YOUR-REPO/images/hero.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💙</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped:wght@400;500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1F56A5;        /* navy line-art ink */
+  --script:#4795E2;     /* lettering blue */
+  --sky:#AAC1DD;        /* welcome page blue */
+  --frame:#B5DAFF;      /* card frame blue */
+  --paper:#FFFFFF;
+  --cream:#FAF3CB;
+  --muted:#5B6F8F;
+  --line:#D6E6FA;
+  --page:var(--frame);
+  --d-blue:#9CBFE5; --d-green:#B2D795; --d-yellow:#F7D887; --d-orange:#F8A56D; --d-pink:#F59DA3;
+  --thai:"IBM Plex Sans Thai Looped","Noto Sans Thai Looped","Leelawadee UI",Tahoma,sans-serif;
+  --latin:"Jost","Futura","Century Gothic","Avenir Next",sans-serif;
+  --r-cut:30px 38px 32px 42px / 36px 30px 42px 32px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){ --page:#173765; --muted:#5B6F8F; }
+}
+:root[data-theme="dark"]{ --page:#173765; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--page);color:var(--ink);
+  font-family:var(--thai);font-size:17px;line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--d-orange);outline-offset:3px;border-radius:6px}
+.wrap{width:min(100% - 28px, 760px);margin-inline:auto}
+.sheet{
+  background:var(--paper);border-radius:var(--r-cut);
+  padding:clamp(26px,5vw,48px);margin:18px 0;position:relative;
+}
+.en{font-family:var(--latin);letter-spacing:.01em}
+h2{font-family:var(--thai);font-weight:700;font-size:clamp(23px,4.4vw,28px);line-height:1.35;margin:0 0 .5em}
+h3{font-weight:700;font-size:19px;line-height:1.4;margin:0 0 .2em}
+p{margin:0 0 .9em}
+.small{font-size:15px;color:var(--muted);line-height:1.65}
+.tag{font-family:var(--latin);font-weight:600;color:var(--script);font-size:18px;letter-spacing:.02em}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font:600 16px/1 var(--thai);color:var(--paper);background:var(--ink);
+  border:0;border-radius:999px;padding:14px 24px;cursor:pointer;text-decoration:none;min-height:48px;
+}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn:active{transform:translateY(1px)}
+.todo{display:inline-block;border:1.5px dashed var(--d-orange);color:#B4602A;border-radius:8px;padding:0 8px;font-size:.9em;line-height:1.7;background:#FFF7F0}
+
+/* ---------- Welcome gate ---------- */
+.gate{
+  position:fixed;inset:0;z-index:50;background:var(--sky);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 24px) 24px calc(env(safe-area-inset-bottom,0px) + 24px);
+  text-align:center;transition:transform .9s cubic-bezier(.7,0,.2,1), opacity .5s .5s;
+}
+.gate .welcome{width:min(68vw,330px);margin-bottom:2vh}
+.gate .dance{width:min(78vw,380px)}
+.gate .btn{margin-top:3vh;background:var(--ink)}
+.gate .tag{color:var(--ink);margin-top:14px;font-size:15px}
+.gate.open{transform:translateY(-100%)}
+.gate.gone{display:none}
+@media (prefers-reduced-motion:reduce){.gate{transition:opacity .3s}.gate.open{transform:none;opacity:0}}
+@media (max-height:640px){.gate .dance{width:min(56vw,260px)}.gate .welcome{width:min(52vw,250px)}}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 8px) 0 8px;background:var(--page)}
+.nav ul{list-style:none;margin:0;padding:0 14px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+.nav ul::-webkit-scrollbar{display:none}
+@media (min-width:820px){.nav ul{justify-content:center}}
+.nav a{display:block;white-space:nowrap;text-decoration:none;font-size:14px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--paper);color:var(--ink)}
+.nav a[aria-current="true"]{background:var(--ink);color:var(--paper)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;border-radius:var(--r-cut);overflow:hidden;margin:6px 0 18px;background:#e9eef0;aspect-ratio:3/4.2}
+@media (min-width:700px){.hero{aspect-ratio:9/5;width:min(100vw - 40px,1100px);left:50%;transform:translateX(-50%)}.hero .names{width:min(34%,340px)}}
+.hero picture,.hero picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hash{position:absolute;top:4.5%;left:0;right:0;text-align:center;font-family:var(--latin);font-weight:500;color:#566;font-size:clamp(12px,2.2vw,16px)}
+.hero .from{position:absolute;top:10%;left:6%;width:88%}
+@media (min-width:700px){.hero .from{top:14%;left:18%;width:64%}}
+.hero .names{position:absolute;left:5%;bottom:5%;width:min(46%,320px)}
+.hero .when{position:absolute;right:5%;bottom:5%;text-align:right;color:var(--cream)}
+.hero .when img{width:min(40vw,250px);margin-left:auto}
+.hero .when span{display:block;font-family:var(--latin);font-size:clamp(11px,1.9vw,14px);margin-top:4px;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.hero .flower{position:absolute;top:4%;right:4%;width:22px}
+@media (max-width:699px){
+  .hero .from{top:9%}
+  .hero .names{left:5%;bottom:5.5%;width:47%}
+  .hero .when{right:5%;bottom:4%}
+  .hero .when img{width:38vw}
+  .hero .when span{font-size:9.5px;max-width:40vw;margin-left:auto}
+}
+
+/* ---------- Letter ---------- */
+.letter p strong{font-weight:700}
+.families{margin:26px auto 4px;width:100%}
+.fam-labels{display:grid;grid-template-columns:1fr 1fr;text-align:center;color:var(--script);font-weight:600;font-size:15px}
+.fam-labels span:first-child{padding-right:12%}
+.fam-labels span:last-child{padding-left:12%}
+
+/* ---------- Countdown ---------- */
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;margin-top:10px}
+.count div{background:var(--cream);border-radius:20px 26px 22px 28px;padding:14px 4px}
+.count b{display:block;font-family:var(--latin);font-weight:500;font-size:clamp(30px,8vw,44px);line-height:1.1}
+.count span{font-size:14px}
+.countdone{display:none;font-weight:600}
+
+/* ---------- Schedule ---------- */
+.timeline{list-style:none;margin:6px 0 0;padding:0}
+.timeline li{display:grid;grid-template-columns:84px 1fr;gap:18px;align-items:start;padding:20px 0;border-top:1.5px solid var(--line)}
+.timeline li:first-child{border-top:0;padding-top:6px}
+.timeline img{width:84px}
+.timeline .time{font-family:var(--latin);font-weight:600;font-size:22px;color:var(--script);line-height:1.2}
+.timeline h3{color:var(--ink)}
+@media (min-width:600px){.timeline li{grid-template-columns:110px 1fr}.timeline img{width:104px}}
+
+/* ---------- Venue ---------- */
+.venue-grid{display:grid;gap:18px}
+@media (min-width:640px){.venue-grid{grid-template-columns:1.25fr 1fr}}
+.venue-name{font-family:var(--latin);font-weight:500;font-size:24px;line-height:1.3;margin:0 0 6px}
+.facts{margin:14px 0 18px;padding:0;list-style:none}
+.facts li{padding:8px 0;border-top:1.5px dashed var(--line)}
+.facts li:first-child{border-top:0}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ---------- Dress code ---------- */
+.dots{display:flex;gap:clamp(10px,3vw,18px);flex-wrap:wrap;margin:16px 0 10px}
+.dot{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px}
+.dot i{display:block;width:clamp(48px,12vw,62px);aspect-ratio:1;border-radius:52% 48% 50% 50% / 50% 52% 48% 50%}
+
+/* ---------- Story ---------- */
+.story{display:grid;gap:22px;align-items:center}
+@media (min-width:640px){.story{grid-template-columns:1fr 1fr}}
+.story .lettering{width:100%;max-width:520px;margin:0 0 14px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
+.gallery figure{position:relative;margin:0;aspect-ratio:1;border-radius:18px 22px 16px 24px;background:var(--cream);display:grid;place-items:center;overflow:hidden;font-size:13px;color:var(--muted);text-align:center;padding:6px}
+.gallery figure img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- Surin guide ---------- */
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:16px -4px 18px;padding:0 4px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;font:500 15px/1 var(--thai);padding:11px 16px;border-radius:999px;border:0;background:var(--cream);color:var(--ink);cursor:pointer;min-height:44px}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.places{list-style:none;margin:0;padding:0}
+.places li{padding:18px 0;border-top:1.5px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:4px 14px}
+.places li:first-child{border-top:0;padding-top:4px}
+.places h3{font-size:18px;margin:0}
+.places .meta{grid-column:1/-1;font-size:14px;color:var(--muted)}
+.places p{grid-column:1/-1;margin:2px 0 0;font-size:16px;line-height:1.65}
+.places a.map{align-self:start;font-size:14px;font-weight:600;text-decoration:none;color:var(--ink);padding:6px 12px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink);white-space:nowrap}
+.guide-note{margin-top:14px}
+
+/* ---------- RSVP ---------- */
+form{display:grid;gap:16px;margin-top:8px}
+label{display:block;font-weight:600;font-size:16px;margin-bottom:6px}
+input[type=text],input[type=number],textarea,select{
+  width:100%;font:400 17px/1.5 var(--thai);color:var(--ink);background:#F6FAFF;
+  border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;
+}
+input:focus,textarea:focus,select:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px rgba(31,86,165,.18)}
+.choice{display:flex;gap:10px;flex-wrap:wrap}
+.choice label{font-weight:500;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:#F6FAFF;border:1.5px solid var(--line);cursor:pointer;margin:0}
+.choice input{accent-color:var(--ink);width:18px;height:18px}
+.choice label:has(input:checked){border-color:var(--ink);background:var(--cream)}
+.two{display:grid;gap:16px}
+@media (min-width:560px){.two{grid-template-columns:1fr 1fr}}
+.result{display:none;background:var(--cream);border-radius:20px;padding:18px}
+.result.show{display:block}
+.result pre{white-space:pre-wrap;font:400 15px/1.6 var(--thai);margin:8px 0 14px}
+.err{color:#B4372A;font-size:14px;margin-top:4px;display:none}
+
+/* ---------- FAQ ---------- */
+details{border-top:1.5px solid var(--line);padding:4px 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;list-style:none;font-weight:600;padding:12px 32px 12px 0;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:4px;top:8px;font:400 26px/1 var(--latin);color:var(--script)}
+details[open] summary::after{content:"–"}
+details p{margin:0 0 14px;color:#2E4F80}
+
+/* ---------- Contact / gift ---------- */
+.contact-grid{display:grid;gap:14px}
+@media (min-width:560px){.contact-grid{grid-template-columns:1fr 1fr}}
+.contact-card{background:#F6FAFF;border-radius:20px 26px 22px 28px;padding:18px}
+.contact-card h3{font-size:17px}
+
+/* ---------- Thanks ---------- */
+.thanks{text-align:center}
+.thanks h2{font-family:var(--latin);font-weight:500;font-size:clamp(36px,9vw,56px);line-height:1.05;letter-spacing:.02em;margin-bottom:.3em}
+.thanks .flowers{width:min(60%,260px);margin:18px auto 10px}
+footer{text-align:center;padding:10px 0 40px;font-size:14px;color:var(--ink)}
+:root[data-theme="dark"] footer, :root[data-theme="dark"] .nav{color:var(--paper)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) footer{color:#DCE8FF}}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- Welcome gate -->
+<div class="gate" id="gate" role="dialog" aria-label="ยินดีต้อนรับ">
+  <img class="welcome" src="images/welcome.webp" alt="Welcome to Our Wedding">
+  <img class="dance" src="images/dance-sky.webp" alt="ภาพวาดเตเต้และทีมเต้นรำ">
+  <button class="btn" id="openCard" type="button">เปิดการ์ด</button>
+  <div class="tag">#TeteFormsHerTeam</div>
+</div>
+
+<nav class="nav" aria-label="ส่วนต่าง ๆ ของการ์ด">
+  <ul>
+    <li><a href="#invite">คำเชิญ</a></li>
+    <li><a href="#schedule">กำหนดการ</a></li>
+    <li><a href="#venue">สถานที่</a></li>
+    <li><a href="#dress">การแต่งกาย</a></li>
+    <li><a href="#story">เรื่องของเรา</a></li>
+    <li><a href="#surin">เที่ยวสุรินทร์</a></li>
+    <li><a href="#rsvp">ตอบรับ</a></li>
+    <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+    <li><a href="#contact">ติดต่อ</a></li>
+  </ul>
+</nav>
+
+<main class="wrap">
+
+  <!-- 1 Hero -->
+  <header class="hero" id="top">
+    <picture>
+      <source media="(max-width:699px)" srcset="images/hero-tall.jpg">
+      <img src="images/hero.jpg" alt="เตเต้และทีมจูงมือกันวิ่งบนเนินหญ้า">
+    </picture>
+    <div class="hash">#TeteFormsHerTeam</div>
+    <img class="flower" src="images/flower-mark.webp" alt="">
+    <img class="from" src="images/from-bestfriends.webp" alt="From Best Friends to Forever Partners">
+    <img class="names" src="images/tete-team.webp" alt="Tete &amp; Team">
+    <div class="when">
+      <img src="images/date.webp" alt="15 มกราคม 2570">
+      <span>Beelive Convention Hall and Hotel (Hall3)</span>
+    </div>
+  </header>
+
+  <!-- 2 Invitation -->
+  <section class="sheet letter" id="invite" aria-labelledby="h-invite">
+    <h2 id="h-invite">ถึง ผู้รับจดหมายฉบับนี้</h2>
+    <p>ตอนนี้ <strong>เตเต้ (วิริยา วิริยพัตร)</strong> และ <strong>ทีม (ชัยวัฒน์ เศรษฐวิพัฒนชัย)</strong> เราทั้ง 2 คนได้ตัดสินใจแล้วว่าจะผนึกกำลังเพื่อร่วมเส้นทางเดินไปด้วยกัน เลยตั้งใจมาก ๆ ที่อยากจะชวนทุกคนมาเจอ มาทานอาหาร อร่อยๆ และร่วมยินดีไปกับพวกเรา</p>
+    <p>ซึ่งพวกเราไม่ได้มากันแค่ 2 คน แต่จะมี <strong>ปาป๊าศุภชัย – หม่าม้าหทัยรัตน์ วิริยพัตร</strong> และ <strong>อาม่าสมจิตต์, ปาป๊าประเสริฐ – หม่าม้าเพชรรัตน์ เศรษฐวิพัฒนชัย</strong> ที่จะคอยยินดีต้อนรับผู้รับจดหมายฉบับนี้ในงานเลี้ยงฉลองครั้งนี้แน่นอน!</p>
+    <p>เคลียร์คิวไว้ล่วงหน้า แล้วมาเจอกันนะคะ/นะครับ</p>
+    <img class="families" src="images/families.webp" alt="ภาพวาดสมาชิกครอบครัววิริยพัตรและเศรษฐวิพัฒนชัย">
+    <div class="fam-labels"><span>วิริยพัตร</span><span>เศรษฐวิพัฒนชัย</span></div>
+  </section>
+
+  <!-- 3 Countdown -->
+  <section class="sheet" aria-labelledby="h-count">
+    <h2 id="h-count">อีกไม่นานเจอกัน</h2>
+    <p class="small">นับถึงเช้าวันศุกร์ที่ 15 มกราคม 2570 เวลา 06.00 น.</p>
+    <div class="count" id="count" aria-live="off">
+      <div><b data-k="d">–</b><span>วัน</span></div>
+      <div><b data-k="h">–</b><span>ชั่วโมง</span></div>
+      <div><b data-k="m">–</b><span>นาที</span></div>
+      <div><b data-k="s">–</b><span>วินาที</span></div>
+    </div>
+    <p class="countdone" id="countdone">วันนี้แหละ! แล้วเจอกันที่งานนะ</p>
+  </section>
+
+  <!-- 4 Schedule -->
+  <section class="sheet" id="schedule" aria-labelledby="h-sch">
+    <h2 id="h-sch">กำหนดการ</h2>
+    <ol class="timeline">
+      <li>
+        <img src="images/ic-rings.webp" alt="">
+        <div>
+          <div class="time">06.00</div>
+          <h3>แห่ขันหมาก - พิธีหมั้นหมาย</h3>
+          <p>เจ้าบ่าวจะยกขบวนขันหมากมาสู่ขอเจ้าสาวที่โรงแรม ร่วมลุ้นไปด้วยกันว่าแต่ละด่านจะยาก-ง่ายอย่างไรบ้าง</p>
+        </div>
+      </li>
+      <li>
+        <img src="images/ic-bowl.webp" alt="">
+        <div>
+          <div class="time">09.00</div>
+          <h3>พิธีส่งตัวเจ้าสาว</h3>
+          <p>ก้าวแรกของเจ้าสาวในการแจ้งเกิดกับเหล่าเขื่อที่บ้านเจ้าบ่าว หากใครไม่ได้ไปร่วมขบวน ก็นั่งจิบน้ำ/ทานอาหารแบบคนเกร๋ๆ ที่โรงแรมได้ อีกอึดใจเดียวเราจะกลับมาหาทุกคนแน่นอน</p>
+        </div>
+      </li>
+      <li>
+        <img src="images/ic-table.webp" alt="">
+        <div>
+          <div class="time">12.00</div>
+          <h3>ฉลองมงคลสมรส</h3>
+          <p>เจ้าบ่าว-เจ้าสาวกลับมาโชว์ตัว มาร่วมถ่ายภาพ และฉลองโต๊ะจีนร่วมกัน รับรองว่าอิ่มหน้าสำราญ ไช ไช โย โย อย่างแน่นอน</p>
+          <p class="small">แนะนำมาก่อน 60 นาที จะได้แชะภาพกันแบบชิว ๆ</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 5 Venue -->
+  <section class="sheet" id="venue" aria-labelledby="h-venue">
+    <h2 id="h-venue">สถานที่จัดงาน</h2>
+    <div class="venue-grid">
+      <div>
+        <p class="venue-name en">Beelive Convention Hall and Hotel (Hall3)</p>
+        <p class="small">77/8 หมู่ 13 ต.นอกเมือง อ.เมืองสุรินทร์ จ.สุรินทร์ 32000</p>
+        <ul class="facts">
+          <li><strong>ห้องจัดงาน</strong> Hall 3</li>
+          <li><strong>ที่จอดรถ</strong> โรงแรมมีที่จอดรถให้ฟรี</li>
+          <li><strong>ใกล้กับ</strong> ซุ้มประตูมังกรทอง และสวนสาธารณะสุรินทร์</li>
+          <li><strong>สนามบินใกล้สุด</strong> ท่าอากาศยานบุรีรัมย์ ขับรถราว 1 ชั่วโมง</li>
+        </ul>
+        <div class="btn-row">
+          <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Beelive+Convention+Hall+and+Hotel+Surin" target="_blank" rel="noopener">เปิดแผนที่ Google Maps</a>
+        </div>
+      </div>
+      <img src="images/dance.webp" alt="" style="align-self:end;max-width:320px;margin-inline:auto">
+    </div>
+  </section>
+
+  <!-- 6 Dress code -->
+  <section class="sheet" id="dress" aria-labelledby="h-dress">
+    <h2 id="h-dress">การเตรียมตัว–ดูดีในแบบที่เราเป็น!</h2>
+    <p>ใส่ชุดโทนพาสเทลสีไหนก็ได้ในห้าสีนี้ จะได้ออกมาสดใสเข้ากันทั้งภาพ</p>
+    <div class="dots" role="list">
+      <div class="dot" role="listitem"><i style="background:var(--d-blue)"></i>ฟ้า</div>
+      <div class="dot" role="listitem"><i style="background:var(--d-green)"></i>เขียว</div>
+      <div class="dot" role="listitem"><i style="background:var(--d-yellow)"></i>เหลือง</div>
+      <div class="dot" role="listitem"><i style="background:var(--d-orange)"></i>ส้ม</div>
+      <div class="dot" role="listitem"><i style="background:var(--d-pink)"></i>ชมพู</div>
+    </div>
+    <p class="small">มกราคมที่สุรินทร์เช้า ๆ อากาศเย็น ช่วงขบวนขันหมากตอนหกโมงเช้าพกเสื้อคลุมบาง ๆ มาด้วยก็ดีนะ</p>
+  </section>
+
+  <!-- 7 Story -->
+  <section class="sheet" id="story" aria-labelledby="h-story">
+    <h2 id="h-story" class="sr">เรื่องของเรา</h2>
+    <div class="story">
+      <div>
+        <img class="lettering" src="images/from-bestfriends.webp" alt="From Best Friends to Forever Partners">
+        <!-- ✏️ เรื่องราวของเรา: ลบ <span class="todo">...</span> ทั้งก้อน แล้วพิมพ์เรื่องราวแทน -->
+        <p><span class="todo">ใส่เรื่องราวของเรา 3–4 บรรทัด เช่น เจอกันครั้งแรกที่ไหน เป็นเพื่อนกันมานานแค่ไหน และวันที่ตัดสินใจจับมือกัน</span></p>
+      </div>
+      <img src="images/faces.webp" alt="ภาพวาดหน้าเตเต้และทีม">
+    </div>
+    <div class="gallery">
+      <figure><img src="images/hero-sq.jpg" alt="ภาพพรีเวดดิ้งเตเต้และทีม"></figure>
+      <!-- ✏️ รูปแกลเลอรี: อัปโหลดไฟล์ชื่อ gallery-2.jpg และ gallery-3.jpg ไว้ในโฟลเดอร์ images แล้วรูปจะขึ้นเอง -->
+      <figure><span class="todo">ภาพที่ 2</span><img src="images/gallery-2.jpg" alt="ภาพพรีเวดดิ้ง" onerror="this.remove()" style="position:absolute;inset:0"></figure>
+      <figure><span class="todo">ภาพที่ 3</span><img src="images/gallery-3.jpg" alt="ภาพพรีเวดดิ้ง" onerror="this.remove()" style="position:absolute;inset:0"></figure>
+    </div>
+  </section>
+
+  <!-- 8 Surin guide -->
+  <section class="sheet" id="surin" aria-labelledby="h-surin">
+    <h2 id="h-surin">มาสุรินทร์ทั้งที แวะต่อกันได้</h2>
+    <p>ร้านและที่เที่ยวที่เราอยากให้ลอง ส่วนใหญ่อยู่ในตัวเมือง ไม่ไกลจากโรงแรม</p>
+    <!-- ✏️ รายชื่อร้าน/ที่เที่ยว แก้ได้ในส่วน <script> ด้านล่าง ตรง "var G={" -->
+    <div class="tabs" role="tablist" aria-label="หมวดสถานที่แนะนำ" id="tabs"></div>
+    <div id="panels"></div>
+    <p class="small guide-note">เวลาเปิด-ปิดอาจเปลี่ยนได้ เช็กในแผนที่อีกครั้งก่อนออกไปนะ</p>
+  </section>
+
+  <!-- 9 RSVP -->
+  <section class="sheet" id="rsvp" aria-labelledby="h-rsvp">
+    <h2 id="h-rsvp">ตอบรับการเข้าร่วมงาน</h2>
+    <!-- ✏️ วันสุดท้ายที่รับตอบรับ: แทน <span class="todo">วันที่ตอบรับ</span> ด้วยวันที่ เช่น 15 ธันวาคม 2569 -->
+    <p>ช่วยบอกเราภายใน <span class="todo">วันที่ตอบรับ</span> จะได้เตรียมโต๊ะและอาหารให้พอดี</p>
+    <form id="rsvpForm" novalidate>
+      <div>
+        <label for="f-name">ชื่อ-นามสกุล</label>
+        <input id="f-name" type="text" autocomplete="name" required>
+        <div class="err" id="e-name">กรอกชื่อก่อนนะ</div>
+      </div>
+      <div>
+        <label id="l-attend">จะมาร่วมงานไหม</label>
+        <div class="choice" role="radiogroup" aria-labelledby="l-attend">
+          <label><input type="radio" name="attend" value="มาแน่นอน" checked> มาแน่นอน</label>
+          <label><input type="radio" name="attend" value="ไม่สะดวกมา"> ไม่สะดวกมา</label>
+        </div>
+      </div>
+      <div class="two" id="attendBits">
+        <div>
+          <label for="f-count">มากี่คน (รวมตัวเอง)</label>
+          <input id="f-count" type="number" min="1" max="10" value="1" inputmode="numeric">
+        </div>
+        <div>
+          <label for="f-part">ร่วมช่วงไหน</label>
+          <select id="f-part">
+            <option>ฉลองมงคลสมรส 12.00</option>
+            <option>ตั้งแต่พิธีเช้า 06.00</option>
+          </select>
+        </div>
+      </div>
+      <div id="foodBit">
+        <label for="f-food">อาหารที่แพ้หรือไม่ทาน</label>
+        <input id="f-food" type="text" placeholder="เช่น ไม่ทานเนื้อวัว แพ้กุ้ง">
+      </div>
+      <div>
+        <label for="f-wish">ข้อความถึงบ่าวสาว</label>
+        <textarea id="f-wish" rows="3"></textarea>
+      </div>
+      <div><button class="btn" type="submit">สร้างข้อความตอบรับ</button></div>
+    </form>
+    <div class="result" id="result" aria-live="polite">
+      <strong>เกือบเสร็จแล้ว ส่งข้อความนี้ให้เราได้เลย</strong>
+      <pre id="msg"></pre>
+      <div class="btn-row">
+        <a class="btn" id="lineBtn" href="#" target="_blank" rel="noopener">ส่งทาง LINE</a>
+        <button class="btn ghost" id="copyBtn" type="button">คัดลอกข้อความ</button>
+      </div>
+      <p class="small" id="copied" style="margin:10px 0 0;display:none">คัดลอกแล้ว</p>
+    </div>
+  </section>
+
+  <!-- 10 FAQ -->
+  <section class="sheet" id="faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">คำถามที่พบบ่อย</h2>
+    <details><summary>ควรมาถึงกี่โมง</summary><p>งานฉลองเริ่ม 12.00 น. แนะนำมาก่อนสัก 60 นาที จะได้ถ่ายรูปกันแบบไม่รีบ</p></details>
+    <details><summary>ไม่ได้ไปร่วมขบวนส่งตัวเจ้าสาว ต้องรอที่ไหน</summary><p>นั่งพัก จิบน้ำ และทานอาหารว่างที่โรงแรมได้เลย เดี๋ยวเรากลับมาหาก่อนงานฉลองเที่ยง</p></details>
+    <details><summary>จอดรถได้ไหม</summary><p>โรงแรมมีที่จอดรถฟรี</p></details>
+    <!-- ✏️ คำถามที่พบบ่อย: แก้คำถามใน <summary> และคำตอบใน <p> / เพิ่มข้อใหม่ได้โดย copy ทั้งบรรทัด <details>...</details> -->
+    <details><summary>พาเด็ก ๆ มาด้วยได้ไหม</summary><p><span class="todo">ใส่คำตอบ</span></p></details>
+    <details><summary>มีห้องพักแนะนำไหม</summary><p>พักที่ Beelive Hotel ได้เลย สะดวกที่สุด <span class="todo">ใส่ส่วนลด/รหัสจองถ้ามี</span></p></details>
+    <details><summary>แต่งตัวแบบไหนดี</summary><p>ชุดโทนพาสเทล ฟ้า เขียว เหลือง ส้ม หรือชมพู ดูได้ที่ <a href="#dress">การแต่งกาย</a></p></details>
+  </section>
+
+  <!-- 11 Contact & gift -->
+  <section class="sheet" id="contact" aria-labelledby="h-contact">
+    <h2 id="h-contact">ติดต่อเรา</h2>
+    <!-- ✏️ ติดต่อ: แทน <span class="todo">ชื่อ · เบอร์โทร</span> ด้วยข้อมูลจริง เช่น พี่เอ 081-234-5678 -->
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>ฝั่งเจ้าสาว</h3>
+        <p class="small" style="margin:0"><span class="todo">ชื่อ · เบอร์โทร</span></p>
+      </div>
+      <div class="contact-card">
+        <h3>ฝั่งเจ้าบ่าว</h3>
+        <p class="small" style="margin:0"><span class="todo">ชื่อ · เบอร์โทร</span></p>
+      </div>
+      <div class="contact-card" style="grid-column:1/-1">
+        <h3>ร่วมแสดงความยินดี</h3>
+        <p class="small" style="margin:0">สำหรับคนที่มาไม่ได้แต่อยากส่งความยินดี <span class="todo">ใส่ QR พร้อมเพย์ หรือเลือกไม่ใส่ส่วนนี้</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thank you -->
+  <section class="sheet thanks" aria-labelledby="h-thx">
+    <h2 id="h-thx" class="en">THANK YOU<br>SO MUCH</h2>
+    <p>ขอบคุณที่คอยสนับสนุนพวกเรามาตลอดค่ะ/ครับ</p>
+    <img class="flowers" src="images/flowers.webp" alt="">
+    <div class="tag">#TeteFormsHerTeam</div>
+  </section>
+</main>
+<footer>เตเต้ &amp; ทีม · 15.01.2570</footer>
+
+<script>
+(function(){
+  // ---------- Gate ----------
+  var gate=document.getElementById('gate');
+  var opened=false;
+  try{ opened=sessionStorage.getItem('opened')==='1'; }catch(e){}
+  function openGate(){
+    gate.classList.add('open');
+    try{ sessionStorage.setItem('opened','1'); }catch(e){}
+    setTimeout(function(){ gate.classList.add('gone'); },1000);
+  }
+  if(opened){ gate.classList.add('gone'); }
+  else { document.body.style.overflow='hidden'; }
+  document.getElementById('openCard').addEventListener('click',function(){
+    document.body.style.overflow=''; openGate();
+  });
+
+  // ---------- Countdown ----------
+  var target=new Date('2027-01-15T06:00:00+07:00').getTime();
+  var cells={}; document.querySelectorAll('#count b').forEach(function(b){cells[b.dataset.k]=b;});
+  function tick(){
+    var d=target-Date.now();
+    if(d<=0){document.getElementById('count').style.display='none';document.getElementById('countdone').style.display='block';return;}
+    var s=Math.floor(d/1000);
+    cells.d.textContent=Math.floor(s/86400);
+    cells.h.textContent=String(Math.floor(s%86400/3600)).padStart(2,'0');
+    cells.m.textContent=String(Math.floor(s%3600/60)).padStart(2,'0');
+    cells.s.textContent=String(s%60).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+
+  // ---------- Surin guide ----------
+  // ✏️ แก้/เพิ่มร้านตรงนี้ — 1 ร้าน = 1 บรรทัด {n:'ชื่อ', id:'', m:'ที่ตั้ง · เวลาเปิด', d:'คำอธิบายสั้น ๆ'} (id เว้นว่างได้)
+  var G={
+    'ร้านกาแฟ':[
+      {n:'V/S COFFEE - SURIN',id:'ChIJLwHbRCfjGTERK34YdGSUuBU',m:'ถ.สระโบราณ · ตรงข้าม รพ.สุรินทร์ · ทุกวัน 06.00–18.00',d:'สาขาสุรินทร์ของร้านกาแฟพิเศษจากกรุงเทพฯ มีเบลนด์ประจำร้านกับซิงเกิลออริจินหมุนเวียน ชั้นสองนั่งทำงานได้ยาว ๆ'},
+      {n:'Normal Surin',id:'ChIJg_zdZwDjGTERgEpWCCl7kFM',m:'ถ.กรุงศรีใน · ทุกวัน 08.00–20.00',d:'ร้านโปร่ง กระจกบานใหญ่มองเห็นสวน ขนมปังซาวร์โดว์อบเองในร้าน แสงสวย ถ่ายรูปง่าย'},
+      {n:'GOODSTUFF home café',id:'ChIJJ9GONwDjGTER_XCMfSQTcwk',m:'ถ.ปัทมานนท์ · อังคาร–อาทิตย์ 08.00–16.30 · ปิดวันจันทร์',d:'คาเฟ่ในบ้านหลังสุดท้ายของหมู่บ้าน บรรยากาศเหมือนมาบ้านเพื่อน มีทั้งกาแฟและมัจฉะ เลือกระดับหวานได้'},
+      {n:'Little Elephant Patisserie & Specialty Coffee Bar',id:'ChIJt-3bWGPjGTERtadVg2Oy_wM',m:'ถ.หลักเมือง · ทุกวัน 08.00–22.00',d:'ร้านขนมอบกับกาแฟพิเศษที่ตกแต่งจัดเต็ม มีอาหารทั้งไทยและตะวันตก เปิดถึงดึก เหมาะกับไปกันเป็นกลุ่ม'}
+    ],
+    'ร้านมัจฉะ':[
+      {n:'Mushi Matcha มูชิมัทฉะ & Meditation House',id:'ChIJR_QraCHjGTER-uMMb7_cZzk',m:'ต.ในเมือง · ทุกวัน 07.00–17.30',d:'มัจฉะหลายเกรดให้เลือก เจ้าของร้านเล่าเรื่องชาได้ละเอียด มีเมนูอาหารจากวัตถุดิบท้องถิ่นด้วย'},
+      {n:'H.O.M house of matcha',id:'ChIJeQaiSQDjGTERtkqAGOa9QSQ',m:'ถ.หลักเมือง · อังคาร–อาทิตย์ 11.00–21.00 · ปิดวันจันทร์',d:'นั่งดูการตีมัจฉะสด ๆ ตรงหน้า มีขนมทานคู่กัน เปิดถึงสามทุ่ม แวะหลังงานได้'},
+      {n:'Sunwhite Story (Matcha)',id:'ChIJEbR1DgDjGTERs7WEEuDQXZk',m:'ซ.วัดบูรพาราม',d:'ร้านเล็กที่ขายมัจฉะอย่างเดียว ราคาเป็นมิตร อยู่ในซอยใจกลางเมือง'},
+      {n:'Morning matcha',id:'ChIJOeoMUEfjGTERQGx7ZnhSAyM',m:'ต.นอกเมือง',d:'ร้านมัจฉะเล็ก ๆ ฝั่งนอกเมือง ราคาคุ้ม'}
+    ],
+    'ร้านอาหาร':[
+      {n:'โกนขแมร์ แหนมเนืองสุรินทร์',id:'ChIJ16EkUrPjGTERgIckG5eTwTU',m:'ซ.ศรีผไทสมันต์ · อังคาร–อาทิตย์ 11.00–21.00 · ปิดวันจันทร์',d:'อาหารเวียดนามและเขมรในบ้านเก่ารีโนเวต มีเมนูพาสต้าสดในร้านเดียวกันด้วย'},
+      {n:'ครัวพู่กัน',id:'ChIJAc-tv3_jGTER2bmqxu2duZU',m:'ซ.รุ่งกิจ · 10.00–20.00 · ปิดวันพุธ',d:'ร้านอาหารไทยของครอบครัว รสมือเหมือนพ่อแม่ทำให้กิน สะอาด ราคาสบาย อาหารทำสดอาจรอนิดนึง'},
+      {n:'บิ๊กไบท์ Big Bite',id:'ChIJN7vKbjXiGTER3KKJEWk1NYs',m:'ถ.ศิริรัฐ · ทุกวัน 09.30–23.30',d:'ร้านอาหารไทยกลางเมือง ร้านกว้าง รับกลุ่มใหญ่ได้สบาย เปิดถึงดึก'},
+      {n:'ร้านอาหารเคียงคลอง',id:'ChIJk7RQYZnjGTERSWl72U49LC4',m:'ต.นอกเมือง · ทุกวัน 10.30–20.00',d:'ร้านใหญ่หลายห้อง เด่นเรื่องปลาและอาหารทะเล ที่จอดรถเยอะ เหมาะกับมาทั้งครอบครัว'},
+      {n:'ร้านอาหารไพลิน',id:'ChIJodMFjbbjGTERa5zETBn5Cbs',m:'ถ.ธนสาร · ทุกวัน 06.00–16.00',d:'ข้าวราดแกงสไตล์ไทย-จีนเจ้าดังในเมือง เปิดแต่เช้า เหมาะกับมื้อเช้าก่อนเข้างาน'}
+    ],
+    'ที่เที่ยว':[
+      {n:'อนุสาวรีย์พระยาสุรินทร์ภักดีศรีณรงค์จางวาง (ปุม)',id:'ChIJUd5bCLHjGTERywBgliOnACU',m:'ใจกลางเมือง · เปิดตลอด',d:'วงเวียนประจำเมืองที่มีรูปปั้นช้างล้อมรอบ คนสุรินทร์มักแวะสักการะ มีร้านดอกไม้และเครื่องสักการะข้าง ๆ'},
+      {n:'สวนสาธารณะสุรินทร์',id:'ChIJE6xTY1LiGTERdb_YYE8cnLA',m:'ใกล้โรงแรม · ทุกวัน 04.00–22.00',d:'สวนใหญ่ใกล้งาน มีลู่วิ่ง 2 กม. เหมาะเดินเล่นช่วงเช้าหรือเย็นก่อนกลับ'},
+      {n:'พิพิธภัณฑสถานแห่งชาติ สุรินทร์',id:'ChIJf89NrmzjGTERIMfjgTCV4OQ',m:'ต.ชะเนียง · พุธ–อาทิตย์ 09.00–16.00',d:'เล่าประวัติศาสตร์และศิลปะของสุรินทร์ตั้งแต่ยุคก่อนประวัติศาสตร์ ใช้เวลาราวชั่วโมงเดียวก็ทั่ว'},
+      {n:'หมู่บ้านทอผ้าไหมท่าสว่าง',id:'ChIJ0ZSos0PhGTERqJPErRuJ0xc',m:'ต.ท่าสว่าง · ราว 8 กม. จากตัวเมือง',d:'ชมการย้อมและทอผ้าไหมยกทองแบบดั้งเดิม เลือกซื้อผ้าไหมเป็นของฝากได้'},
+      {n:'วนอุทยานพนมสวาย',id:'ChIJnYNPNXL6GTERoliC8BuBMN0',m:'ต.นาบัว · ราว 20 กม. · 08.30–16.30',d:'ภูเขาเตี้ย ๆ มีพระพุทธรูปใหญ่บนยอด ขึ้นไปจะเห็นวิวทุ่งกว้างรอบด้าน'},
+      {n:'ปราสาทศีขรภูมิ',id:'ChIJSX13JDZCFzER9kZNzIys4Kw',m:'อ.ศีขรภูมิ · ราว 35 กม. · 07.30–18.00',d:'ปราสาทขอมอายุราวพันปีที่ยังสมบูรณ์มาก ทับหลังสลักหินงดงาม บรรยากาศเงียบสงบ'},
+      {n:'หมู่บ้านช้างตากลาง',id:'ChIJYTuzj4fWGTERl-P9snitkLE',m:'อ.ท่าตูม · ราว 1 ชม. จากตัวเมือง · 08.00–17.00',d:'ชุมชนที่คนกับช้างอยู่ร่วมกันมาหลายรุ่น มีการแสดงช่วง 10.00 และ 14.00 น.'}
+    ]
+  };
+  var tabs=document.getElementById('tabs'), panels=document.getElementById('panels');
+  Object.keys(G).forEach(function(cat,i){
+    var b=document.createElement('button'); b.type='button'; b.setAttribute('role','tab'); b.id='tab'+i;
+    b.setAttribute('aria-controls','pan'+i); b.setAttribute('aria-selected',i===0?'true':'false'); b.tabIndex=i===0?0:-1;
+    b.textContent=cat; tabs.appendChild(b);
+    var ul=document.createElement('ul'); ul.className='places'; ul.id='pan'+i; ul.setAttribute('role','tabpanel'); ul.setAttribute('aria-labelledby','tab'+i); if(i)ul.hidden=true;
+    G[cat].forEach(function(p){
+      var li=document.createElement('li');
+      var h=document.createElement('h3'); h.textContent=p.n;
+      var a=document.createElement('a'); a.className='map'; a.target='_blank'; a.rel='noopener';
+      a.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(p.n+' Surin')+(p.id?'&query_place_id='+p.id:'');
+      a.textContent='แผนที่'; a.setAttribute('aria-label','เปิดแผนที่ '+p.n);
+      var m=document.createElement('div'); m.className='meta'; m.textContent=p.m;
+      var d=document.createElement('p'); d.textContent=p.d;
+      li.append(h,a,m,d); ul.appendChild(li);
+    });
+    panels.appendChild(ul);
+  });
+  function sel(i){
+    tabs.querySelectorAll('button').forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false');b.tabIndex=j===i?0:-1;});
+    panels.querySelectorAll('ul').forEach(function(u,j){u.hidden=j!==i;});
+  }
+  tabs.addEventListener('click',function(e){var b=e.target.closest('button'); if(!b)return; sel([].indexOf.call(tabs.children,b));});
+  tabs.addEventListener('keydown',function(e){
+    var bs=[].slice.call(tabs.children), i=bs.indexOf(document.activeElement); if(i<0)return;
+    if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault(); var n=(i+(e.key==='ArrowRight'?1:-1)+bs.length)%bs.length; sel(n); bs[n].focus();}
+  });
+
+  // ---------- RSVP ----------
+  var form=document.getElementById('rsvpForm');
+  function attending(){return form.querySelector('input[name=attend]:checked').value==='มาแน่นอน';}
+  form.addEventListener('change',function(){
+    var on=attending();
+    document.getElementById('attendBits').style.display=on?'':'none';
+    document.getElementById('foodBit').style.display=on?'':'none';
+  });
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('f-name').value.trim();
+    var en=document.getElementById('e-name');
+    if(!name){en.style.display='block';document.getElementById('f-name').focus();return;}
+    en.style.display='none';
+    var lines=['ตอบรับงานแต่ง เตเต้ & ทีม 15.01.2570','ชื่อ: '+name,'สถานะ: '+form.querySelector('input[name=attend]:checked').value];
+    if(attending()){
+      lines.push('จำนวน: '+(document.getElementById('f-count').value||1)+' คน');
+      lines.push('ช่วงที่ร่วม: '+document.getElementById('f-part').value);
+      var food=document.getElementById('f-food').value.trim(); if(food)lines.push('อาหารที่แพ้/ไม่ทาน: '+food);
+    }
+    var wish=document.getElementById('f-wish').value.trim(); if(wish)lines.push('ข้อความ: '+wish);
+    lines.push('#TeteFormsHerTeam');
+    var text=lines.join('\n');
+    document.getElementById('msg').textContent=text;
+    document.getElementById('lineBtn').href='https://line.me/R/share?text='+encodeURIComponent(text);
+    var r=document.getElementById('result'); r.classList.add('show'); r.scrollIntoView({block:'nearest'});
+    document.getElementById('copyBtn').onclick=function(){
+      (navigator.clipboard?navigator.clipboard.writeText(text):Promise.reject()).then(function(){
+        var c=document.getElementById('copied'); c.style.display='block';
+      }).catch(function(){ var c=document.getElementById('copied'); c.textContent='คัดลอกไม่ได้ กดค้างที่ข้อความด้านบนเพื่อคัดลอกเอง'; c.style.display='block'; });
+    };
+  });
+
+  // ---------- Nav highlight ----------
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){ if(en.isIntersecting){ links.forEach(function(l){ var on=l.getAttribute('href')==='#'+en.target.id; l.setAttribute('aria-current',on?'true':'false'); if(on&&l.scrollIntoView&&window.innerWidth<820){ l.parentNode.parentNode.scrollTo({left:l.offsetLeft-20,behavior:'smooth'}); } }); } });
+    },{rootMargin:'-45% 0px -50% 0px'});
+    links.forEach(function(l){var s=document.querySelector(l.getAttribute('href')); if(s)io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>
