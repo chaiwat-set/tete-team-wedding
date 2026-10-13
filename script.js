@@ -769,15 +769,9 @@
           rect = lbStage.getBoundingClientRect(),
           scale = pinch.scale * (pointDistance(a, b) / pinch.distance);
         zoomX =
-          center.x -
-          rect.left -
-          lbStage.clientWidth / 2 -
-          scale * pinch.imageX;
+          center.x - rect.left - lbStage.clientWidth / 2 - scale * pinch.imageX;
         zoomY =
-          center.y -
-          rect.top -
-          lbStage.clientHeight / 2 -
-          scale * pinch.imageY;
+          center.y - rect.top - lbStage.clientHeight / 2 - scale * pinch.imageY;
         setZoom(scale);
       },
       { passive: false },
@@ -847,10 +841,7 @@
       }
       lbStage.classList.remove("is-panning");
       lb.style.background = "";
-      if (
-        e.type === "pointerup" &&
-        (Math.abs(dx) > 6 || Math.abs(dy) > 6)
-      ) {
+      if (e.type === "pointerup" && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
         suppressStageClick = true;
         setTimeout(function () {
           suppressStageClick = false;
