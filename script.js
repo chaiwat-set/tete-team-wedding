@@ -42,7 +42,7 @@
   ];
 
   // 3) ร้านและที่เที่ยว — 1 ร้าน = 1 บรรทัด
-  //    รายการอยู่ใน surin-places.csv
+  //    n=ชื่อ, m=ที่ตั้ง·เวลาเปิด, d=คำอธิบาย, lat/lng=พิกัด, id=Google place id
   var VENUE = {
     n: "Beelive Convention Hall and Hotel (Hall3)",
     lat: 14.8765737,
@@ -54,6 +54,36 @@
     ร้านมัจฉะ: "#8FC46B",
     ร้านอาหาร: "#F08A93",
     ที่เที่ยว: "#6FA3DE",
+  };
+  var G={
+    'ร้านกาแฟ':[
+      {n:'V/S COFFEE - SURIN',lat:14.878689,lng:103.505271,id:'ChIJLwHbRCfjGTERK34YdGSUuBU',m:'ถ.สระโบราณ · ตรงข้าม รพ.สุรินทร์ · ทุกวัน 06.00–18.00',d:'สาขาสุรินทร์ของร้านกาแฟพิเศษจากกรุงเทพฯ มีเบลนด์ประจำร้านกับซิงเกิลออริจินหมุนเวียน ชั้นสองนั่งทำงานได้ยาว ๆ'},
+      {n:'Normal Surin',lat:14.885415,lng:103.493343,id:'ChIJg_zdZwDjGTERgEpWCCl7kFM',m:'ถ.กรุงศรีใน · ทุกวัน 08.00–20.00',d:'ร้านโปร่ง กระจกบานใหญ่มองเห็นสวน ขนมปังซาวร์โดว์อบเองในร้าน แสงสวย ถ่ายรูปง่าย'},
+      {n:'GOODSTUFF home café',lat:14.895198,lng:103.502365,id:'ChIJJ9GONwDjGTER_XCMfSQTcwk',m:'ถ.ปัทมานนท์ · อังคาร–อาทิตย์ 08.00–16.30 · ปิดวันจันทร์',d:'คาเฟ่ในบ้านหลังสุดท้ายของหมู่บ้าน บรรยากาศเหมือนมาบ้านเพื่อน มีทั้งกาแฟและมัจฉะ เลือกระดับหวานได้'},
+      {n:'Little Elephant Patisserie & Specialty Coffee Bar',lat:14.88708,lng:103.482504,id:'ChIJt-3bWGPjGTERtadVg2Oy_wM',m:'ถ.หลักเมือง · ทุกวัน 08.00–22.00',d:'ร้านขนมอบกับกาแฟพิเศษที่ตกแต่งจัดเต็ม มีอาหารทั้งไทยและตะวันตก เปิดถึงดึก เหมาะกับไปกันเป็นกลุ่ม'}
+    ],
+    'ร้านมัจฉะ':[
+      {n:'Mushi Matcha มูชิมัทฉะ & Meditation House',lat:14.875677,lng:103.487824,id:'ChIJR_QraCHjGTER-uMMb7_cZzk',m:'ต.ในเมือง · ทุกวัน 07.00–17.30',d:'มัจฉะหลายเกรดให้เลือก เจ้าของร้านเล่าเรื่องชาได้ละเอียด มีเมนูอาหารจากวัตถุดิบท้องถิ่นด้วย'},
+      {n:'H.O.M house of matcha',lat:14.873084,lng:103.50411,id:'ChIJeQaiSQDjGTERtkqAGOa9QSQ',m:'ถ.หลักเมือง · อังคาร–อาทิตย์ 11.00–21.00 · ปิดวันจันทร์',d:'นั่งดูการตีมัจฉะสด ๆ ตรงหน้า มีขนมทานคู่กัน เปิดถึงสามทุ่ม แวะหลังงานได้'},
+      {n:'Sunwhite Story (Matcha)',lat:14.88504,lng:103.492541,id:'ChIJEbR1DgDjGTERs7WEEuDQXZk',m:'ซ.วัดบูรพาราม',d:'ร้านเล็กที่ขายมัจฉะอย่างเดียว ราคาเป็นมิตร อยู่ในซอยใจกลางเมือง'},
+      {n:'Morning matcha',lat:14.858125,lng:103.493127,id:'ChIJOeoMUEfjGTERQGx7ZnhSAyM',m:'ต.นอกเมือง',d:'ร้านมัจฉะเล็ก ๆ ฝั่งนอกเมือง ราคาคุ้ม'}
+    ],
+    'ร้านอาหาร':[
+      {n:'โกนขแมร์ แหนมเนืองสุรินทร์',lat:14.87788,lng:103.491644,id:'ChIJ16EkUrPjGTERgIckG5eTwTU',m:'ซ.ศรีผไทสมันต์ · อังคาร–อาทิตย์ 11.00–21.00 · ปิดวันจันทร์',d:'อาหารเวียดนามและเขมรในบ้านเก่ารีโนเวต มีเมนูพาสต้าสดในร้านเดียวกันด้วย'},
+      {n:'ครัวพู่กัน',lat:14.881073,lng:103.508323,id:'ChIJAc-tv3_jGTER2bmqxu2duZU',m:'ซ.รุ่งกิจ · 10.00–20.00 · ปิดวันพุธ',d:'ร้านอาหารไทยของครอบครัว รสมือเหมือนพ่อแม่ทำให้กิน สะอาด ราคาสบาย อาหารทำสดอาจรอนิดนึง'},
+      {n:'บิ๊กไบท์ Big Bite',lat:14.887283,lng:103.499272,id:'ChIJN7vKbjXiGTER3KKJEWk1NYs',m:'ถ.ศิริรัฐ · ทุกวัน 09.30–23.30',d:'ร้านอาหารไทยกลางเมือง ร้านกว้าง รับกลุ่มใหญ่ได้สบาย เปิดถึงดึก'},
+      {n:'ร้านอาหารเคียงคลอง',lat:14.824196,lng:103.49734,id:'ChIJk7RQYZnjGTERSWl72U49LC4',m:'ต.นอกเมือง · ทุกวัน 10.30–20.00',d:'ร้านใหญ่หลายห้อง เด่นเรื่องปลาและอาหารทะเล ที่จอดรถเยอะ เหมาะกับมาทั้งครอบครัว'},
+      {n:'ร้านอาหารไพลิน',lat:14.889496,lng:103.492922,id:'ChIJodMFjbbjGTERa5zETBn5Cbs',m:'ถ.ธนสาร · ทุกวัน 06.00–16.00',d:'ข้าวราดแกงสไตล์ไทย-จีนเจ้าดังในเมือง เปิดแต่เช้า เหมาะกับมื้อเช้าก่อนเข้างาน'}
+    ],
+    'ที่เที่ยว':[
+      {n:'อนุสาวรีย์พระยาสุรินทร์ภักดีศรีณรงค์จางวาง (ปุม)',lat:14.87842,lng:103.489533,id:'ChIJUd5bCLHjGTERywBgliOnACU',m:'ใจกลางเมือง · เปิดตลอด',d:'วงเวียนประจำเมืองที่มีรูปปั้นช้างล้อมรอบ คนสุรินทร์มักแวะสักการะ มีร้านดอกไม้และเครื่องสักการะข้าง ๆ'},
+      {n:'สวนสาธารณะสุรินทร์',lat:14.874061,lng:103.500646,id:'ChIJE6xTY1LiGTERdb_YYE8cnLA',m:'ใกล้โรงแรม · ทุกวัน 04.00–22.00',d:'สวนใหญ่ใกล้งาน มีลู่วิ่ง 2 กม. เหมาะเดินเล่นช่วงเช้าหรือเย็นก่อนกลับ'},
+      {n:'พิพิธภัณฑสถานแห่งชาติ สุรินทร์',lat:14.848348,lng:103.473848,id:'ChIJf89NrmzjGTERIMfjgTCV4OQ',m:'ต.ชะเนียง · พุธ–อาทิตย์ 09.00–16.00',d:'เล่าประวัติศาสตร์และศิลปะของสุรินทร์ตั้งแต่ยุคก่อนประวัติศาสตร์ ใช้เวลาราวชั่วโมงเดียวก็ทั่ว'},
+      {n:'หมู่บ้านทอผ้าไหมท่าสว่าง',lat:14.955725,lng:103.472077,id:'ChIJ0ZSos0PhGTERqJPErRuJ0xc',m:'ต.ท่าสว่าง · ราว 8 กม. จากตัวเมือง',d:'ชมการย้อมและทอผ้าไหมยกทองแบบดั้งเดิม เลือกซื้อผ้าไหมเป็นของฝากได้'},
+      {n:'วนอุทยานพนมสวาย',lat:14.76287,lng:103.374322,id:'ChIJnYNPNXL6GTERoliC8BuBMN0',m:'ต.นาบัว · ราว 20 กม. · 08.30–16.30',d:'ภูเขาเตี้ย ๆ มีพระพุทธรูปใหญ่บนยอด ขึ้นไปจะเห็นวิวทุ่งกว้างรอบด้าน'},
+      {n:'ปราสาทศีขรภูมิ',lat:14.944501,lng:103.79877,id:'ChIJSX13JDZCFzER9kZNzIys4Kw',m:'อ.ศีขรภูมิ · ราว 35 กม. · 07.30–18.00',d:'ปราสาทขอมอายุราวพันปีที่ยังสมบูรณ์มาก ทับหลังสลักหินงดงาม บรรยากาศเงียบสงบ'},
+      {n:'หมู่บ้านช้างตากลาง',lat:15.265941,lng:103.496824,id:'ChIJYTuzj4fWGTERl-P9snitkLE',m:'อ.ท่าตูม · ราว 1 ชม. จากตัวเมือง · 08.00–17.00',d:'ชุมชนที่คนกับช้างอยู่ร่วมกันมาหลายรุ่น มีการแสดงช่วง 10.00 และ 14.00 น.'}
+    ]
   };
   /* ===================================================== */
 
@@ -544,97 +574,8 @@
       (p.id ? "&query_place_id=" + p.id : "")
     );
   }
-  function parseCSV(text) {
-    var rows = [],
-      row = [],
-      field = "",
-      quoted = false;
-    for (var i = 0; i < text.length; i++) {
-      var ch = text[i];
-      if (quoted) {
-        if (ch === '"' && text[i + 1] === '"') {
-          field += '"';
-          i++;
-        } else if (ch === '"') quoted = false;
-        else field += ch;
-      } else if (ch === '"' && field === "") quoted = true;
-      else if (ch === ",") {
-        row.push(field);
-        field = "";
-      } else if (ch === "\n" || ch === "\r") {
-        if (ch === "\r" && text[i + 1] === "\n") i++;
-        row.push(field);
-        rows.push(row);
-        row = [];
-        field = "";
-      } else field += ch;
-    }
-    if (quoted) throw new Error("Unclosed quoted field in CSV");
-    if (field !== "" || row.length) {
-      row.push(field);
-      rows.push(row);
-    }
-    return rows;
-  }
-  function placesFromCSV(text) {
-    var rows = parseCSV(text),
-      headers = rows.shift();
-    if (!headers) throw new Error("CSV has no header row");
-    headers = headers.map(function (value) {
-      return value.trim();
-    });
-    var columns = [
-      "category",
-      "name",
-      "lat",
-      "lng",
-      "place_id",
-      "meta",
-      "description",
-    ];
-    var indexes = columns.map(function (column) {
-      return headers.indexOf(column);
-    });
-    if (
-      indexes.some(function (index) {
-        return index < 0;
-      })
-    )
-      throw new Error("CSV is missing a required column");
-    var places = {};
-    rows.forEach(function (row, index) {
-      if (row.length === 1 && row[0] === "") return;
-      if (row.length !== headers.length)
-        throw new Error("Invalid CSV row " + (index + 2));
-      var category = row[indexes[0]].trim(),
-        name = row[indexes[1]].trim();
-      var lat = Number(row[indexes[2]]),
-        lng = Number(row[indexes[3]]);
-      if (!category || !name || !isFinite(lat) || !isFinite(lng))
-        throw new Error("Invalid place data on CSV row " + (index + 2));
-      if (!places[category]) places[category] = [];
-      places[category].push({
-        n: name,
-        lat: lat,
-        lng: lng,
-        id: row[indexes[4]].trim(),
-        m: row[indexes[5]].trim(),
-        d: row[indexes[6]].trim(),
-      });
-    });
-    if (!Object.keys(places).length) throw new Error("CSV contains no places");
-    return places;
-  }
-  fetch("surin-places.csv")
-    .then(function (response) {
-      if (!response.ok)
-        throw new Error(
-          "Could not load surin-places.csv (" + response.status + ")",
-        );
-      return response.text();
-    })
-    .then(placesFromCSV)
-    .then(function (G) {
+  try {
+    (function (G) {
       var map = null,
         layers = {},
         markers = {};
@@ -810,13 +751,13 @@
           bs[n].focus();
         }
       });
-    })
-    .catch(function (error) {
-      console.error("Unable to load the Surin places CSV:", error);
-      document.getElementById("guideMap").style.display = "none";
-      document.getElementById("panels").textContent =
-        "โหลดรายชื่อร้านและที่เที่ยวไม่ได้ กรุณาลองใหม่อีกครั้ง";
-    });
+    })(G);
+  } catch (error) {
+    console.error("Unable to initialize the Surin guide:", error);
+    document.getElementById("guideMap").style.display = "none";
+    document.getElementById("panels").textContent =
+    "แสดงรายชื่อร้านและที่เที่ยวไม่ได้ กรุณาตรวจสอบข้อมูลใน script.js";
+  }
 
   // ---------- RSVP → Google Sheet ----------
   var form = document.getElementById("rsvpForm"),
