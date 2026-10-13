@@ -23,14 +23,11 @@
     />
     <meta
       property="og:image"
-      content="https://tete-team-wedding.github.io/welcome/images/social-preview.jpg"
+      content="https://tete-team-wedding.github.io/welcome/images/social-preview.jpg?v=2"
     />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="เตเต้และทีมจูงมือกันเดินบนเนินหญ้า"
-    />
     <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="icon"
@@ -386,7 +383,7 @@
             </button>
           </div>
           <p class="small gal-hint" id="galHint">
-            ปัดหรือกดลูกศรเพื่อดูภาพถัดไป แตะที่ภาพกลางเพื่อดูขนาดใหญ่
+            ปัดหรือกดลูกศรเพื่อดูภาพถัดไป แตะภาพกลางเพื่อดูขนาดใหญ่และกดปุ่มซูม
           </p>
         </div>
       </section>
@@ -499,6 +496,18 @@
       aria-label="ดูภาพขนาดใหญ่"
     >
       <div class="lb-stage" id="lbStage"></div>
+      <button
+        class="lb-btn lb-zoom"
+        type="button"
+        id="lbZoom"
+        aria-label="ซูมภาพ"
+        aria-pressed="false"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.8" cy="10.8" r="6.8" />
+          <path d="M16 16l5 5M10.8 7.5v6.6M7.5 10.8h6.6" />
+        </svg>
+      </button>
       <button
         class="lb-btn lb-close"
         type="button"

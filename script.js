@@ -541,12 +541,29 @@
     // ---------- Lightbox ----------
     var lb = document.getElementById("lb"),
       lbStage = document.getElementById("lbStage"),
-      lbCount = document.getElementById("lbCount");
+      lbCount = document.getElementById("lbCount"),
+      lbZoom = document.getElementById("lbZoom");
     var lbOpen = false,
       lbI = 0,
       lbEl = null,
       lastFocus = null,
-      busy = false;
+      busy = false,
+      zoomScale = 1,
+      zoomX = 0,
+      zoomY = 0;
+    function setZoom(scale) {
+      zoomScale = Math.max(1, Math.min(3, scale));
+      if (zoomScale === 1) zoomX = zoomY = 0;
+      lbZoom.setAttribute("aria-pressed", zoomScale > 1 ? "true" : "false");
+      lbZoom.setAttribute(
+        "aria-label",
+        zoomScale > 1 ? "ย่อภาพ" : "ซูมภาพ",
+      );
+      if (lbEl) {
+        lbEl.style.transform =
+          "translate3d(" + zoomX + "px," + zoomY + "px,0) scale(" + zoomScale + ")";
+      }
+    }
     function preload(i) {
       var it = GALLERY[(i + N) % N];
       if (it.src) {
@@ -556,6 +573,10 @@
     }
     function show(i, dir) {
       lbI = (i + N) % N;
+      zoomScale = 1;
+      zoomX = zoomY = 0;
+      lbZoom.setAttribute("aria-pressed", "false");
+      lbZoom.setAttribute("aria-label", "ซูมภาพ");
       var el = media(GALLERY[lbI], true);
       el.className = "lb-media";
       if (el.tagName === "VIDEO") {
@@ -639,6 +660,24 @@
     document.getElementById("lbNext").addEventListener("click", function () {
       lbGo(1);
     });
+    lbZoom.addEventListener("click", function () {
+      setZoom(zoomScale > 1 ? 1 : 2);
+    });
+    lbStage.addEventListener("dblclick", function (e) {
+      if (e.target === lbEl) {
+        e.preventDefault();
+        setZoom(zoomScale > 1 ? 1 : 2);
+      }
+    });
+    lbStage.addEventListener(
+      "wheel",
+      function (e) {
+        if (!lbEl || lbEl.tagName === "VIDEO") return;
+        e.preventDefault();
+        setZoom(zoomScale + (e.deltaY < 0 ? 0.25 : -0.25));
+      },
+      { passive: false },
+    );
     lb.addEventListener("click", function (e) {
       if (e.target === lb || e.target === lbStage) closeLb();
     });
@@ -659,7 +698,13 @@
     var t = null;
     lbStage.addEventListener("pointerdown", function (e) {
       if (!lbEl) return;
-      t = { x: e.clientX, y: e.clientY, id: e.pointerId };
+      t = {
+        x: e.clientX,
+        y: e.clientY,
+        id: e.pointerId,
+        zoomX: zoomX,
+        zoomY: zoomY,
+      };
       lbEl.style.transition = "none";
       try {
         lbStage.setPointerCapture(e.pointerId);
@@ -669,7 +714,11 @@
       if (!t || e.pointerId !== t.id || !lbEl) return;
       var dx = e.clientX - t.x,
         dy = e.clientY - t.y;
-      if (Math.abs(dy) > Math.abs(dx) && dy > 0) {
+      if (zoomScale > 1) {
+        zoomX = t.zoomX + dx;
+        zoomY = t.zoomY + dy;
+        setZoom(zoomScale);
+      } else if (Math.abs(dy) > Math.abs(dx) && dy > 0) {
         lbEl.style.transform =
           "translate3d(0," +
           dy +
@@ -689,6 +738,10 @@
         lbEl.style.transition = "";
       }
       lb.style.background = "";
+      if (zoomScale > 1) {
+        setZoom(zoomScale);
+        return;
+      }
       if (dy > 110 && Math.abs(dy) > Math.abs(dx)) {
         closeLb();
         return;
@@ -812,6 +865,7 @@
             nb.textContent = p.n;
             nb.setAttribute("aria-label", "ดู " + p.n + " บนแผนที่");
             nb.addEventListener("click", function () {
+              showLayer(i);
               document
                 .getElementById("guideMap")
                 .scrollIntoView({ behavior: "smooth", block: "center" });
@@ -873,7 +927,6 @@
         });
         showLayer(i);
       }
-      showLayer(0);
       tabs.addEventListener("click", function (e) {
         var b = e.target.closest("button");
         if (!b) return;
