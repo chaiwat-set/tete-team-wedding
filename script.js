@@ -718,7 +718,7 @@
         f[(a + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
       }
     });
-    // ปัดซ้าย/ขวาเปลี่ยนภาพ ปัดลงเพื่อปิด
+    // ปัดซ้าย/ขวาบนมือถือเปลี่ยนภาพ ปัดลงเพื่อปิด
     var t = null;
     lbStage.addEventListener("pointerdown", function (e) {
       if (!lbEl || e.button > 0) return;
@@ -726,6 +726,7 @@
         x: e.clientX,
         y: e.clientY,
         id: e.pointerId,
+        pointerType: e.pointerType,
         zoomX: zoomX,
         zoomY: zoomY,
       };
@@ -743,34 +744,42 @@
         zoomX = t.zoomX + dx;
         zoomY = t.zoomY + dy;
         setZoom(zoomScale);
-      } else if (Math.abs(dy) > Math.abs(dx) && dy > 0) {
-        lbEl.style.transform =
-          "translate3d(0," +
-          dy +
-          "px,0) scale(" +
-          Math.max(0.85, 1 - dy / 1200) +
-          ")";
-        lb.style.background =
-          "rgba(9,21,40," + Math.max(0.5, 0.95 - dy / 600) + ")";
-      } else lbEl.style.transform = "translate3d(" + dx + "px,0,0)";
+      } else if (t.pointerType === "touch") {
+        if (Math.abs(dy) > Math.abs(dx) && dy > 0) {
+          lbEl.style.transform =
+            "translate3d(0," +
+            dy +
+            "px,0) scale(" +
+            Math.max(0.85, 1 - dy / 1200) +
+            ")";
+          lb.style.background =
+            "rgba(9,21,40," + Math.max(0.5, 0.95 - dy / 600) + ")";
+        } else {
+          lbEl.style.transform = "translate3d(" + dx + "px,0,0)";
+        }
+      }
     });
     function lbEnd(e) {
       if (!t || e.pointerId !== t.id) return;
       var dx = e.clientX - t.x,
-        dy = e.clientY - t.y;
+        dy = e.clientY - t.y,
+        pointerType = t.pointerType;
       t = null;
       if (lbEl) {
         lbEl.style.transition = "";
       }
       lbStage.classList.remove("is-panning");
       lb.style.background = "";
+      if (
+        e.type === "pointerup" &&
+        (Math.abs(dx) > 6 || Math.abs(dy) > 6)
+      ) {
+        suppressStageClick = true;
+        setTimeout(function () {
+          suppressStageClick = false;
+        }, 0);
+      }
       if (zoomScale > 1) {
-        if (e.type === "pointerup" && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
-          suppressStageClick = true;
-          setTimeout(function () {
-            suppressStageClick = false;
-          }, 0);
-        }
         setZoom(zoomScale);
         return;
       }
@@ -778,12 +787,16 @@
         closeLb();
         return;
       }
-      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
-        if (lbEl) lbEl.style.transform = "";
+      if (lbEl) lbEl.style.transform = "";
+      if (
+        e.type === "pointerup" &&
+        pointerType === "touch" &&
+        Math.abs(dx) > 60 &&
+        Math.abs(dx) > Math.abs(dy)
+      ) {
         lbGo(dx < 0 ? 1 : -1);
         return;
       }
-      if (lbEl) lbEl.style.transform = "";
       if (Math.abs(dx) < 6 && Math.abs(dy) < 6 && e.target === lbStage)
         closeLb();
     }
