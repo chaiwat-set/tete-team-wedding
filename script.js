@@ -555,13 +555,16 @@
       zoomScale = Math.max(1, Math.min(3, scale));
       if (zoomScale === 1) zoomX = zoomY = 0;
       lbZoom.setAttribute("aria-pressed", zoomScale > 1 ? "true" : "false");
-      lbZoom.setAttribute(
-        "aria-label",
-        zoomScale > 1 ? "ย่อภาพ" : "ซูมภาพ",
-      );
+      lbZoom.setAttribute("aria-label", zoomScale > 1 ? "ย่อภาพ" : "ซูมภาพ");
       if (lbEl) {
         lbEl.style.transform =
-          "translate3d(" + zoomX + "px," + zoomY + "px,0) scale(" + zoomScale + ")";
+          "translate3d(" +
+          zoomX +
+          "px," +
+          zoomY +
+          "px,0) scale(" +
+          zoomScale +
+          ")";
       }
     }
     function preload(i) {
