@@ -718,39 +718,22 @@
         f[(a + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
       }
     });
-    // Pinch to zoom; one-finger gestures still pan, swipe, or dismiss.
+    // Pinch uses native touch events for iOS Safari; pointer events handle one-finger gestures.
     var t = null,
-      pointers = {},
-      pinch = null,
-      gestureUsed = false;
-    function pointerCount() {
-      return Object.keys(pointers).length;
-    }
-    function pointerDistance(a, b) {
+      pinch = null;
+    function pointDistance(a, b) {
       var dx = b.x - a.x,
         dy = b.y - a.y;
       return Math.sqrt(dx * dx + dy * dy);
     }
-    function pointerCenter(a, b) {
+    function pointCenter(a, b) {
       return { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
     }
-    function beginPinch() {
-      var ids = Object.keys(pointers);
-      if (
-        ids.length !== 2 ||
-        pointers[ids[0]].pointerType !== "touch" ||
-        pointers[ids[1]].pointerType !== "touch" ||
-        !lbEl ||
-        lbEl.tagName === "VIDEO"
-      )
-        return;
-      var a = pointers[ids[0]],
-        b = pointers[ids[1]],
-        center = pointerCenter(a, b),
+    function beginPinch(a, b) {
+      var center = pointCenter(a, b),
         rect = lbStage.getBoundingClientRect();
       pinch = {
-        ids: ids,
-        distance: Math.max(1, pointerDistance(a, b)),
+        distance: Math.max(1, pointDistance(a, b)),
         scale: zoomScale,
         imageX:
           (center.x - rect.left - lbStage.clientWidth / 2 - zoomX) / zoomScale,
@@ -758,26 +741,67 @@
           (center.y - rect.top - lbStage.clientHeight / 2 - zoomY) / zoomScale,
       };
       t = null;
-      gestureUsed = true;
       lbStage.classList.add("is-panning");
       lbEl.style.transition = "none";
     }
+    lbStage.addEventListener(
+      "touchstart",
+      function (e) {
+        if (e.touches.length < 2 || !lbEl || lbEl.tagName === "VIDEO") return;
+        e.preventDefault();
+        if (e.touches.length === 2) {
+          beginPinch(
+            { x: e.touches[0].clientX, y: e.touches[0].clientY },
+            { x: e.touches[1].clientX, y: e.touches[1].clientY },
+          );
+        }
+      },
+      { passive: false },
+    );
+    lbStage.addEventListener(
+      "touchmove",
+      function (e) {
+        if (!pinch || e.touches.length < 2 || !lbEl) return;
+        e.preventDefault();
+        var a = { x: e.touches[0].clientX, y: e.touches[0].clientY },
+          b = { x: e.touches[1].clientX, y: e.touches[1].clientY },
+          center = pointCenter(a, b),
+          rect = lbStage.getBoundingClientRect(),
+          scale = pinch.scale * (pointDistance(a, b) / pinch.distance);
+        zoomX =
+          center.x -
+          rect.left -
+          lbStage.clientWidth / 2 -
+          scale * pinch.imageX;
+        zoomY =
+          center.y -
+          rect.top -
+          lbStage.clientHeight / 2 -
+          scale * pinch.imageY;
+        setZoom(scale);
+      },
+      { passive: false },
+    );
+    function endPinch(e) {
+      if (!pinch) return;
+      e.preventDefault();
+      pinch = null;
+      t = null;
+      lbStage.classList.remove("is-panning");
+      if (lbEl) lbEl.style.transition = "";
+      if (zoomScale > 1) setZoom(zoomScale);
+      suppressStageClick = true;
+      setTimeout(function () {
+        suppressStageClick = false;
+      }, 500);
+    }
+    lbStage.addEventListener("touchend", endPinch, { passive: false });
+    lbStage.addEventListener("touchcancel", endPinch, { passive: false });
     lbStage.addEventListener("pointerdown", function (e) {
-      if (!lbEl || e.button > 0) return;
-      pointers[e.pointerId] = {
-        x: e.clientX,
-        y: e.clientY,
-        pointerType: e.pointerType,
-      };
+      if (!lbEl || e.button > 0 || pinch) return;
       try {
         lbStage.setPointerCapture(e.pointerId);
       } catch (_) {}
-      if (pointerCount() === 2) {
-        beginPinch();
-        return;
-      }
-      if (pointerCount() !== 1) return;
-      gestureUsed = false;
       t = {
         x: e.clientX,
         y: e.clientY,
@@ -790,34 +814,7 @@
       lbEl.style.transition = "none";
     });
     lbStage.addEventListener("pointermove", function (e) {
-      var p = pointers[e.pointerId];
-      if (!p || !lbEl) return;
-      p.x = e.clientX;
-      p.y = e.clientY;
-      if (
-        pinch &&
-        (e.pointerId === Number(pinch.ids[0]) ||
-          e.pointerId === Number(pinch.ids[1]))
-      ) {
-        var a = pointers[pinch.ids[0]],
-          b = pointers[pinch.ids[1]],
-          center = pointerCenter(a, b),
-          rect = lbStage.getBoundingClientRect(),
-          scale = pinch.scale * (pointerDistance(a, b) / pinch.distance);
-        zoomX =
-          center.x -
-          rect.left -
-          lbStage.clientWidth / 2 -
-          scale * pinch.imageX;
-        zoomY =
-          center.y -
-          rect.top -
-          lbStage.clientHeight / 2 -
-          scale * pinch.imageY;
-        setZoom(scale);
-        return;
-      }
-      if (!t || e.pointerId !== t.id) return;
+      if (!t || e.pointerId !== t.id || !lbEl || pinch) return;
       var dx = e.clientX - t.x,
         dy = e.clientY - t.y;
       if (zoomScale > 1) {
@@ -840,46 +837,11 @@
       }
     });
     function lbEnd(e, cancel) {
-      if (!pointers[e.pointerId]) return;
-      var p = pointers[e.pointerId];
-      p.x = e.clientX;
-      p.y = e.clientY;
-      if (pinch) {
-        delete pointers[e.pointerId];
-        pinch = null;
-        lbStage.classList.remove("is-panning");
-        if (lbEl) lbEl.style.transition = "";
-        suppressStageClick = true;
-        setTimeout(function () {
-          suppressStageClick = false;
-        }, 0);
-        if (pointerCount()) {
-          var remainingId = Object.keys(pointers)[0],
-            remaining = pointers[remainingId];
-          t = {
-            x: remaining.x,
-            y: remaining.y,
-            id: Number(remainingId),
-            pointerType: remaining.pointerType,
-            zoomX: zoomX,
-            zoomY: zoomY,
-          };
-        } else {
-          t = null;
-          gestureUsed = false;
-        }
-        if (zoomScale > 1) setZoom(zoomScale);
-        return;
-      }
-      if (!t || e.pointerId !== t.id) {
-        delete pointers[e.pointerId];
-        return;
-      }
+      if (!t || e.pointerId !== t.id || pinch) return;
       var dx = e.clientX - t.x,
         dy = e.clientY - t.y,
         pointerType = t.pointerType;
       t = null;
-      delete pointers[e.pointerId];
       if (lbEl) {
         lbEl.style.transition = "";
       }
@@ -893,12 +855,6 @@
         setTimeout(function () {
           suppressStageClick = false;
         }, 0);
-      }
-      if (gestureUsed) {
-        gestureUsed = false;
-        if (zoomScale > 1) setZoom(zoomScale);
-        else if (lbEl) lbEl.style.transform = "";
-        return;
       }
       if (zoomScale > 1) {
         setZoom(zoomScale);
