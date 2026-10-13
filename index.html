@@ -391,10 +391,10 @@
       <!-- 9 RSVP -->
       <section class="sheet" id="rsvp" aria-labelledby="h-rsvp">
         <h2 id="h-rsvp">ตอบรับการเข้าร่วมงาน</h2>
-        <!-- ✏️ วันสุดท้ายที่รับตอบรับ: แทน <span class="todo">วันที่ตอบรับ</span> ด้วยวันที่ เช่น 15 ธันวาคม 2569 -->
         <p>
-          ช่วยบอกเราภายใน
-          <span class="todo">วันที่ตอบรับ</span> จะได้เตรียมโต๊ะและอาหารให้พอดี
+          ช่วยบอกเราภายในวันที่
+          <time id="rsvpDeadline" datetime="2026-12-20">20 ธันวาคม 2569</time>
+          เวลา 23:59:59 น. จะได้เตรียมโต๊ะและอาหารให้พอดี
         </p>
         <form id="rsvpForm" novalidate>
           <div>
@@ -443,6 +443,12 @@
             <button class="btn" type="submit" id="rsvpBtn">ส่งคำตอบ</button>
           </div>
         </form>
+        <div class="result" id="rsvpClosed" aria-live="polite">
+          <strong>ปิดรับคำตอบแล้ว</strong>
+          <p class="small" style="margin: 6px 0 0">
+            ขอบคุณที่สนใจร่วมงานนะคะ/ครับ หากมีคำถาม ติดต่อบ่าวสาวได้เลย
+          </p>
+        </div>
         <div class="result" id="sent" aria-live="polite">
           <strong id="sentTitle">ได้รับคำตอบแล้ว ขอบคุณมากค่ะ/ครับ!</strong>
           <p class="small" id="sentNote" style="margin: 6px 0 12px">

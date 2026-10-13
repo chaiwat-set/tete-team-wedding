@@ -955,6 +955,29 @@
   // ---------- RSVP → Google Sheet ----------
   var form = document.getElementById("rsvpForm"),
     btn = document.getElementById("rsvpBtn");
+  var deadlineDate = document
+    .getElementById("rsvpDeadline")
+    .getAttribute("datetime");
+  var rsvpClosesAt =
+    new Date(deadlineDate + "T00:00:00+07:00").getTime() + 24 * 60 * 60 * 1000;
+  function closeRsvp() {
+    form.hidden = true;
+    document.getElementById("sent").classList.remove("show");
+    document.getElementById("result").classList.remove("show");
+    document.getElementById("rsvpClosed").classList.add("show");
+  }
+  function isRsvpClosed() {
+    return Date.now() >= rsvpClosesAt;
+  }
+  function watchRsvpDeadline() {
+    var remaining = rsvpClosesAt - Date.now();
+    if (remaining <= 0) {
+      closeRsvp();
+      return;
+    }
+    window.setTimeout(watchRsvpDeadline, Math.min(remaining, 2147483647));
+  }
+  watchRsvpDeadline();
   function attending() {
     return (
       form.querySelector("input[name=attend]:checked").value === "มาแน่นอน"
@@ -1009,6 +1032,10 @@
   }
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    if (isRsvpClosed()) {
+      closeRsvp();
+      return;
+    }
     var d = collect(),
       en = document.getElementById("e-name");
     if (!d.name) {
@@ -1048,6 +1075,10 @@
       });
   });
   document.getElementById("again").addEventListener("click", function () {
+    if (isRsvpClosed()) {
+      closeRsvp();
+      return;
+    }
     document.getElementById("sent").classList.remove("show");
     form.hidden = false;
     document.getElementById("f-name").focus();
