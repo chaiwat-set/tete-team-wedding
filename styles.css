@@ -909,6 +909,14 @@ p {
   overflow: hidden;
 }
 
+.lb-stage.is-zoomed {
+  cursor: grab;
+}
+
+.lb-stage.is-panning {
+  cursor: grabbing;
+}
+
 .lb-media {
   position: absolute;
   max-width: 100%;

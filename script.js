@@ -551,9 +551,24 @@
       zoomScale = 1,
       zoomX = 0,
       zoomY = 0;
+    function clampPan() {
+      if (!lbEl) return;
+      var maxX = Math.max(
+          0,
+          (lbEl.offsetWidth * zoomScale - lbStage.clientWidth) / 2,
+        ),
+        maxY = Math.max(
+          0,
+          (lbEl.offsetHeight * zoomScale - lbStage.clientHeight) / 2,
+        );
+      zoomX = Math.max(-maxX, Math.min(maxX, zoomX));
+      zoomY = Math.max(-maxY, Math.min(maxY, zoomY));
+    }
     function setZoom(scale) {
       zoomScale = Math.max(1, Math.min(3, scale));
       if (zoomScale === 1) zoomX = zoomY = 0;
+      else clampPan();
+      lbStage.classList.toggle("is-zoomed", zoomScale > 1);
       lbZoom.setAttribute("aria-pressed", zoomScale > 1 ? "true" : "false");
       lbZoom.setAttribute("aria-label", zoomScale > 1 ? "ย่อภาพ" : "ซูมภาพ");
       if (lbEl) {
@@ -578,6 +593,7 @@
       lbI = (i + N) % N;
       zoomScale = 1;
       zoomX = zoomY = 0;
+      lbStage.classList.remove("is-zoomed", "is-panning");
       lbZoom.setAttribute("aria-pressed", "false");
       lbZoom.setAttribute("aria-label", "ซูมภาพ");
       var el = media(GALLERY[lbI], true);
@@ -681,7 +697,12 @@
       },
       { passive: false },
     );
+    var suppressStageClick = false;
     lb.addEventListener("click", function (e) {
+      if (suppressStageClick && e.target === lbStage) {
+        suppressStageClick = false;
+        return;
+      }
       if (e.target === lb || e.target === lbStage) closeLb();
     });
     document.addEventListener("keydown", function (e) {
@@ -700,7 +721,7 @@
     // ปัดซ้าย/ขวาเปลี่ยนภาพ ปัดลงเพื่อปิด
     var t = null;
     lbStage.addEventListener("pointerdown", function (e) {
-      if (!lbEl) return;
+      if (!lbEl || e.button > 0) return;
       t = {
         x: e.clientX,
         y: e.clientY,
@@ -708,6 +729,7 @@
         zoomX: zoomX,
         zoomY: zoomY,
       };
+      if (zoomScale > 1) lbStage.classList.add("is-panning");
       lbEl.style.transition = "none";
       try {
         lbStage.setPointerCapture(e.pointerId);
@@ -740,8 +762,15 @@
       if (lbEl) {
         lbEl.style.transition = "";
       }
+      lbStage.classList.remove("is-panning");
       lb.style.background = "";
       if (zoomScale > 1) {
+        if (e.type === "pointerup" && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+          suppressStageClick = true;
+          setTimeout(function () {
+            suppressStageClick = false;
+          }, 0);
+        }
         setZoom(zoomScale);
         return;
       }
