@@ -5,7 +5,7 @@
 
   // 1) ลิงก์ Web App จาก Google Apps Script (ดูวิธีใน README) — ถ้าเว้นว่าง ฟอร์มจะให้ส่งทาง LINE แทน
   var RSVP_URL =
-    "https://script.google.com/macros/s/AKfycby6RrVhumHX-oaA9fVsXjwDpwLRelVyft2PpeEncWkbWjOUXeowjjAnZUuUk9h7wbE/exec";
+    "https://script.google.com/macros/s/AKfycbzrZRhuEEIEozlqkKZgWrJshf-yJ_MRrZlRYhXqjV2MYiWZ7JPfDRHGqZfXG_3P3A/exec";
 
   // 2) รูปแกลเลอรี เรียงตามลำดับที่โชว์ (ไฟล์อยู่ใน images/gallery)
   //    รูป: {src:'01', w:กว้าง, h:สูง} → ใช้ไฟล์ 01.jpg (ภาพใหญ่) และ 01-sm.jpg (ภาพเล็ก)
