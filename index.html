@@ -35,7 +35,6 @@
     <li><a href="#story">เรื่องของเรา</a></li>
     <li><a href="#surin">เที่ยวสุรินทร์</a></li>
     <li><a href="#rsvp">ตอบรับ</a></li>
-    <li><a href="#faq">คำถามที่พบบ่อย</a></li>
   </ul>
 </nav>
 
@@ -95,7 +94,13 @@
         </div>
         <div class="cd-state" data-state="after" hidden>
           <p class="cd-big en">Team formed, officially.</p>
-          <p>ขอบคุณที่มาเป็นส่วนหนึ่งของทีมเรา ตอนนี้เราเป็นทีมเดียวกันมาแล้ว <b id="since">0</b> วัน</p>
+          <p>ขอบคุณที่มาเป็นส่วนหนึ่งของทีมเรา ตอนนี้เราเป็นทีมเดียวกันมาแล้ว</p>
+          <div class="count" id="countUp" aria-live="off">
+            <div><b data-k="d">–</b><span>วัน</span></div>
+            <div><b data-k="h">–</b><span>ชั่วโมง</span></div>
+            <div><b data-k="m">–</b><span>นาที</span></div>
+            <div><b data-k="s">–</b><span>วินาที</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -108,7 +113,7 @@
       <li>
         <img src="images/ic-rings.webp" alt="">
         <div>
-          <div class="time">06.00</div>
+          <div class="time">06:00</div>
           <h3>แห่ขันหมาก - พิธีหมั้นหมาย</h3>
           <p>เจ้าบ่าวจะยกขบวนขันหมากมาสู่ขอเจ้าสาวที่โรงแรม ร่วมลุ้นไปด้วยกันว่าแต่ละด่านจะยาก-ง่ายอย่างไรบ้าง</p>
         </div>
@@ -116,28 +121,28 @@
       <li>
         <img src="images/ic-bowl.webp" alt="">
         <div>
-          <div class="time">09.00</div>
+          <div class="time">09:00</div>
           <h3>พิธีส่งตัวเจ้าสาว</h3>
-          <p>ก้าวแรกของเจ้าสาวในการแจ้งเกิดกับเหล่าเขื่อที่บ้านเจ้าบ่าว หากใครไม่ได้ไปร่วมขบวน ก็นั่งจิบน้ำ/ทานอาหารแบบคนเกร๋ๆ ที่โรงแรมได้ อีกอึดใจเดียวเราจะกลับมาหาทุกคนแน่นอน</p>
+          <p>ก้าวแรกของเจ้าสาวในการแจ้งเกิดกับเหล่าเขื่อที่บ้านเจ้าบ่าว หากใครไม่ได้ไปร่วมขบวน ก็นั่งจิบน้ำ/ทานอาหารแบบคนเกร๋ๆ ที่โรงแรมได้ อีกอึดใจเดียวเราจะกลับมาหาทุกคน~</p>
         </div>
       </li>
       <li>
         <img src="images/ic-table.webp" alt="">
         <div>
-          <div class="time">12.00</div>
+          <div class="time">12:00</div>
           <h3>ฉลองมงคลสมรส</h3>
-          <p>เจ้าบ่าว-เจ้าสาวกลับมาโชว์ตัว มาร่วมถ่ายภาพ และฉลองโต๊ะจีนร่วมกัน รับรองว่าอิ่มหน้าสำราญ ไช ไช โย โย อย่างแน่นอน</p>
+          <p>เจ้าบ่าว-เจ้าสาวกลับมาโชว์ตัว มาร่วมถ่ายภาพ และฉลองโต๊ะจีนร่วมกัน รับรองว่าอิ่มหน้าสำราญ ไช ไช ไช โย โย โย อย่างแน่นอน</p>
           <p class="small">แนะนำมาก่อน 60 นาที จะได้แชะภาพกันแบบชิว ๆ</p>
         </div>
       </li>
     </ol>
   </section>
 
-  <!-- 5 Venue -->
+  <!-- 5 Venue + เที่ยวสุรินทร์ (แผนที่เดียวกัน) -->
   <section class="sheet" id="venue" aria-labelledby="h-venue">
     <h2 id="h-venue">สถานที่จัดงาน</h2>
-    <div class="venue-grid">
-      <div>
+    <div class="venue-grid wide">
+      <div class="venue-info">
         <p class="venue-name en">Beelive Convention Hall and Hotel (Hall3)</p>
         <p class="small">77/8 หมู่ 13 ต.นอกเมือง อ.เมืองสุรินทร์ จ.สุรินทร์ 32000</p>
         <ul class="facts">
@@ -150,56 +155,60 @@
           <a class="btn" href="https://www.google.com/maps/dir/?api=1&destination=Beelive+Convention+Hall+and+Hotel+Surin&destination_place_id=ChIJ54ahJO7jGTER6nCVblJdptQ" target="_blank" rel="noopener">นำทางด้วย Google Maps</a>
         </div>
       </div>
-      <img src="images/dance.webp" alt="" class="venue-art">
+      <div class="guide-map" id="guideMap" role="region" aria-label="แผนที่สถานที่จัดงานและร้านแนะนำในสุรินทร์"></div>
     </div>
-    <div class="mapframe wide">
-      <iframe title="แผนที่ Beelive Convention Hall and Hotel" src="https://maps.google.com/maps?q=Beelive%20Convention%20Hall%20and%20Hotel%20Surin&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+
+    <div class="surin wide" id="surin">
+      <h3 class="surin-title">มาสุรินทร์ทั้งที แวะต่อกันได้</h3>
+      <p>ร้านต่าง ๆ และที่เที่ยวที่เราอยากให้ลอง ส่วนใหญ่อยู่ในตัวเมือง กดชื่อร้านเพื่อดูบนแผนที่</p>
+      <!-- ✏️ รายชื่อร้าน/ที่เที่ยว แก้ได้ในไฟล์ script.js ตรง "var G={" -->
+      <div class="tabs" role="tablist" aria-label="หมวดสถานที่แนะนำ" id="tabs"></div>
+      <div id="panels"></div>
+      <p class="small guide-note">เวลาเปิด-ปิดอาจมีคาดเคลื่อนได้ เช็กอีกครั้งในแผนที่หรือเว็บไซต์ของร้านก่อนออกไปนะ</p>
     </div>
   </section>
 
   <!-- 6 Dress code -->
   <section class="sheet" id="dress" aria-labelledby="h-dress">
-    <h2 id="h-dress">การเตรียมตัว–ดูดีในแบบที่เราเป็น!</h2>
-    <p>ใส่ชุดโทนพาสเทลสีไหนก็ได้ในห้าสีนี้ จะได้ออกมาสดใสเข้ากันทั้งภาพ</p>
-    <div class="dots" role="list">
-      <div class="dot" role="listitem"><i style="background:var(--d-blue)"></i>ฟ้า</div>
-      <div class="dot" role="listitem"><i style="background:var(--d-green)"></i>เขียว</div>
-      <div class="dot" role="listitem"><i style="background:var(--d-yellow)"></i>เหลือง</div>
-      <div class="dot" role="listitem"><i style="background:var(--d-orange)"></i>ส้ม</div>
-      <div class="dot" role="listitem"><i style="background:var(--d-pink)"></i>ชมพู</div>
+    <div class="dress-grid wide">
+      <div>
+        <h2 id="h-dress">การเตรียมตัว – ดูดีในแบบที่เราเป็น!</h2>
+        <p>ใส่ชุดโทนพาสเทลสีจะได้ออกมาสดใสเข้ากัน แต่ถ้าหากมีชุดสีอื่่น ๆ ที่ใส่แล้วไฉไลก็จัดเลย เราไม่ว่ากัน ;D</p>
+        <div class="dots" role="list">
+          <div class="dot" role="listitem"><i style="background:var(--d-blue)"></i>ฟ้า</div>
+          <div class="dot" role="listitem"><i style="background:var(--d-green)"></i>เขียว</div>
+          <div class="dot" role="listitem"><i style="background:var(--d-yellow)"></i>เหลือง</div>
+          <div class="dot" role="listitem"><i style="background:var(--d-orange)"></i>ส้ม</div>
+          <div class="dot" role="listitem"><i style="background:var(--d-pink)"></i>ชมพู</div>
+        </div>
+        <p class="small">เดือนมกราคมที่สุรินทร์ช่วงเช้า ๆ และใน Hall อากาศจะเย็นหน่อยนะ พกเสื้อคลุมบาง ๆ มาเผื่อด้วยก็ดี แต่ถ้าใครชอบเย็น ๆ ก็เอนจอยได้เลย</p>
+      </div>
+      <img src="images/dance.webp" alt="ภาพวาดเตเต้และทีมเต้นรำในชุดลายสก็อต" class="dress-art">
     </div>
-    <p class="small">มกราคมที่สุรินทร์เช้า ๆ อากาศเย็น ช่วงขบวนขันหมากตอนหกโมงเช้าพกเสื้อคลุมบาง ๆ มาด้วยก็ดีนะ</p>
   </section>
 
   <!-- 7 Story -->
   <section class="sheet" id="story" aria-labelledby="h-story">
     <h2 id="h-story" class="sr">เรื่องของเรา</h2>
-    <div class="story">
-      <div>
-        <img class="lettering" src="images/from-bestfriends.webp" alt="From Best Friends to Forever Partners">
-        <!-- ✏️ เรื่องราวของเรา: ลบ <span class="todo">...</span> ทั้งก้อน แล้วพิมพ์เรื่องราวแทน -->
-        <p><span class="todo">ใส่เรื่องราวของเรา 3–4 บรรทัด เช่น เจอกันครั้งแรกที่ไหน เป็นเพื่อนกันมานานแค่ไหน และวันที่ตัดสินใจจับมือกัน</span></p>
-      </div>
+    <div class="story-head">
+      <img class="lettering" src="images/from-bestfriends.webp" alt="From Best Friends to Forever Partners">
       <img class="faces" src="images/faces.webp" alt="ภาพวาดหน้าเตเต้และทีม">
     </div>
-    <!-- ✏️ รูปแกลเลอรี: แก้รายชื่อรูปได้ใน script.js ตรง "var GALLERY=[" แล้วอัปโหลดรูปชื่อเดียวกันไว้ใน images -->
-    <div class="gallery wide" aria-roledescription="carousel" aria-label="แกลเลอรีภาพ">
-      <div class="g-track" id="gTrack" tabindex="0"></div>
-      <button class="g-nav prev" type="button" aria-label="ภาพก่อนหน้า">‹</button>
-      <button class="g-nav next" type="button" aria-label="ภาพถัดไป">›</button>
-      <div class="g-dots" id="gDots" aria-hidden="true"></div>
-    </div>
-  </section>
+    <!-- ✏️ เรื่องราวของเรา: ลบ <span class="todo">...</span> ทั้งก้อน แล้วพิมพ์เรื่องราวแทน -->
+    <p class="story-text"><span class="todo">ใส่เรื่องราวของเรา 3–4 บรรทัด เช่น เจอกันครั้งแรกที่ไหน เป็นเพื่อนกันมานานแค่ไหน และวันที่ตัดสินใจจับมือกัน</span></p>
 
-  <!-- 8 Surin guide -->
-  <section class="sheet" id="surin" aria-labelledby="h-surin">
-    <h2 id="h-surin">มาสุรินทร์ทั้งที แวะต่อกันได้</h2>
-    <p>ร้านและที่เที่ยวที่เราอยากให้ลอง ส่วนใหญ่อยู่ในตัวเมือง ไม่ไกลจากโรงแรม</p>
-    <!-- ✏️ รายชื่อร้าน/ที่เที่ยว แก้ได้ในไฟล์ script.js ตรง "var G={" -->
-    <div class="guide-map wide" id="guideMap" role="region" aria-label="แผนที่ร้านและที่เที่ยวในสุรินทร์"></div>
-    <div class="tabs" role="tablist" aria-label="หมวดสถานที่แนะนำ" id="tabs"></div>
-    <div id="panels"></div>
-    <p class="small guide-note">เวลาเปิด-ปิดอาจเปลี่ยนได้ เช็กในแผนที่อีกครั้งก่อนออกไปนะ</p>
+    <!-- ✏️ รูปแกลเลอรี: แก้รายการได้ใน script.js ตรง "var GALLERY = [" รูปอยู่ในโฟลเดอร์ images/gallery -->
+    <div class="gal wide" id="gal" role="region" aria-roledescription="carousel" aria-label="แกลเลอรีภาพของเรา">
+      <div class="gal-stage" id="galStage" tabindex="0" aria-describedby="galHint">
+        <div class="gal-track" id="galTrack"></div>
+      </div>
+      <div class="gal-bar">
+        <button class="gal-btn" type="button" id="galPrev" aria-label="ภาพก่อนหน้า"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <span class="gal-count en" id="galCount" aria-live="polite">1 / 1</span>
+        <button class="gal-btn" type="button" id="galNext" aria-label="ภาพถัดไป"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <p class="small gal-hint" id="galHint">ปัดหรือกดลูกศรเพื่อดูภาพถัดไป แตะที่ภาพกลางเพื่อดูขนาดใหญ่</p>
+    </div>
   </section>
 
   <!-- 9 RSVP -->
@@ -209,12 +218,12 @@
     <p>ช่วยบอกเราภายใน <span class="todo">วันที่ตอบรับ</span> จะได้เตรียมโต๊ะและอาหารให้พอดี</p>
     <form id="rsvpForm" novalidate>
       <div>
-        <label for="f-name">ชื่อ-นามสกุล</label>
+        <label for="f-name">ชื่อ-นามสกุล (ชื่อเล่นที่พวกเรารู้จัก)</label>
         <input id="f-name" type="text" autocomplete="name" required>
         <div class="err" id="e-name">กรอกชื่อก่อนนะ</div>
       </div>
       <div>
-        <label id="l-attend">จะมาร่วมงานไหม</label>
+        <label id="l-attend">สะดวกมาร่วมงานไหม</label>
         <div class="choice" role="radiogroup" aria-labelledby="l-attend">
           <label><input type="radio" name="attend" value="มาแน่นอน" checked> มาแน่นอน</label>
           <label><input type="radio" name="attend" value="ไม่สะดวกมา"> ไม่สะดวกมา</label>
@@ -228,14 +237,10 @@
         <div>
           <label for="f-part">ร่วมช่วงไหน</label>
           <select id="f-part">
-            <option>ฉลองมงคลสมรส 12.00</option>
-            <option>ตั้งแต่พิธีเช้า 06.00</option>
+            <option>ฉลองมงคลสมรส 12:00</option>
+            <option>ตั้งแต่พิธีเช้า 06:00</option>
           </select>
         </div>
-      </div>
-      <div id="foodBit">
-        <label for="f-food">อาหารที่แพ้หรือไม่ทาน</label>
-        <input id="f-food" type="text" placeholder="เช่น ไม่ทานเนื้อวัว แพ้กุ้ง">
       </div>
       <div>
         <label for="f-wish">ข้อความถึงบ่าวสาว</label>
@@ -244,7 +249,7 @@
       <div><button class="btn" type="submit" id="rsvpBtn">ส่งคำตอบ</button></div>
     </form>
     <div class="result" id="sent" aria-live="polite">
-      <strong id="sentTitle">ได้รับคำตอบแล้ว ขอบคุณมาก!</strong>
+      <strong id="sentTitle">ได้รับคำตอบแล้ว ขอบคุณมากค่ะ/ครับ!</strong>
       <p class="small" id="sentNote" style="margin:6px 0 12px">ถ้าอยากแก้คำตอบ ส่งใหม่ได้เลย เราจะใช้คำตอบล่าสุด</p>
       <button class="btn ghost" id="again" type="button">ส่งคำตอบอีกครั้ง</button>
     </div>
@@ -259,35 +264,29 @@
     </div>
   </section>
 
-  <!-- 10 FAQ -->
-  <section class="sheet" id="faq" aria-labelledby="h-faq">
-    <h2 id="h-faq">คำถามที่พบบ่อย</h2>
-    <details><summary>ควรมาถึงกี่โมง</summary><p>งานฉลองเริ่ม 12.00 น. แนะนำมาก่อนสัก 60 นาที จะได้ถ่ายรูปกันแบบไม่รีบ</p></details>
-    <details><summary>ไม่ได้ไปร่วมขบวนส่งตัวเจ้าสาว ต้องรอที่ไหน</summary><p>นั่งพัก จิบน้ำ และทานอาหารว่างที่โรงแรมได้เลย เดี๋ยวเรากลับมาหาก่อนงานฉลองเที่ยง</p></details>
-    <details><summary>จอดรถได้ไหม</summary><p>โรงแรมมีที่จอดรถฟรี</p></details>
-    <!-- ✏️ คำถามที่พบบ่อย: แก้คำถามใน <summary> และคำตอบใน <p> / เพิ่มข้อใหม่ได้โดย copy ทั้งบรรทัด <details>...</details> -->
-    <details><summary>พาเด็ก ๆ มาด้วยได้ไหม</summary><p><span class="todo">ใส่คำตอบ</span></p></details>
-    <details><summary>มีห้องพักแนะนำไหม</summary><p>พักที่ Beelive Hotel ได้เลย สะดวกที่สุด <span class="todo">ใส่ส่วนลด/รหัสจองถ้ามี</span></p></details>
-    <details><summary>แต่งตัวแบบไหนดี</summary><p>ชุดโทนพาสเทล ฟ้า เขียว เหลือง ส้ม หรือชมพู ดูได้ที่ <a href="#dress">การแต่งกาย</a></p></details>
-  </section>
-
 </main>
 
 <!-- Thank you + วิวท้ายเว็บ (เปลี่ยนรูปได้ที่ images/scene-bg.jpg และ scene-bg-m.jpg) -->
-<div class="scene">
+<section class="scene" aria-labelledby="h-thx">
   <picture class="scene-bg" aria-hidden="true">
     <source media="(max-width:699px)" srcset="images/scene-bg-m.jpg">
     <img src="images/scene-bg.jpg" alt="">
   </picture>
-  <div class="wrap">
-    <section class="sheet thanks" aria-labelledby="h-thx">
-      <h2 id="h-thx" class="en">THANK YOU<br>SO MUCH</h2>
-      <p>ขอบคุณที่คอยสนับสนุนพวกเรามาตลอดค่ะ/ครับ</p>
-      <img class="flowers" src="images/flowers.webp" alt="">
-      <div class="tag">#TeteFormsHerTeam</div>
-    </section>
+  <div class="thanks">
+    <img class="flowers" src="images/flowers-cream.webp" alt="">
+    <h2 id="h-thx" class="en">THANK YOU<br>SO MUCH</h2>
+    <p>ขอบคุณที่คอยสนับสนุนพวกเรามาตลอดค่ะ/ครับ</p>
+    <div class="tag">#TeteFormsHerTeam</div>
   </div>
-  <footer>เตเต้ &amp; ทีม · 15.01.2570</footer>
+</section>
+
+<!-- ดูภาพขนาดใหญ่ -->
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="ดูภาพขนาดใหญ่">
+  <div class="lb-stage" id="lbStage"></div>
+  <button class="lb-btn lb-close" type="button" id="lbClose" aria-label="ปิด"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="lb-btn lb-prev" type="button" id="lbPrev" aria-label="ภาพก่อนหน้า"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="lb-btn lb-next" type="button" id="lbNext" aria-label="ภาพถัดไป"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="lb-count en" id="lbCount" aria-live="polite"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
