@@ -1174,10 +1174,19 @@
     btn.textContent = "กำลังส่ง…";
     fetch(RSVP_URL, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       body: new URLSearchParams(d),
     })
-      .then(function () {
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("RSVP request failed with status " + response.status);
+        }
+        return response.json();
+      })
+      .then(function (payload) {
+        if (!payload || payload.ok !== true) {
+          throw new Error("RSVP endpoint did not confirm the submission");
+        }
         form.hidden = true;
         var s = document.getElementById("sent");
         s.classList.add("show");
@@ -1187,7 +1196,8 @@
             ? "ได้รับคำตอบแล้ว แล้วเจอกันนะ!"
             : "ได้รับคำตอบแล้ว ขอบคุณที่บอกเรานะ";
       })
-      .catch(function () {
+      .catch(function (error) {
+        console.error("RSVP submission failed:", error);
         fallback(d);
       })
       .finally(function () {
