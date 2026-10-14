@@ -236,11 +236,16 @@ p {
   position: sticky;
   top: 0;
   z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   padding: calc(env(safe-area-inset-top, 0px) + 8px) 0 8px;
   background: var(--page);
 }
 
-.nav ul {
+.nav > ul {
+  flex: 1;
+  min-width: 0;
   list-style: none;
   margin: 0;
   padding: 0 14px;
@@ -252,31 +257,178 @@ p {
 }
 
 @media (max-width: 699px) {
-  .nav ul::-webkit-scrollbar {
+  .nav > ul::-webkit-scrollbar {
     display: none;
   }
 }
 
 @media (min-width: 700px) {
-  .nav ul {
+  .nav > ul {
     justify-content: safe center;
     padding-bottom: 8px;
     scrollbar-width: thin;
     scrollbar-color: var(--ink) var(--paper);
   }
 
-  .nav ul::-webkit-scrollbar {
+  .nav > ul::-webkit-scrollbar {
     height: 8px;
   }
 
-  .nav ul::-webkit-scrollbar-thumb {
+  .nav > ul::-webkit-scrollbar-thumb {
     background: var(--ink);
     border-radius: 999px;
   }
 
-  .nav ul::-webkit-scrollbar-track {
+  .nav > ul::-webkit-scrollbar-track {
     background: var(--paper);
     border-radius: 999px;
+  }
+}
+
+.achievement-menu {
+  position: relative;
+  flex: 0 0 auto;
+  padding-right: 14px;
+}
+
+.achievement-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 39px;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 14px/1.4 var(--thai);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.achievement-toggle[aria-expanded="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.achievement-popup {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 14px;
+  z-index: 1;
+  width: min(240px, calc(100vw - 28px));
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: 0 8px 24px rgba(31, 86, 165, 0.16);
+}
+
+.achievement-popup[hidden] {
+  display: none;
+}
+
+.achievement-popup ul {
+  display: grid;
+  gap: 6px;
+  overflow: visible;
+  padding: 0;
+  list-style: none;
+}
+
+.achievement-popup li {
+  padding: 4px 0;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.achievement-popup li.is-unlocked {
+  font-weight: 600;
+}
+
+.achievement-popup li.just-unlocked {
+  animation: achievement-unlocked 700ms ease-out;
+}
+
+.achievement-toast {
+  position: fixed;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  left: 16px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: min(360px, calc(100vw - 32px));
+  margin-inline: auto;
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 8px 28px rgba(31, 86, 165, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.96);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.achievement-toast[hidden] {
+  display: none;
+}
+
+.achievement-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.achievement-toast > span:last-child {
+  display: grid;
+  line-height: 1.35;
+}
+
+.achievement-toast-sparkle {
+  color: var(--d-orange);
+  font-size: 26px;
+  animation: achievement-sparkle 800ms ease-in-out infinite alternate;
+}
+
+@keyframes achievement-unlocked {
+  0% {
+    color: var(--d-orange);
+    transform: scale(1);
+  }
+  45% {
+    color: var(--ink);
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes achievement-sparkle {
+  from {
+    transform: rotate(-15deg) scale(0.85);
+  }
+  to {
+    transform: rotate(15deg) scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .achievement-popup li.just-unlocked,
+  .achievement-toast-sparkle {
+    animation: none;
+  }
+
+  .achievement-toast {
+    transition: none;
+    transform: none;
   }
 }
 
@@ -648,6 +800,16 @@ p {
 
   #panels.has-multiple .places:not([hidden]) {
     display: contents;
+  }
+
+  #panels.has-multiple .places li.no-top-border {
+    padding-top: 4px;
+    border-top: 0;
+  }
+
+  #panels.has-multiple .places li.category-start {
+    padding-top: 18px;
+    border-top: 1.5px solid var(--line);
   }
 
   #panels:not(.has-multiple) .places li:nth-child(2) {

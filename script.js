@@ -1066,9 +1066,10 @@
         map.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
       }
       function syncSelection() {
+        var hasMultiple = Object.keys(selectedCategories).length > 1;
         panels.classList.toggle(
           "has-multiple",
-          Object.keys(selectedCategories).length > 1,
+          hasMultiple,
         );
         tabs.querySelectorAll("button").forEach(function (b, j) {
           b.setAttribute(
@@ -1079,6 +1080,17 @@
         panels.querySelectorAll("ul").forEach(function (u, j) {
           u.hidden = !selectedCategories[j];
         });
+        panels
+          .querySelectorAll(".places:not([hidden]) li")
+          .forEach(function (li, i) {
+            li.classList.toggle("no-top-border", hasMultiple && i < 2);
+            li.classList.toggle(
+              "category-start",
+              hasMultiple &&
+                i >= 2 &&
+                li === li.parentElement.firstElementChild,
+            );
+          });
         showLayer();
       }
       tabs.addEventListener("click", function (e) {
