@@ -916,7 +916,7 @@
     (function (G) {
       var map = null,
         layers = {},
-        markers = {};
+        selectedCategories = {};
       if (window.L) {
         map = L.map("guideMap", { scrollWheelZoom: false, tap: true }).setView(
           [VENUE.lat, VENUE.lng],
@@ -962,11 +962,9 @@
       Object.keys(G).forEach(function (cat, i) {
         var b = document.createElement("button");
         b.type = "button";
-        b.setAttribute("role", "tab");
         b.id = "tab" + i;
         b.setAttribute("aria-controls", "pan" + i);
-        b.setAttribute("aria-selected", i === 0 ? "true" : "false");
-        b.tabIndex = i === 0 ? 0 : -1;
+        b.setAttribute("aria-pressed", "false");
         var sw = document.createElement("span");
         sw.className = "sw";
         sw.style.background = COLORS[cat] || "#999";
@@ -975,12 +973,11 @@
         var ul = document.createElement("ul");
         ul.className = "places";
         ul.id = "pan" + i;
-        ul.setAttribute("role", "tabpanel");
-        ul.setAttribute("aria-labelledby", "tab" + i);
-        if (i) ul.hidden = true;
+        ul.hidden = true;
         if (map) layers[i] = L.layerGroup();
         G[cat].forEach(function (p, j) {
           var li = document.createElement("li");
+          li.style.setProperty("--place-color", COLORS[cat] || "#999");
           var h = document.createElement("h3");
           if (map && p.lat) {
             var mk = L.marker([p.lat, p.lng], {
@@ -1004,13 +1001,13 @@
                 '" target="_blank" rel="noopener">เปิดใน Google Maps</a>',
             );
             layers[i].addLayer(mk);
-            markers[i + "-" + j] = mk;
             var nb = document.createElement("button");
             nb.type = "button";
             nb.textContent = p.n;
             nb.setAttribute("aria-label", "ดู " + p.n + " บนแผนที่");
             nb.addEventListener("click", function () {
-              showLayer(i);
+              selectedCategories[i] = true;
+              syncSelection();
               document
                 .getElementById("guideMap")
                 .scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1050,45 +1047,52 @@
           }).observe(document.getElementById("guideMap"));
         }
       }
-      function showLayer(i) {
+      function showLayer() {
         if (!map) return;
         Object.keys(layers).forEach(function (k) {
           map.removeLayer(layers[k]);
         });
-        layers[i].addTo(map);
         var pts = [[VENUE.lat, VENUE.lng]];
-        layers[i].eachLayer(function (l) {
-          pts.push(l.getLatLng());
+        Object.keys(selectedCategories).forEach(function (i) {
+          layers[i].addTo(map);
+          layers[i].eachLayer(function (l) {
+            pts.push(l.getLatLng());
+          });
         });
+        if (!Object.keys(selectedCategories).length) {
+          map.setView([VENUE.lat, VENUE.lng], 13);
+          return;
+        }
         map.fitBounds(pts, { padding: [30, 30], maxZoom: 15 });
       }
-      function sel(i) {
+      function syncSelection() {
+        panels.classList.toggle(
+          "has-multiple",
+          Object.keys(selectedCategories).length > 1,
+        );
         tabs.querySelectorAll("button").forEach(function (b, j) {
-          b.setAttribute("aria-selected", j === i ? "true" : "false");
-          b.tabIndex = j === i ? 0 : -1;
+          b.setAttribute(
+            "aria-pressed",
+            selectedCategories[j] ? "true" : "false",
+          );
         });
         panels.querySelectorAll("ul").forEach(function (u, j) {
-          u.hidden = j !== i;
+          u.hidden = !selectedCategories[j];
         });
-        showLayer(i);
+        showLayer();
       }
       tabs.addEventListener("click", function (e) {
         var b = e.target.closest("button");
         if (!b) return;
-        sel([].indexOf.call(tabs.children, b));
-      });
-      tabs.addEventListener("keydown", function (e) {
-        var bs = [].slice.call(tabs.children),
-          i = bs.indexOf(document.activeElement);
-        if (i < 0) return;
-        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-          e.preventDefault();
-          var n =
-            (i + (e.key === "ArrowRight" ? 1 : -1) + bs.length) % bs.length;
-          sel(n);
-          bs[n].focus();
+        var i = [].indexOf.call(tabs.children, b);
+        if (selectedCategories[i]) {
+          delete selectedCategories[i];
+        } else {
+          selectedCategories[i] = true;
         }
+        syncSelection();
       });
+      syncSelection();
     })(G);
   } catch (error) {
     console.error("Unable to initialize the Surin guide:", error);
