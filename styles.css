@@ -650,7 +650,6 @@ p {
     display: contents;
   }
 
-  #panels.has-multiple .places:not([hidden]) li:first-child,
   #panels:not(.has-multiple) .places li:nth-child(2) {
     border-top: 0;
     padding-top: 4px;
