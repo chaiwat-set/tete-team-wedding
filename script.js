@@ -260,6 +260,30 @@
     openGate();
   });
 
+  // ---------- Dress color selector ----------
+  var dressColors = document.querySelector("#dress .dots"),
+    dressArt = document.querySelector("#dress .dress-art");
+  dressColors.addEventListener("click", function (event) {
+    var button = event.target.closest("button[data-image]");
+    if (!button) return;
+    dressColors.querySelectorAll("button[data-image]").forEach(function (item) {
+      item.setAttribute("aria-pressed", item === button ? "true" : "false");
+    });
+    dressArt.src = button.dataset.image;
+    dressArt.alt =
+      "ภาพวาดเตเต้และทีมเต้นรำในชุดลายสก็อตสี" + button.dataset.color;
+  });
+  document.getElementById("dress").addEventListener("click", function (event) {
+    if (event.target.closest(".dot")) return;
+    dressColors
+      .querySelectorAll("button[data-image]")
+      .forEach(function (button) {
+        button.setAttribute("aria-pressed", "false");
+      });
+    dressArt.src = "images/dance.webp";
+    dressArt.alt = "ภาพวาดเตเต้และทีมเต้นรำในชุดลายสก็อต";
+  });
+
   // ---------- Countdown: ก่อนงาน / วันงาน / หลังงาน ----------
   var START = new Date("2027-01-15T06:00:00+07:00").getTime();
   var DAY_START = new Date("2027-01-15T00:00:00+07:00").getTime();

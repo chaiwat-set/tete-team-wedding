@@ -17,6 +17,9 @@ images/
   gallery/                 รูปและวิดีโอในแกลเลอรี
   scene-bg.jpg, -m.jpg     วิวท้ายเว็บ (จอคอม / มือถือ)
   flowers-cream.webp       ช่อดอกไม้สีครีมในส่วน Thank you
+  dance.webp               ภาพเต้นรำชุดลายสก็อตเริ่มต้นในส่วนการแต่งกาย
+  dance-blue/green/yellow/orange/pink.webp
+                            ภาพเต้นรำชุดลายสก็อตสีตามตัวอย่างในส่วนการแต่งกาย
   *.webp                   ตัวเขียนและภาพวาดจากการ์ด
 ```
 
