@@ -304,6 +304,8 @@ p {
   background: var(--paper);
   box-shadow: 0 4px 16px rgba(31, 86, 165, 0.24);
   cursor: pointer;
+  touch-action: none;
+  user-select: none;
 }
 
 .achievement-toggle img {
@@ -322,7 +324,7 @@ p {
 .achievement-popup {
   position: fixed;
   z-index: 51;
-  width: 240px;
+  width: 330px;
   max-width: calc(100vw - 28px);
   max-height: min(var(--achievement-popup-max-height), calc(100vh - 24px));
   overflow-y: auto;
@@ -338,6 +340,9 @@ p {
 }
 
 .achievement-popup-header {
+  position: sticky;
+  top: -12px;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -345,6 +350,7 @@ p {
   margin-bottom: 8px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--line);
+  background: var(--paper);
 }
 
 .achievement-popup-title {
@@ -377,9 +383,17 @@ p {
 .achievement-popup li {
   display: grid;
   gap: 2px;
+  height: 73px;
+  overflow: hidden;
+  align-content: start;
   padding: 6px 0;
+  border-bottom: 1px solid var(--line);
   color: var(--ink);
   font-size: 15px;
+}
+
+.achievement-popup li:last-child {
+  border-bottom: 0;
 }
 
 .achievement-popup li.is-unlocked {

@@ -293,7 +293,7 @@
   function renderLanguageToggle() {
     var button = document.getElementById("achievementLanguageToggle");
     if (button) {
-      button.textContent = state.language === "en" ? "Language: EN" : "ภาษา: ไทย";
+      button.textContent = state.language === "en" ? "EN" : "ไทย";
       button.setAttribute("aria-pressed", state.language === "en" ? "true" : "false");
       button.setAttribute(
         "aria-label",
@@ -727,6 +727,8 @@
     var toggle = document.getElementById("achievementToggle");
     var popup = document.getElementById("achievementPopup");
     if (!toggle || !popup) return;
+    var dragStart = null;
+    var wasDragged = false;
 
     function closePopup(returnFocus) {
       popup.hidden = true;
@@ -756,6 +758,62 @@
       popup.style.left = left + "px";
       popup.style.top = top + "px";
     }
+
+    toggle.addEventListener("pointerdown", function (event) {
+      if (!event.isPrimary || event.button !== 0) return;
+      var rect = toggle.getBoundingClientRect();
+      dragStart = {
+        pointerId: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        left: rect.left,
+        top: rect.top,
+      };
+    });
+
+    window.addEventListener("pointermove", function (event) {
+      if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+      var deltaX = event.clientX - dragStart.x;
+      var deltaY = event.clientY - dragStart.y;
+      if (!wasDragged && Math.hypot(deltaX, deltaY) < 5) return;
+
+      wasDragged = true;
+      var rect = toggle.getBoundingClientRect();
+      var margin = 8;
+      var left = Math.max(margin, Math.min(
+        dragStart.left + deltaX,
+        window.innerWidth - rect.width - margin,
+      ));
+      var top = Math.max(margin, Math.min(
+        dragStart.top + deltaY,
+        window.innerHeight - rect.height - margin,
+      ));
+      var menu = toggle.parentElement;
+      menu.style.left = left + "px";
+      menu.style.top = top + "px";
+      menu.style.right = "auto";
+      menu.style.bottom = "auto";
+      if (!popup.hidden) placePopup();
+    });
+
+    function endDrag(event) {
+      if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+      dragStart = null;
+      if (wasDragged) {
+        window.setTimeout(function () {
+          wasDragged = false;
+        }, 0);
+      }
+    }
+
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+    toggle.addEventListener("click", function (event) {
+      if (!wasDragged) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      wasDragged = false;
+    });
 
     toggle.addEventListener("click", function () {
       var expanded = toggle.getAttribute("aria-expanded") === "true";
