@@ -78,7 +78,7 @@
         class="achievement-toggle"
         id="achievementToggle"
         type="button"
-        aria-label="Show achievements"
+        aria-label="แสดงความสำเร็จ"
         aria-expanded="false"
         aria-controls="achievementPopup"
         aria-haspopup="dialog"
@@ -89,29 +89,42 @@
         class="achievement-popup"
         id="achievementPopup"
         role="region"
-        aria-label="Achievements"
+        aria-label="ความสำเร็จ"
         hidden
       >
+        <div class="achievement-popup-header">
+          <span class="achievement-popup-title" id="achievementPopupTitle">ความสำเร็จ</span>
+          <button
+            class="achievement-language-toggle"
+            id="achievementLanguageToggle"
+            type="button"
+            aria-label="เปลี่ยนภาษาของความสำเร็จ"
+            aria-pressed="false"
+          >
+            ภาษา: ไทย
+          </button>
+        </div>
         <ul aria-live="polite">
-          <li id="achievementFirstContact">???</li>
-          <li id="achievementFashionist">???</li>
+          <li id="achievementFirstContact" data-achievement-id="first-contact"></li>
+          <li id="achievementFashionist" data-achievement-id="color-me-impressed"></li>
         </ul>
       </div>
     </div>
-    <div
+    <button
       class="achievement-toast"
       id="achievementToast"
-      role="status"
+      type="button"
       aria-live="polite"
       aria-atomic="true"
       hidden
     >
       <span class="achievement-toast-sparkle" aria-hidden="true">✦</span>
-      <span>
-        <strong>Achievement unlocked!</strong>
-        <span id="achievementToastName"></span>
+      <span class="achievement-toast-content">
+        <span id="achievementToastHeading">ปลดล็อกความสำเร็จ!</span>
+        <strong class="achievement-toast-name" id="achievementToastName"></strong>
+        <span id="achievementToastDescription"></span>
       </span>
-    </div>
+    </button>
 
     <main class="wrap">
       <!-- 1 Hero -->

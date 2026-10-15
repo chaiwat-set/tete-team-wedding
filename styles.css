@@ -322,8 +322,10 @@ p {
 .achievement-popup {
   position: fixed;
   z-index: 51;
-  width: min(240px, calc(100vw - 28px));
-  padding: 12px 16px;
+  width: min(280px, calc(100vw - 28px));
+  max-height: calc(100vh - 24px);
+  overflow-y: auto;
+  padding: 12px 16px 14px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--paper);
@@ -332,6 +334,35 @@ p {
 
 .achievement-popup[hidden] {
   display: none;
+}
+
+.achievement-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.achievement-popup-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.achievement-language-toggle {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font: 600 12px/1.2 var(--thai);
+  cursor: pointer;
 }
 
 .achievement-popup ul {
@@ -343,13 +374,26 @@ p {
 }
 
 .achievement-popup li {
-  padding: 4px 0;
+  display: grid;
+  gap: 2px;
+  padding: 6px 0;
   color: var(--ink);
   font-size: 15px;
 }
 
 .achievement-popup li.is-unlocked {
   font-weight: 600;
+}
+
+.achievement-popup li .achievement-description {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.achievement-popup li .achievement-description[hidden] {
+  display: none;
 }
 
 .achievement-popup li.just-unlocked {
@@ -381,6 +425,10 @@ p {
   transition:
     opacity 220ms ease,
     transform 220ms ease;
+  appearance: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .achievement-toast[hidden] {
@@ -389,12 +437,30 @@ p {
 
 .achievement-toast.is-visible {
   opacity: 1;
+  pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
-.achievement-toast > span:last-child {
+.achievement-toast-content {
   display: grid;
   line-height: 1.35;
+}
+
+#achievementToastHeading {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.achievement-toast-name {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.achievement-toast-content > span:last-child {
+  font-size: 12px;
+  line-height: 1.3;
 }
 
 .achievement-toast-sparkle {
