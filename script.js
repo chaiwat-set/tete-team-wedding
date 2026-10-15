@@ -1263,6 +1263,11 @@
           d.attend === "มาแน่นอน"
             ? "ได้รับคำตอบแล้ว แล้วเจอกันนะ!"
             : "ได้รับคำตอบแล้ว ขอบคุณที่บอกเรานะ";
+        document.dispatchEvent(
+          new CustomEvent("wedding-rsvp-success", {
+            detail: { wish: d.wish },
+          }),
+        );
       })
       .catch(function (error) {
         console.error("RSVP submission failed:", error);

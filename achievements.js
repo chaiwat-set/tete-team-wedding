@@ -9,6 +9,12 @@
     "the-grand-tour",
     "bilingual",
     "completionist",
+    "google-maps-expert",
+    "speedrunner",
+    "one-more-time",
+    "the-blessing",
+    "the-secret-garden",
+    "touch-grass-later"
   ];
   var ACHIEVEMENTS = [
     {
@@ -111,11 +117,11 @@
       id: "google-maps-expert",
       category: "hidden",
       title: {
-        th: "ผู้เชี่ยวชาญ Google Maps",
+        th: "ปักหมุดไว้แล้ว",
         en: "Google Maps Expert",
       },
       description: {
-        th: "คุณตรวจดูสถานที่จัดงานบน Google Maps แล้ว ทีนี้ก็ไม่มีข้ออ้างให้หลงทางแล้วนะ",
+        th: "ปักหมุดไว้แล้ว ไม่หลงทางแน่นอน",
         en: "You’ve checked out our venue on Google Maps. No excuses for getting lost now.",
       },
     },
@@ -123,11 +129,11 @@
       id: "speedrunner",
       category: "hidden",
       title: {
-        th: "สายสปีดรัน",
+        th: "ไอ่หนูลมกรด",
         en: "Speedrunner",
       },
       description: {
-        th: "ได้อ่านอะไรบ้างหรือเปล่าเนี่ย?",
+        th: "เร็วขนาดนี้ ตั้งใจอ่านจริง ๆ ใช่ไหม?",
         en: "Did you even read anything?",
       },
     },
@@ -135,47 +141,35 @@
       id: "the-secret-garden",
       category: "hidden",
       title: {
-        th: "สวนลับ",
+        th: "สวนแห่งความลับ",
         en: "The Secret Garden",
       },
       description: {
-        th: "ความอยากรู้นิดเดียวทำให้ทุกอย่างเบ่งบาน",
+        th: "ความอยากเพียงรู้นิดเดียว ทำให้ดอกไม้เบ่งบาน",
         en: "A little curiosity made everything bloom.",
-      },
-    },
-    {
-      id: "night-owl",
-      category: "hidden",
-      title: {
-        th: "คนนอนดึก",
-        en: "Night Owl",
-      },
-      description: {
-        th: "คนนอนดึก",
-        en: "Night Owl",
       },
     },
     {
       id: "touch-grass-later",
       category: "hidden",
       title: {
-        th: "ไว้ค่อยออกไปแตะหญ้าทีหลัง",
+        th: "ไปใช้ชีวิตบ้าง",
         en: "Touch Grass Later",
       },
       description: {
-        th: "ไว้ค่อยออกไปแตะหญ้าทีหลัง",
-        en: "Touch Grass Later",
+        th: "ไม่มีอะไรให้ค้นหาแล้ว เจอกันที่งานแต่งนะ!",
+        en: "You found every secret. Please go enjoy the wedding now.",
       },
     },
     {
       id: "one-more-time",
       category: "hidden",
       title: {
-        th: "อีกสักครั้ง",
+        th: "ลองอีกที",
         en: "One More Time",
       },
       description: {
-        th: "ในที่สุดมันก็น่าจะทำอะไรสักอย่างได้ใช่ไหม?",
+        th: "ถ้ายังไม่เกิดอะไรขึ้น ก็ลองอีกทีแล้วกัน",
         en: "It has to do something eventually, right?",
       },
     },
@@ -187,8 +181,8 @@
         en: "The Blessing",
       },
       description: {
-        th: "คำอวยพร",
-        en: "The Blessing",
+        th: "ขอบคุณที่ร่วมเติมเต็มเรื่องราวของเรา",
+        en: "A little wish, a lifetime of love.",
       },
     },
   ];
@@ -197,6 +191,11 @@
   var activeToasts = [];
   var TOAST_DURATION = 5000;
   var TOAST_FADE_DURATION = 250;
+  var speedrunIntentAt = null;
+  var speedrunIntentTimeout = null;
+  var speedrunStartedAt = null;
+  var speedrunLastIntentAt = null;
+  var speedrunTouchY = null;
 
   function createDefaultState() {
     return {
@@ -466,17 +465,23 @@
     toastDescription.textContent = getAchievementText(definition, "description");
   }
 
-  function unlockAchievement(id) {
+  function unlockAchievement(id, deferToast) {
     var definition = getAchievementById(id);
     if (!definition || isUnlocked(id)) return false;
 
     state.unlocked = uniqueList(state.unlocked.concat(id));
+    if (deferToast) {
+      state.pendingToast = uniqueList(state.pendingToast.concat(id));
+    }
     storeState();
     renderAchievementRows();
     if (id !== "completionist") {
       maybeUnlockCompletionist();
     }
-    queueToast(definition);
+    if (definition.category === "hidden" && id !== "touch-grass-later") {
+      maybeUnlockTouchGrassLater();
+    }
+    if (!deferToast) queueToast(definition);
     return true;
   }
 
@@ -586,9 +591,74 @@
     }
   }
 
-  function updateScrollAchievements() {
+  function getScrollTop() {
+    return Math.max(
+      window.scrollY || 0,
+      document.documentElement.scrollTop || 0,
+      document.body.scrollTop || 0,
+    );
+  }
+
+  function isAtPageBottom() {
+    return window.innerHeight + getScrollTop() >=
+      document.documentElement.scrollHeight - 2;
+  }
+
+  function isGateOpen() {
     var gate = document.getElementById("gate");
-    if (gate && !gate.classList.contains("gone")) return;
+    return gate && !gate.classList.contains("gone");
+  }
+
+  function recordDownwardScrollIntent() {
+    if (isGateOpen()) return;
+    var now = Date.now();
+    if (speedrunStartedAt !== null) {
+      speedrunLastIntentAt = now;
+      return;
+    }
+    if (getScrollTop() !== 0) return;
+
+    speedrunIntentAt = now;
+    window.clearTimeout(speedrunIntentTimeout);
+    speedrunIntentTimeout = window.setTimeout(function () {
+      speedrunIntentAt = null;
+    }, 2000);
+  }
+
+  function updateSpeedrunner(isScroll) {
+    if (!isScroll) return;
+
+    var scrollTop = getScrollTop();
+    var now = Date.now();
+    if (scrollTop === 0) {
+      speedrunStartedAt = null;
+      speedrunLastIntentAt = null;
+      return;
+    }
+
+    if (speedrunStartedAt === null && speedrunIntentAt !== null) {
+      speedrunStartedAt = speedrunIntentAt;
+      speedrunLastIntentAt = speedrunIntentAt;
+      speedrunIntentAt = null;
+      window.clearTimeout(speedrunIntentTimeout);
+    }
+
+    if (speedrunStartedAt === null) return;
+    if (now - speedrunStartedAt >= 25000) {
+      speedrunStartedAt = null;
+      speedrunLastIntentAt = null;
+      return;
+    }
+    if (isAtPageBottom() && speedrunLastIntentAt !== null &&
+        now - speedrunLastIntentAt <= 2500) {
+      unlockAchievement("speedrunner");
+      speedrunStartedAt = null;
+      speedrunLastIntentAt = null;
+    }
+  }
+
+  function updateScrollAchievements(isScroll) {
+    if (isGateOpen()) return;
 
     var countdown = document.querySelector(".countdown");
     if (countdown) {
@@ -599,12 +669,10 @@
       }
     }
 
-    var atPageBottom =
-      window.innerHeight + window.scrollY >=
-      document.documentElement.scrollHeight - 2;
-    if (atPageBottom) {
+    if (isAtPageBottom()) {
       unlockAchievement("the-grand-tour");
     }
+    updateSpeedrunner(isScroll);
   }
 
   function maybeUnlockCompletionist() {
@@ -616,6 +684,18 @@
 
     if (normalIds.length > 0 && normalIds.every(function (id) { return isUnlocked(id); })) {
       unlockAchievement("completionist");
+    }
+  }
+
+  function maybeUnlockTouchGrassLater() {
+    var hiddenIds = ACHIEVEMENTS.filter(function (definition) {
+      return definition.category === "hidden" && definition.id !== "touch-grass-later";
+    }).map(function (definition) {
+      return definition.id;
+    });
+
+    if (hiddenIds.length > 0 && hiddenIds.every(function (id) { return isUnlocked(id); })) {
+      unlockAchievement("touch-grass-later");
     }
   }
 
@@ -712,6 +792,59 @@
     });
   }
 
+  function bindMapsAchievement() {
+    var mapsLink = document.querySelector("#venue a[href*='google.com/maps']");
+    if (!mapsLink) return;
+
+    mapsLink.addEventListener("click", function () {
+      unlockAchievement("google-maps-expert", true);
+    });
+  }
+
+  function handleRsvpSuccess(event) {
+    var wish = event.detail && event.detail.wish;
+    if (typeof wish === "string" && wish.trim()) {
+      unlockAchievement("the-blessing");
+    }
+  }
+
+  function bindSpeedrunnerProgress() {
+    window.addEventListener("wheel", function (event) {
+      if (event.deltaY > 0) recordDownwardScrollIntent();
+    }, { passive: true });
+
+    document.addEventListener("touchstart", function (event) {
+      speedrunTouchY = event.touches.length ? event.touches[0].clientY : null;
+    }, { passive: true });
+    document.addEventListener("touchmove", function (event) {
+      if (!event.touches.length) return;
+      var nextY = event.touches[0].clientY;
+      if (speedrunTouchY !== null && nextY < speedrunTouchY) {
+        recordDownwardScrollIntent();
+      }
+      speedrunTouchY = nextY;
+    }, { passive: true });
+    document.addEventListener("touchend", function () {
+      speedrunTouchY = null;
+    }, { passive: true });
+
+    document.addEventListener("keydown", function (event) {
+      var target = event.target;
+      if (target && target.closest &&
+          target.closest("input, textarea, select, button, a, [contenteditable='true']")) {
+        return;
+      }
+      if (
+        event.key === "ArrowDown" ||
+        event.key === "PageDown" ||
+        event.key === "End" ||
+        (event.key === " " && !event.shiftKey)
+      ) {
+        recordDownwardScrollIntent();
+      }
+    }, true);
+  }
+
   function bindColorButtons() {
     var colorButtons = document.querySelectorAll("#dress .dot[data-color]");
     colorButtons.forEach(function (button) {
@@ -797,9 +930,13 @@
   }
 
   function bindScrollProgress() {
-    updateScrollAchievements();
-    window.addEventListener("scroll", updateScrollAchievements, { passive: true });
-    window.addEventListener("resize", updateScrollAchievements);
+    updateScrollAchievements(false);
+    window.addEventListener("scroll", function () {
+      updateScrollAchievements(true);
+    }, { passive: true });
+    window.addEventListener("resize", function () {
+      updateScrollAchievements(false);
+    });
   }
 
   function init() {
@@ -808,13 +945,18 @@
     bindAchievementToggle();
     bindColorButtons();
     bindFirstContact();
+    bindMapsAchievement();
+    bindSpeedrunnerProgress();
+    document.addEventListener("wedding-rsvp-success", handleRsvpSuccess);
     observeWhenAvailable("#tabs", bindTravelCategoryProgress);
     observeWhenAvailable("#galTrack", bindGalleryProgress);
     bindScrollProgress();
     renderLanguageToggle();
     renderAchievementRows();
     maybeUnlockCompletionist();
+    maybeUnlockTouchGrassLater();
     document.addEventListener("visibilitychange", handlePageVisible);
+    window.addEventListener("focus", handlePageVisible);
     handlePageVisible();
   }
 
