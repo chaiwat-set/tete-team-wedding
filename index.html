@@ -72,32 +72,32 @@
         <li><a href="#story">เรื่องของเรา</a></li>
         <li><a href="#rsvp">ตอบรับ</a></li>
       </ul>
-      <div class="achievement-menu">
-        <button
-          class="achievement-toggle"
-          id="achievementToggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="achievementPopup"
-          aria-haspopup="dialog"
-        >
-          <span aria-hidden="true">✦</span>
-          <span>Achievements</span>
-        </button>
-        <div
-          class="achievement-popup"
-          id="achievementPopup"
-          role="region"
-          aria-label="Achievements"
-          hidden
-        >
-          <ul aria-live="polite">
-            <li id="achievementFirstContact">???</li>
-            <li id="achievementFashionist">???</li>
-          </ul>
-        </div>
-      </div>
     </nav>
+    <div class="achievement-menu">
+      <button
+        class="achievement-toggle"
+        id="achievementToggle"
+        type="button"
+        aria-label="Show achievements"
+        aria-expanded="false"
+        aria-controls="achievementPopup"
+        aria-haspopup="dialog"
+      >
+        <img src="images/achievement.png" alt="" draggable="false" />
+      </button>
+      <div
+        class="achievement-popup"
+        id="achievementPopup"
+        role="region"
+        aria-label="Achievements"
+        hidden
+      >
+        <ul aria-live="polite">
+          <li id="achievementFirstContact">???</li>
+          <li id="achievementFashionist">???</li>
+        </ul>
+      </div>
+    </div>
     <div
       class="achievement-toast"
       id="achievementToast"

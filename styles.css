@@ -286,36 +286,42 @@ p {
 }
 
 .achievement-menu {
-  position: relative;
-  flex: 0 0 auto;
-  padding-right: 14px;
+  position: fixed;
+  right: 16px;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  z-index: 50;
+  touch-action: none;
 }
 
 .achievement-toggle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 39px;
-  padding: 7px 12px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
   border: 0;
-  border-radius: 999px;
+  border-radius: 50%;
   background: var(--paper);
-  color: var(--ink);
-  font: 500 14px/1.4 var(--thai);
-  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(31, 86, 165, 0.24);
   cursor: pointer;
 }
 
+.achievement-toggle img {
+  display: block;
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
 .achievement-toggle[aria-expanded="true"] {
-  background: var(--ink);
-  color: var(--paper);
+  box-shadow: 0 0 0 3px var(--ink), 0 4px 16px rgba(31, 86, 165, 0.24);
 }
 
 .achievement-popup {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 14px;
-  z-index: 1;
+  position: fixed;
+  z-index: 51;
   width: min(240px, calc(100vw - 28px));
   padding: 12px 16px;
   border: 1px solid var(--line);

@@ -15,6 +15,13 @@
   var state = { firstContact: false, visitedDressColors: [] };
   var toastTimer;
   var toastHideTimer;
+  var dragPointerId = null;
+  var dragStartX = 0;
+  var dragStartY = 0;
+  var dragStartLeft = 0;
+  var dragStartTop = 0;
+  var hasDragged = false;
+  var suppressClick = false;
 
   try {
     var stored = localStorage.getItem(STORAGE_KEY);
@@ -86,6 +93,40 @@
     if (returnFocus) toggle.focus();
   }
 
+  function placePopup() {
+    var margin = 12;
+    var gap = 8;
+    var buttonRect = toggle.getBoundingClientRect();
+    var popupRect = popup.getBoundingClientRect();
+    var left = Math.min(
+      Math.max(margin, buttonRect.left),
+      window.innerWidth - popupRect.width - margin,
+    );
+    var top = buttonRect.bottom + gap;
+
+    if (top + popupRect.height > window.innerHeight - margin) {
+      top = buttonRect.top - popupRect.height - gap;
+    }
+    top = Math.max(
+      margin,
+      Math.min(top, window.innerHeight - popupRect.height - margin),
+    );
+    popup.style.left = left + "px";
+    popup.style.top = top + "px";
+  }
+
+  function clampMenuPosition(left, top) {
+    var maxLeft = Math.max(0, window.innerWidth - toggle.offsetWidth);
+    var maxTop = Math.max(0, window.innerHeight - toggle.offsetHeight);
+    var boundedLeft = Math.max(0, Math.min(left, maxLeft));
+    var boundedTop = Math.max(0, Math.min(top, maxTop));
+
+    toggle.parentElement.style.left = boundedLeft + "px";
+    toggle.parentElement.style.top = boundedTop + "px";
+    toggle.parentElement.style.right = "auto";
+    toggle.parentElement.style.bottom = "auto";
+  }
+
   openCard.addEventListener("click", function () {
     if (!state.firstContact) {
       state.firstContact = true;
@@ -107,10 +148,64 @@
     }
   });
 
-  toggle.addEventListener("click", function () {
+  toggle.addEventListener("pointerdown", function (event) {
+    if (!event.isPrimary || event.button > 0) return;
+    var menuRect = toggle.parentElement.getBoundingClientRect();
+    dragPointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    dragStartLeft = menuRect.left;
+    dragStartTop = menuRect.top;
+    hasDragged = false;
+    toggle.setPointerCapture(event.pointerId);
+  });
+
+  toggle.addEventListener("pointermove", function (event) {
+    if (event.pointerId !== dragPointerId) return;
+    var deltaX = event.clientX - dragStartX;
+    var deltaY = event.clientY - dragStartY;
+
+    if (!hasDragged && Math.hypot(deltaX, deltaY) > 5) {
+      hasDragged = true;
+      suppressClick = true;
+      closePopup(false);
+    }
+    if (hasDragged) {
+      clampMenuPosition(dragStartLeft + deltaX, dragStartTop + deltaY);
+    }
+  });
+
+  toggle.addEventListener("pointerup", function (event) {
+    if (event.pointerId !== dragPointerId) return;
+    dragPointerId = null;
+    if (toggle.hasPointerCapture(event.pointerId)) {
+      toggle.releasePointerCapture(event.pointerId);
+    }
+  });
+
+  toggle.addEventListener("pointercancel", function () {
+    dragPointerId = null;
+    suppressClick = false;
+  });
+
+  toggle.addEventListener("click", function (event) {
+    if (suppressClick) {
+      event.preventDefault();
+      suppressClick = false;
+      return;
+    }
     var expanded = toggle.getAttribute("aria-expanded") === "true";
     toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
     popup.hidden = expanded;
+    if (!expanded) placePopup();
+  });
+
+  window.addEventListener("resize", function () {
+    if (toggle.parentElement.style.left) {
+      var menuRect = toggle.parentElement.getBoundingClientRect();
+      clampMenuPosition(menuRect.left, menuRect.top);
+    }
+    if (!popup.hidden) placePopup();
   });
 
   document.addEventListener("click", function (event) {
