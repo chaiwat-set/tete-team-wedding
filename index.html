@@ -110,21 +110,22 @@
         </ul>
       </div>
     </div>
-    <button
-      class="achievement-toast"
-      id="achievementToast"
-      type="button"
-      aria-live="polite"
-      aria-atomic="true"
-      hidden
-    >
-      <span class="achievement-toast-sparkle" aria-hidden="true">✦</span>
-      <span class="achievement-toast-content">
-        <span id="achievementToastHeading">ปลดล็อกความสำเร็จ!</span>
-        <strong class="achievement-toast-name" id="achievementToastName"></strong>
-        <span id="achievementToastDescription"></span>
-      </span>
-    </button>
+    <div class="achievement-toasts" id="achievementToasts">
+      <button
+        class="achievement-toast"
+        id="achievementToast"
+        type="button"
+        aria-live="polite"
+        aria-atomic="true"
+        hidden
+      >
+        <span class="achievement-toast-sparkle" aria-hidden="true">✦</span>
+        <span class="achievement-toast-content">
+          <strong class="achievement-toast-name" id="achievementToastName"></strong>
+          <span class="achievement-toast-description" id="achievementToastDescription"></span>
+        </span>
+      </button>
+    </div>
 
     <main class="wrap">
       <!-- 1 Hero -->

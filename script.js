@@ -254,8 +254,13 @@
     gate.classList.add("gone");
   } else {
     document.body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "instant" });
+    window.addEventListener("pageshow", function () {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
   }
   document.getElementById("openCard").addEventListener("click", function () {
+    window.scrollTo({ top: 0, behavior: "instant" });
     document.body.style.overflow = "";
     openGate();
   });
@@ -381,6 +386,13 @@
     }
     var cur = N,
       offset = 0;
+    window.__weddingGallery = {
+      activeIndex: 0,
+      uniqueCount: N,
+      uniqueIndexes: GALLERY.map(function (_, i) {
+        return i;
+      }),
+    };
     // ทุกภาพสูงเท่ากัน: คำนวณความสูงจากภาพที่กว้างที่สุด เพื่อให้ภาพแนวนอนยังไม่ล้นจอ
     var maxR = Math.max.apply(
       null,
@@ -404,6 +416,23 @@
         f.style.width = Math.round((H * it.w) / it.h) + "px";
       });
     }
+    function reportGalleryChange(index) {
+      window.__weddingGallery = window.__weddingGallery || {};
+      var uniqueIndexes = GALLERY.map(function (_, i) {
+        return i;
+      });
+      window.__weddingGallery.activeIndex = index;
+      window.__weddingGallery.uniqueCount = N;
+      window.__weddingGallery.uniqueIndexes = uniqueIndexes;
+      document.dispatchEvent(
+        new CustomEvent("wedding-gallery-changed", {
+          detail: {
+            activeIndex: index,
+            uniqueIndexes: uniqueIndexes.slice(),
+          },
+        }),
+      );
+    }
     function place(anim) {
       var s = slides[cur];
       offset = stage.clientWidth / 2 - (s.offsetLeft + s.offsetWidth / 2);
@@ -412,6 +441,7 @@
       slides.forEach(function (f, k) {
         f.classList.toggle("on", k === cur);
       });
+      reportGalleryChange(cur % N);
       countEl.textContent = (cur % N) + 1 + " / " + N;
       playVisible();
     }
@@ -615,6 +645,7 @@
     }
     function show(i, dir) {
       lbI = (i + N) % N;
+      reportGalleryChange(lbI);
       zoomScale = 1;
       zoomX = zoomY = 0;
       lbStage.classList.remove("is-zoomed", "is-panning");

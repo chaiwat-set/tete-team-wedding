@@ -31,7 +31,7 @@
       id: "definitely-not-planning-trips",
       category: "normal",
       title: {
-        th: "ไม่ได้วางแผนเที่ยว จริงๆนะ",
+        th: "ไม่ได้วางแผนเที่ยว จริง ๆ นะ",
         en: "Definitely Not Planning Trips",
       },
       description: {
@@ -76,18 +76,6 @@
       },
     },
     {
-      id: "completionist",
-      category: "normal",
-      title: {
-        th: "เก็บครบจบทุกอัน",
-        en: "Completionist",
-      },
-      description: {
-        th: "ไม่มีอะไรหลุดรอดสายตาคุณไปได้เลย สงสัยเราต้องทำให้ยากกว่านี้แล้ว",
-        en: "Nothing gets past you. We should’ve made it harder.",
-      },
-    },
-    {
       id: "bilingual",
       category: "normal",
       title: {
@@ -97,6 +85,18 @@
       description: {
         th: "แค่อยากรู้ว่าเวอร์ชันภาษาอังกฤษดีกว่าหรือเปล่า",
         en: "Just checking if the English version is better.",
+      },
+    },
+    {
+      id: "completionist",
+      category: "normal",
+      title: {
+        th: "เก็บครบจบทุกอัน",
+        en: "Completionist",
+      },
+      description: {
+        th: "ไม่มีอะไรหลุดรอดสายตาคุณไปได้เลย สงสัยเราต้องทำให้ยากกว่านี้แล้ว",
+        en: "Nothing gets past you. We should’ve made it harder.",
       },
     },
     {
@@ -186,11 +186,9 @@
   ];
 
   var state = createDefaultState();
-  var toastQueue = [];
+  var activeToasts = [];
   var TOAST_DURATION = 5000;
   var TOAST_FADE_DURATION = 250;
-  var toastTimeoutId = null;
-  var toastVisible = false;
 
   function createDefaultState() {
     return {
@@ -198,7 +196,7 @@
       language: "th",
       unlocked: [],
       progress: {},
-      pendingToast: null,
+      pendingToast: [],
     };
   }
 
@@ -251,9 +249,14 @@
       ? uniqueList(rawState.unlocked.filter(function (id) { return !!getAchievementById(id); }))
       : [];
     normalized.progress = rawState.progress && typeof rawState.progress === "object" ? rawState.progress : {};
-    normalized.pendingToast = rawState.pendingToast && getAchievementById(rawState.pendingToast)
+    var pendingToasts = Array.isArray(rawState.pendingToast)
       ? rawState.pendingToast
-      : null;
+      : [rawState.pendingToast];
+    normalized.pendingToast = uniqueList(
+      pendingToasts.filter(function (id) {
+        return typeof id === "string" && !!getAchievementById(id);
+      }),
+    );
     return normalized;
   }
 
@@ -362,11 +365,6 @@
     if (toggle) {
       toggle.setAttribute("aria-label", isEnglish ? "Show achievements" : "แสดงความสำเร็จ");
     }
-
-    var toastHeading = document.getElementById("achievementToastHeading");
-    if (toastHeading) {
-      toastHeading.textContent = isEnglish ? "Achievement unlocked!" : "ปลดล็อกความสำเร็จ!";
-    }
   }
 
   function renderAchievementItem(item, definition) {
@@ -448,32 +446,36 @@
 
   function queueToast(definition) {
     if (!definition) return;
-    if (toastQueue.indexOf(definition.id) !== -1) return;
-    toastQueue.push(definition.id);
-    if (document.hidden) {
-      state.pendingToast = definition.id;
-      storeState();
-    }
-    showNextToast();
-  }
-
-  function showNextToast() {
-    if (toastVisible || toastQueue.length === 0) return;
-
-    var toast = document.getElementById("achievementToast");
-    var id = toastQueue.shift();
-    var definition = getAchievementById(id);
-
-    if (!toast || !definition) {
-      showNextToast();
+    if (
+      state.pendingToast.indexOf(definition.id) !== -1 ||
+      activeToasts.some(function (entry) { return entry.definition.id === definition.id; })
+    ) {
       return;
     }
 
+    if (document.hidden) {
+      state.pendingToast.push(definition.id);
+      storeState();
+      return;
+    }
+    showToast(definition);
+  }
+
+  function showToast(definition) {
+    var template = document.getElementById("achievementToast");
+    var container = document.getElementById("achievementToasts");
+    if (!template || !container || !definition) return;
+
+    var toast = template.cloneNode(true);
+    toast.removeAttribute("id");
+    Array.prototype.forEach.call(toast.querySelectorAll("[id]"), function (element) {
+      element.removeAttribute("id");
+    });
     toast.dataset.achievementId = definition.id;
-    renderLanguageToggle();
-    renderToastText(definition);
     toast.hidden = false;
     toast.classList.remove("is-visible");
+    container.insertBefore(toast, container.firstChild);
+    renderToastText(definition, toast);
 
     var item = document.getElementById("achievement-" + definition.id);
     if (!item) {
@@ -487,57 +489,43 @@
       item.classList.add("just-unlocked");
     }
 
-    void toast.offsetWidth;
-    toast.classList.add("is-visible");
-    toastVisible = true;
-
-    window.clearTimeout(toastTimeoutId);
-    toastTimeoutId = window.setTimeout(function () {
-      toastTimeoutId = null;
-      toast.classList.remove("is-visible");
-      if (item) item.classList.remove("just-unlocked");
-      window.setTimeout(function () {
-        toast.hidden = true;
-        toastVisible = false;
-        state.pendingToast = null;
-        storeState();
-        showNextToast();
-      }, TOAST_FADE_DURATION);
-    }, TOAST_DURATION - TOAST_FADE_DURATION);
-  }
-
-  function bindToastClick() {
-    var toast = document.getElementById("achievementToast");
-    if (!toast) return;
-
+    var entry = {
+      definition: definition,
+      element: toast,
+      timeoutId: null,
+    };
+    activeToasts.push(entry);
     toast.addEventListener("click", function (event) {
-      if (!toastVisible) return;
       event.stopPropagation();
-
       var toggle = document.getElementById("achievementToggle");
       if (toggle && toggle.getAttribute("aria-expanded") !== "true") {
         toggle.click();
       }
+      removeToast(entry);
+    });
 
-      window.clearTimeout(toastTimeoutId);
-      toastTimeoutId = null;
+    void toast.offsetWidth;
+    toast.classList.add("is-visible");
+    entry.timeoutId = window.setTimeout(function () {
       toast.classList.remove("is-visible");
-      toast.hidden = true;
-      var item = document.getElementById("achievement-" + toast.dataset.achievementId);
-      if (!item && toast.dataset.achievementId === "first-contact") {
-        item = document.getElementById("achievementFirstContact");
-      }
       if (item) item.classList.remove("just-unlocked");
-      toastVisible = false;
-      state.pendingToast = null;
-      storeState();
-      showNextToast();
+      window.setTimeout(function () {
+        removeToast(entry);
+      }, TOAST_FADE_DURATION);
+    }, TOAST_DURATION - TOAST_FADE_DURATION);
+  }
+
+  function removeToast(entry) {
+    window.clearTimeout(entry.timeoutId);
+    entry.element.remove();
+    activeToasts = activeToasts.filter(function (activeEntry) {
+      return activeEntry !== entry;
     });
   }
 
-  function renderToastText(definition) {
-    var toastName = document.getElementById("achievementToastName");
-    var toastDescription = document.getElementById("achievementToastDescription");
+  function renderToastText(definition, toast) {
+    var toastName = toast && toast.querySelector(".achievement-toast-name");
+    var toastDescription = toast && toast.querySelector(".achievement-toast-description");
     if (!toastName || !toastDescription) return;
 
     toastName.textContent = getAchievementText(definition, "title");
@@ -551,6 +539,9 @@
     state.unlocked = uniqueList(state.unlocked.concat(id));
     storeState();
     renderAchievementRows();
+    if (id !== "completionist") {
+      maybeUnlockCompletionist();
+    }
     queueToast(definition);
     return true;
   }
@@ -591,17 +582,118 @@
     }
   }
 
+  function getAchievementProgressList(id) {
+    if (!Array.isArray(state.progress[id])) {
+      state.progress[id] = [];
+    }
+    return state.progress[id];
+  }
+
+  function syncTravelCategoryProgress() {
+    var buttons = Array.prototype.slice.call(document.querySelectorAll("#tabs button"));
+    if (!buttons.length) return;
+
+    var progress = getAchievementProgressList("definitely-not-planning-trips");
+    buttons.forEach(function (button) {
+      var name = (button.textContent || "").trim();
+      if (!name) return;
+      if (button.getAttribute("aria-pressed") === "true" && progress.indexOf(name) === -1) {
+        progress.push(name);
+      }
+    });
+
+    state.progress["definitely-not-planning-trips"] = uniqueList(progress);
+    var allViewed = buttons.every(function (button) {
+      var name = (button.textContent || "").trim();
+      return !name || state.progress["definitely-not-planning-trips"].indexOf(name) !== -1;
+    });
+
+    if (allViewed) {
+      unlockAchievement("definitely-not-planning-trips");
+    }
+  }
+
+  function syncGalleryProgress() {
+    var galleryState = window.__weddingGallery || {};
+    var progress = getAchievementProgressList("certified-third-wheeler");
+    var previousProgress = progress.slice();
+    var activeIndex = Number(galleryState.activeIndex);
+    if (!isNaN(activeIndex) && progress.indexOf(activeIndex) === -1) {
+      progress.push(activeIndex);
+    }
+
+    var allSlides = Array.isArray(galleryState.uniqueIndexes) && galleryState.uniqueIndexes.length
+      ? galleryState.uniqueIndexes.slice()
+      : Array.prototype.slice
+          .call(document.querySelectorAll(".gal-slide"))
+          .map(function (slide) {
+            return Number(slide.dataset.i);
+          })
+          .filter(function (index) {
+            return !isNaN(index);
+          });
+
+    if (!allSlides.length) return;
+
+    state.progress["certified-third-wheeler"] = uniqueList(progress);
+    if (
+      state.progress["certified-third-wheeler"].length !== previousProgress.length ||
+      state.progress["certified-third-wheeler"].some(function (index, position) {
+        return index !== previousProgress[position];
+      })
+    ) {
+      storeState();
+    }
+    var allSeen = allSlides.every(function (index) {
+      return state.progress["certified-third-wheeler"].indexOf(index) !== -1;
+    });
+    if (allSeen) {
+      unlockAchievement("certified-third-wheeler");
+    }
+  }
+
+  function updateScrollAchievements() {
+    var gate = document.getElementById("gate");
+    if (gate && !gate.classList.contains("gone")) return;
+
+    var countdown = document.querySelector(".countdown");
+    if (countdown) {
+      var countdownRect = countdown.getBoundingClientRect();
+      var viewportMiddle = window.innerHeight / 2;
+      if (countdownRect.top <= viewportMiddle && countdownRect.bottom >= viewportMiddle) {
+        unlockAchievement("countdown-started");
+      }
+    }
+
+    var atPageBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 2;
+    if (atPageBottom) {
+      unlockAchievement("the-grand-tour");
+    }
+  }
+
+  function maybeUnlockCompletionist() {
+    var normalIds = ACHIEVEMENTS.filter(function (definition) {
+      return definition.category === "normal" && definition.id !== "completionist";
+    }).map(function (definition) {
+      return definition.id;
+    });
+
+    if (normalIds.length > 0 && normalIds.every(function (id) { return isUnlocked(id); })) {
+      unlockAchievement("completionist");
+    }
+  }
+
   function setLanguage(language) {
     if (language !== "en" && language !== "th") return;
     state.language = language;
     renderLanguageToggle();
     renderAchievementRows();
     storeState();
-    if (toastVisible) {
-      var toast = document.getElementById("achievementToast");
-      var definition = toast && getAchievementById(toast.dataset.achievementId);
-      if (definition) renderToastText(definition);
-    }
+    activeToasts.forEach(function (entry) {
+      renderToastText(entry.definition, entry.element);
+    });
 
     if (state.language === "en" && !isUnlocked("bilingual")) {
       unlockAchievement("bilingual");
@@ -742,16 +834,16 @@
   }
 
   function handlePageVisible() {
-    if (document.visibilityState !== "visible" || !state.pendingToast) return;
+    if (document.visibilityState !== "visible" || !state.pendingToast.length) return;
 
-    var pendingId = state.pendingToast;
-    state.pendingToast = null;
+    var pendingIds = state.pendingToast.slice();
+    state.pendingToast = [];
     storeState();
 
-    var definition = getAchievementById(pendingId);
-    if (definition) {
-      queueToast(definition);
-    }
+    pendingIds.forEach(function (id) {
+      var definition = getAchievementById(id);
+      if (definition) showToast(definition);
+    });
   }
 
   function bindColorButtons() {
@@ -770,26 +862,94 @@
     }
   }
 
+  function observeWhenAvailable(selector, onAvailable) {
+    var element = document.querySelector(selector);
+    if (element) {
+      onAvailable(element);
+      return;
+    }
+
+    if (!("MutationObserver" in window)) return;
+
+    var observer = new MutationObserver(function () {
+      var readyElement = document.querySelector(selector);
+      if (!readyElement) return;
+      observer.disconnect();
+      onAvailable(readyElement);
+    });
+
+    observer.observe(document.documentElement || document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  function bindTravelCategoryProgress() {
+    var tabs = document.getElementById("tabs");
+    if (!tabs) return;
+
+    tabs.addEventListener("click", function (event) {
+      var button = event.target.closest("button");
+      if (!button) return;
+      if (button.getAttribute("aria-pressed") === "true") {
+        syncTravelCategoryProgress();
+      }
+    });
+
+    if ("MutationObserver" in window) {
+      var tabsObserver = new MutationObserver(function () {
+        syncTravelCategoryProgress();
+      });
+      tabsObserver.observe(tabs, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["aria-pressed", "class"],
+      });
+    }
+
+    syncTravelCategoryProgress();
+  }
+
+  function bindGalleryProgress() {
+    var track = document.getElementById("galTrack");
+    if (!track) return;
+
+    document.addEventListener("wedding-gallery-changed", syncGalleryProgress);
+    syncGalleryProgress();
+
+    if ("MutationObserver" in window) {
+      var galleryObserver = new MutationObserver(function () {
+        syncGalleryProgress();
+      });
+      galleryObserver.observe(track, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ["class"],
+      });
+    }
+  }
+
+  function bindScrollProgress() {
+    updateScrollAchievements();
+    window.addEventListener("scroll", updateScrollAchievements, { passive: true });
+    window.addEventListener("resize", updateScrollAchievements);
+  }
+
   function init() {
     loadState();
     bindLanguageToggle();
     bindAchievementToggle();
     bindColorButtons();
     bindFirstContact();
-    bindToastClick();
+    observeWhenAvailable("#tabs", bindTravelCategoryProgress);
+    observeWhenAvailable("#galTrack", bindGalleryProgress);
+    bindScrollProgress();
     renderLanguageToggle();
     renderAchievementRows();
-
-    if (state.pendingToast) {
-      var definition = getAchievementById(state.pendingToast);
-      if (definition) {
-        state.pendingToast = null;
-        storeState();
-        queueToast(definition);
-      }
-    }
-
+    maybeUnlockCompletionist();
     document.addEventListener("visibilitychange", handlePageVisible);
+    handlePageVisible();
   }
 
   init();
