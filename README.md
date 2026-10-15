@@ -1,4 +1,4 @@
-# TEST การ์ดแต่งงานออนไลน์ เตเต้ & ทีม 💙
+# การ์ดแต่งงานออนไลน์ เตเต้ & ทีม 💙
 
 #TeteFormsHerTeam · 15 มกราคม 2570 · Beelive Convention Hall and Hotel (Hall3) สุรินทร์
 
