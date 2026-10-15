@@ -11,9 +11,9 @@
     "completionist",
     "google-maps-expert",
     "speedrunner",
-    "one-more-time",
     "the-blessing",
     "the-secret-garden",
+    "one-more-time",
     "touch-grass-later"
   ];
   var ACHIEVEMENTS = [
