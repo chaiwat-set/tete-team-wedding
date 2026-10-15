@@ -39,7 +39,10 @@
       }
     }
   } catch (error) {
-    console.warn("Could not load achievement progress from local storage.", error);
+    console.warn(
+      "Could not load achievement progress from local storage.",
+      error,
+    );
   }
 
   function isFashionist() {
@@ -82,7 +85,10 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch (error) {
-      console.warn("Could not save achievement progress to local storage.", error);
+      console.warn(
+        "Could not save achievement progress to local storage.",
+        error,
+      );
     }
     render();
   }
@@ -137,7 +143,10 @@
 
   dressColors.addEventListener("click", function (event) {
     var button = event.target.closest("button[data-color]");
-    if (!button || state.visitedDressColors.indexOf(button.dataset.color) !== -1) {
+    if (
+      !button ||
+      state.visitedDressColors.indexOf(button.dataset.color) !== -1
+    ) {
       return;
     }
     var hadFashionist = isFashionist();
