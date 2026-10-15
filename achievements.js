@@ -1,10 +1,18 @@
 (function () {
   var STORAGE_KEY = "teteTeamWedding.achievements";
-  var PREVIOUS_STORAGE_KEY = "teteWedding.achievements";
-  var LEGACY_STORAGE_KEY = "weddingAchievements";
+  var ACHIEVEMENT_MENU_ORDER = [
+    "achievementFirstContact",
+    "countdown-started",
+    "definitely-not-planning-trips",
+    "color-me-impressed",
+    "certified-third-wheeler",
+    "the-grand-tour",
+    "bilingual",
+    "completionist",
+  ];
   var ACHIEVEMENTS = [
     {
-      id: "first-contact",
+      id: "achievementFirstContact",
       category: "normal",
       title: {
         th: "จุดเริ่มต้น",
@@ -278,71 +286,9 @@
 
   function loadState() {
     state = normalizeState(readStorageJSON(STORAGE_KEY));
-    migratePreviousStorage();
-    migrateLegacyStorage();
-  }
-
-  function migratePreviousStorage() {
-    var previousState = readStorageJSON(PREVIOUS_STORAGE_KEY);
-    if (!previousState || typeof previousState !== "object") return;
-
     if (!readStorageJSON(STORAGE_KEY)) {
-      state = normalizeState(previousState);
+      storeState();
     }
-
-    if (storeState()) {
-      try {
-        localStorage.removeItem(PREVIOUS_STORAGE_KEY);
-      } catch (error) {
-        console.warn("Could not remove migrated achievement progress.", error);
-      }
-    }
-  }
-
-  function migrateLegacyStorage() {
-    var legacyState = readStorageJSON(LEGACY_STORAGE_KEY);
-    if (!legacyState || typeof legacyState !== "object") {
-      if (!readStorageJSON(STORAGE_KEY)) {
-        storeState();
-      }
-      return;
-    }
-
-    if (legacyState.firstContact === true) {
-      state.unlocked = uniqueList(state.unlocked.concat("first-contact"));
-    }
-
-    var legacyColors = Array.isArray(legacyState.visitedDressColors)
-      ? legacyState.visitedDressColors.filter(function (color) {
-          return typeof color === "string" && color.length > 0;
-        })
-      : [];
-
-    if (legacyColors.length) {
-      state.progress["color-me-impressed"] = uniqueList(legacyColors);
-    }
-
-    var validColors = Array.prototype.slice
-      .call(document.querySelectorAll("#dress .dot[data-color]"))
-      .map(function (button) {
-        return button.dataset.color;
-      })
-      .filter(Boolean);
-
-    if (
-      validColors.length > 0 &&
-      validColors.every(function (color) {
-        return state.progress["color-me-impressed"].indexOf(color) !== -1;
-      })
-    ) {
-      state.unlocked = uniqueList(state.unlocked.concat("color-me-impressed"));
-    }
-
-    if (legacyState.language === "en") {
-      state.language = "en";
-    }
-
-    storeState();
   }
 
   function renderLanguageToggle() {
@@ -389,19 +335,13 @@
     item.classList.toggle("is-unlocked", unlocked);
   }
 
+  function getAchievementMenuOrder(id) {
+    var index = ACHIEVEMENT_MENU_ORDER.indexOf(id);
+    return index === -1 ? ACHIEVEMENT_MENU_ORDER.length : index;
+  }
+
   function renderAchievementRows() {
     var list = document.querySelector("#achievementPopup ul");
-    var firstContactItem = document.getElementById("achievementFirstContact");
-    var fashionistItem = document.getElementById("achievementFashionist");
-
-    if (firstContactItem) {
-      renderAchievementItem(firstContactItem, getAchievementById("first-contact"));
-    }
-
-    if (fashionistItem) {
-      renderAchievementItem(fashionistItem, getAchievementById("color-me-impressed"));
-    }
-
     if (!list) return;
 
     var keyedRows = {};
@@ -409,11 +349,9 @@
       keyedRows[item.dataset.achievementId] = item;
     });
 
-    ACHIEVEMENTS.forEach(function (definition) {
-      if (definition.id === "first-contact" || definition.id === "color-me-impressed") {
-        return;
-      }
-
+    ACHIEVEMENTS.slice().sort(function (a, b) {
+      return getAchievementMenuOrder(a.id) - getAchievementMenuOrder(b.id);
+    }).forEach(function (definition) {
       var shouldDisplay = definition.category === "normal" || isUnlocked(definition.id);
       if (!shouldDisplay) {
         if (keyedRows[definition.id]) {
@@ -478,10 +416,6 @@
     renderToastText(definition, toast);
 
     var item = document.getElementById("achievement-" + definition.id);
-    if (!item) {
-      item = document.getElementById("achievementFirstContact");
-      if (definition.id === "color-me-impressed") item = document.getElementById("achievementFashionist");
-    }
 
     if (item) {
       item.classList.remove("just-unlocked");
@@ -712,16 +646,7 @@
   function bindAchievementToggle() {
     var toggle = document.getElementById("achievementToggle");
     var popup = document.getElementById("achievementPopup");
-    var menu = document.querySelector(".achievement-menu");
-    if (!toggle || !popup || !menu) return;
-
-    var dragPointerId = null;
-    var dragStartX = 0;
-    var dragStartY = 0;
-    var dragStartLeft = 0;
-    var dragStartTop = 0;
-    var hasDragged = false;
-    var suppressClick = false;
+    if (!toggle || !popup) return;
 
     function closePopup(returnFocus) {
       popup.hidden = true;
@@ -731,12 +656,13 @@
 
     function placePopup() {
       var margin = 12;
+      var rightMargin = 28;
       var gap = 8;
       var buttonRect = toggle.getBoundingClientRect();
       var popupRect = popup.getBoundingClientRect();
       var left = Math.min(
         Math.max(margin, buttonRect.left),
-        window.innerWidth - popupRect.width - margin,
+        window.innerWidth - popupRect.width - rightMargin,
       );
       var top = buttonRect.bottom + gap;
 
@@ -751,63 +677,7 @@
       popup.style.top = top + "px";
     }
 
-    function clampMenuPosition(left, top) {
-      var maxLeft = Math.max(0, window.innerWidth - toggle.offsetWidth);
-      var maxTop = Math.max(0, window.innerHeight - toggle.offsetHeight);
-
-      menu.style.left = Math.max(0, Math.min(left, maxLeft)) + "px";
-      menu.style.top = Math.max(0, Math.min(top, maxTop)) + "px";
-      menu.style.right = "auto";
-      menu.style.bottom = "auto";
-    }
-
-    toggle.addEventListener("pointerdown", function (event) {
-      if (!event.isPrimary || event.button > 0) return;
-      var menuRect = menu.getBoundingClientRect();
-      dragPointerId = event.pointerId;
-      dragStartX = event.clientX;
-      dragStartY = event.clientY;
-      dragStartLeft = menuRect.left;
-      dragStartTop = menuRect.top;
-      hasDragged = false;
-      toggle.setPointerCapture(event.pointerId);
-    });
-
-    toggle.addEventListener("pointermove", function (event) {
-      if (event.pointerId !== dragPointerId) return;
-      var deltaX = event.clientX - dragStartX;
-      var deltaY = event.clientY - dragStartY;
-
-      if (!hasDragged && Math.hypot(deltaX, deltaY) > 5) {
-        hasDragged = true;
-        suppressClick = true;
-        closePopup(false);
-      }
-      if (hasDragged) {
-        clampMenuPosition(dragStartLeft + deltaX, dragStartTop + deltaY);
-      }
-    });
-
-    toggle.addEventListener("pointerup", function (event) {
-      if (event.pointerId !== dragPointerId) return;
-      dragPointerId = null;
-      if (toggle.hasPointerCapture(event.pointerId)) {
-        toggle.releasePointerCapture(event.pointerId);
-      }
-    });
-
-    toggle.addEventListener("pointercancel", function () {
-      dragPointerId = null;
-      suppressClick = false;
-    });
-
-    toggle.addEventListener("click", function (event) {
-      if (suppressClick) {
-        event.preventDefault();
-        suppressClick = false;
-        return;
-      }
-
+    toggle.addEventListener("click", function () {
       var expanded = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", expanded ? "false" : "true");
       popup.hidden = expanded;
@@ -815,10 +685,6 @@
     });
 
     window.addEventListener("resize", function () {
-      if (menu.style.left) {
-        var menuRect = menu.getBoundingClientRect();
-        clampMenuPosition(menuRect.left, menuRect.top);
-      }
       if (!popup.hidden) placePopup();
     });
 
@@ -857,7 +723,7 @@
     var openCard = document.getElementById("openCard");
     if (openCard) {
       openCard.addEventListener("click", function () {
-        unlockAchievement("first-contact");
+        unlockAchievement("achievementFirstContact");
       });
     }
   }
