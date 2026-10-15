@@ -1067,10 +1067,7 @@
       }
       function syncSelection() {
         var hasMultiple = Object.keys(selectedCategories).length > 1;
-        panels.classList.toggle(
-          "has-multiple",
-          hasMultiple,
-        );
+        panels.classList.toggle("has-multiple", hasMultiple);
         tabs.querySelectorAll("button").forEach(function (b, j) {
           b.setAttribute(
             "aria-pressed",
