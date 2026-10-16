@@ -373,7 +373,11 @@
       return;
     }
 
-    if (document.hidden) {
+    var lightbox = document.getElementById("lb");
+    if (
+      document.hidden ||
+      (definition.id === "certified-third-wheeler" && lightbox && !lightbox.hidden)
+    ) {
       state.pendingToast.push(definition.id);
       storeState();
       return;
@@ -876,8 +880,15 @@
   function handlePageVisible() {
     if (document.visibilityState !== "visible" || !state.pendingToast.length) return;
 
-    var pendingIds = state.pendingToast.slice();
-    state.pendingToast = [];
+    var lightbox = document.getElementById("lb");
+    var pendingIds = state.pendingToast.filter(function (id) {
+      return id !== "certified-third-wheeler" || !lightbox || lightbox.hidden;
+    });
+    if (!pendingIds.length) return;
+
+    state.pendingToast = state.pendingToast.filter(function (id) {
+      return pendingIds.indexOf(id) === -1;
+    });
     storeState();
 
     pendingIds.forEach(function (id) {
@@ -1020,6 +1031,7 @@
     maybeUnlockTouchGrassLater();
     document.addEventListener("visibilitychange", handlePageVisible);
     window.addEventListener("focus", handlePageVisible);
+    document.addEventListener("wedding-lightbox-closed", handlePageVisible);
     handlePageVisible();
   }
 

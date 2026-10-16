@@ -549,6 +549,21 @@ p {
   animation: secret-star-twinkle 700ms 180ms ease-in-out infinite alternate-reverse;
 }
 
+@media (max-width: 699px) {
+  .achievement-popup {
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+
+  .achievement-toast {
+    transform: translateY(12px) scale(0.768);
+  }
+
+  .achievement-toast.is-visible {
+    transform: translateY(0) scale(0.8);
+  }
+}
+
 @keyframes achievement-unlocked {
   0% {
     color: var(--d-orange);

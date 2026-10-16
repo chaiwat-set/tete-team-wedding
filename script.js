@@ -719,6 +719,7 @@
           lb.hidden = true;
           lbStage.innerHTML = "";
           lbEl = null;
+          document.dispatchEvent(new CustomEvent("wedding-lightbox-closed"));
         },
         REDUCE ? 0 : 250,
       );
