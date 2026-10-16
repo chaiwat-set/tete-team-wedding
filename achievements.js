@@ -10,7 +10,6 @@
     "bilingual",
     "completionist",
     "google-maps-expert",
-    "speedrunner",
     "the-blessing",
     "the-secret-garden",
     "one-more-time",
@@ -122,19 +121,7 @@
       },
       description: {
         th: "ปักหมุดไว้แล้ว ไม่หลงทางแน่นอน",
-        en: "You’ve checked out our venue on Google Maps. No excuses for getting lost now.",
-      },
-    },
-    {
-      id: "speedrunner",
-      category: "hidden",
-      title: {
-        th: "ไอ่หนูลมกรด",
-        en: "Speedrunner",
-      },
-      description: {
-        th: "เร็วขนาดนี้ ตั้งใจอ่านจริง ๆ ใช่ไหม?",
-        en: "Did you even read anything?",
+        en: "You’ve checked out our venue. No excuses for getting lost now.",
       },
     },
     {
@@ -191,11 +178,6 @@
   var activeToasts = [];
   var TOAST_DURATION = 5000;
   var TOAST_FADE_DURATION = 250;
-  var speedrunIntentAt = null;
-  var speedrunIntentTimeout = null;
-  var speedrunStartedAt = null;
-  var speedrunLastIntentAt = null;
-  var speedrunTouchY = null;
 
   function createDefaultState() {
     return {
@@ -332,6 +314,7 @@
     description.textContent = unlocked ? getAchievementText(definition, "description") : "";
     description.hidden = !unlocked;
     item.classList.toggle("is-unlocked", unlocked);
+    item.classList.toggle("is-secret", definition.category === "hidden");
   }
 
   function getAchievementMenuOrder(id) {
@@ -459,8 +442,17 @@
   function renderToastText(definition, toast) {
     var toastName = toast && toast.querySelector(".achievement-toast-name");
     var toastDescription = toast && toast.querySelector(".achievement-toast-description");
-    if (!toastName || !toastDescription) return;
+    var toastLabel = toast && toast.querySelector(".achievement-toast-label");
+    var toastIcon = toast && toast.querySelector(".achievement-toast-sparkle");
+    if (!toastName || !toastDescription || !toastLabel || !toastIcon) return;
 
+    var isSecret = definition.category === "hidden";
+    toast.classList.toggle("is-secret", isSecret);
+    toastLabel.hidden = !isSecret;
+    toastLabel.textContent = state.language === "en"
+      ? "Secret Achievement Unlocked"
+      : "ความสำเร็จลับ";
+    toastIcon.textContent = isSecret ? "🔑" : "✦";
     toastName.textContent = getAchievementText(definition, "title");
     toastDescription.textContent = getAchievementText(definition, "description");
   }
@@ -609,55 +601,7 @@
     return gate && !gate.classList.contains("gone");
   }
 
-  function recordDownwardScrollIntent() {
-    if (isGateOpen()) return;
-    var now = Date.now();
-    if (speedrunStartedAt !== null) {
-      speedrunLastIntentAt = now;
-      return;
-    }
-    if (getScrollTop() !== 0) return;
-
-    speedrunIntentAt = now;
-    window.clearTimeout(speedrunIntentTimeout);
-    speedrunIntentTimeout = window.setTimeout(function () {
-      speedrunIntentAt = null;
-    }, 2000);
-  }
-
-  function updateSpeedrunner(isScroll) {
-    if (!isScroll) return;
-
-    var scrollTop = getScrollTop();
-    var now = Date.now();
-    if (scrollTop === 0) {
-      speedrunStartedAt = null;
-      speedrunLastIntentAt = null;
-      return;
-    }
-
-    if (speedrunStartedAt === null && speedrunIntentAt !== null) {
-      speedrunStartedAt = speedrunIntentAt;
-      speedrunLastIntentAt = speedrunIntentAt;
-      speedrunIntentAt = null;
-      window.clearTimeout(speedrunIntentTimeout);
-    }
-
-    if (speedrunStartedAt === null) return;
-    if (now - speedrunStartedAt >= 25000) {
-      speedrunStartedAt = null;
-      speedrunLastIntentAt = null;
-      return;
-    }
-    if (isAtPageBottom() && speedrunLastIntentAt !== null &&
-        now - speedrunLastIntentAt <= 2500) {
-      unlockAchievement("speedrunner");
-      speedrunStartedAt = null;
-      speedrunLastIntentAt = null;
-    }
-  }
-
-  function updateScrollAchievements(isScroll) {
+  function updateScrollAchievements() {
     if (isGateOpen()) return;
 
     var countdown = document.querySelector(".countdown");
@@ -672,7 +616,6 @@
     if (isAtPageBottom()) {
       unlockAchievement("the-grand-tour");
     }
-    updateSpeedrunner(isScroll);
   }
 
   function maybeUnlockCompletionist() {
@@ -866,43 +809,6 @@
     }
   }
 
-  function bindSpeedrunnerProgress() {
-    window.addEventListener("wheel", function (event) {
-      if (event.deltaY > 0) recordDownwardScrollIntent();
-    }, { passive: true });
-
-    document.addEventListener("touchstart", function (event) {
-      speedrunTouchY = event.touches.length ? event.touches[0].clientY : null;
-    }, { passive: true });
-    document.addEventListener("touchmove", function (event) {
-      if (!event.touches.length) return;
-      var nextY = event.touches[0].clientY;
-      if (speedrunTouchY !== null && nextY < speedrunTouchY) {
-        recordDownwardScrollIntent();
-      }
-      speedrunTouchY = nextY;
-    }, { passive: true });
-    document.addEventListener("touchend", function () {
-      speedrunTouchY = null;
-    }, { passive: true });
-
-    document.addEventListener("keydown", function (event) {
-      var target = event.target;
-      if (target && target.closest &&
-          target.closest("input, textarea, select, button, a, [contenteditable='true']")) {
-        return;
-      }
-      if (
-        event.key === "ArrowDown" ||
-        event.key === "PageDown" ||
-        event.key === "End" ||
-        (event.key === " " && !event.shiftKey)
-      ) {
-        recordDownwardScrollIntent();
-      }
-    }, true);
-  }
-
   function bindColorButtons() {
     var colorButtons = document.querySelectorAll("#dress .dot[data-color]");
     colorButtons.forEach(function (button) {
@@ -988,12 +894,12 @@
   }
 
   function bindScrollProgress() {
-    updateScrollAchievements(false);
+    updateScrollAchievements();
     window.addEventListener("scroll", function () {
-      updateScrollAchievements(true);
+      updateScrollAchievements();
     }, { passive: true });
     window.addEventListener("resize", function () {
-      updateScrollAchievements(false);
+      updateScrollAchievements();
     });
   }
 
@@ -1004,7 +910,6 @@
     bindColorButtons();
     bindFirstContact();
     bindMapsAchievement();
-    bindSpeedrunnerProgress();
     document.addEventListener("wedding-rsvp-success", handleRsvpSuccess);
     observeWhenAvailable("#tabs", bindTravelCategoryProgress);
     observeWhenAvailable("#galTrack", bindGalleryProgress);
