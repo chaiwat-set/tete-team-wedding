@@ -1,4 +1,8 @@
 (function () {
+  document.addEventListener("contextmenu", function (e) {
+    if (e.target instanceof Element && e.target.closest("img")) e.preventDefault();
+  });
+
   /* =====================================================
      ✏️ ค่าที่แก้บ่อย อยู่ตรงนี้ทั้งหมด
      ===================================================== */
