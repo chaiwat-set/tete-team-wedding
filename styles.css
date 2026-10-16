@@ -402,7 +402,9 @@ p {
 
 .achievement-popup li {
   display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
   gap: 2px;
+  column-gap: 8px;
   height: 73px;
   overflow: hidden;
   align-content: start;
@@ -412,6 +414,29 @@ p {
   padding-right: 6px;
   color: var(--ink);
   font-size: 15px;
+}
+
+.achievement-popup li .achievement-icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+}
+
+.achievement-popup li .achievement-name,
+.achievement-popup li .achievement-description {
+  grid-column: 2;
+}
+
+.achievement-popup li:not(.is-unlocked) .achievement-icon {
+  display: none;
+}
+
+.achievement-popup li:not(.is-unlocked) .achievement-name {
+  grid-column: 1 / -1;
+  grid-row: 1;
 }
 
 .achievement-popup li.is-unlocked {

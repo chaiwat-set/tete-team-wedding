@@ -19,6 +19,7 @@
     {
       id: "achievementFirstContact",
       category: "normal",
+      icon: "✦",
       title: {
         th: "จุดเริ่มต้น",
         en: "First Contact",
@@ -31,6 +32,7 @@
     {
       id: "countdown-started",
       category: "normal",
+      icon: "✦",
       title: {
         th: "เริ่มนับถอยหลัง",
         en: "Countdown Started",
@@ -43,6 +45,7 @@
     {
       id: "definitely-not-planning-trips",
       category: "normal",
+      icon: "✦",
       title: {
         th: "ไม่ได้วางแผนเที่ยว จริง ๆ นะ",
         en: "Definitely Not Planning Trips",
@@ -55,6 +58,7 @@
     {
       id: "color-me-impressed",
       category: "normal",
+      icon: "✦",
       title: {
         th: "ทุกสีมีความหมาย",
         en: "Color Me Impressed",
@@ -67,6 +71,7 @@
     {
       id: "certified-third-wheeler",
       category: "normal",
+      icon: "✦",
       title: {
         th: "กขค. มืออาชีพ",
         en: "Certified Third Wheeler",
@@ -79,6 +84,7 @@
     {
       id: "the-grand-tour",
       category: "normal",
+      icon: "✦",
       title: {
         th: "นักสำรวจเว็บ",
         en: "The Grand Tour",
@@ -91,6 +97,7 @@
     {
       id: "bilingual",
       category: "normal",
+      icon: "✦",
       title: {
         th: "ภาษาไหนก็ได้",
         en: "Bilingual",
@@ -103,6 +110,7 @@
     {
       id: "completionist",
       category: "normal",
+      icon: "✦",
       title: {
         th: "เก็บครบจบทุกอัน",
         en: "Completionist",
@@ -115,6 +123,7 @@
     {
       id: "google-maps-expert",
       category: "hidden",
+      icon: "🔑",
       title: {
         th: "ผู้เชี่ยวชาญเส้นทาง",
         en: "Google Maps Expert",
@@ -127,6 +136,7 @@
     {
       id: "the-secret-garden",
       category: "hidden",
+      icon: "🔑",
       title: {
         th: "สวนแห่งความลับ",
         en: "The Secret Garden",
@@ -139,6 +149,7 @@
     {
       id: "touch-grass-later",
       category: "hidden",
+      icon: "🔑",
       title: {
         th: "ไปใช้ชีวิตบ้าง",
         en: "Touch Grass Later",
@@ -151,6 +162,7 @@
     {
       id: "one-more-time",
       category: "hidden",
+      icon: "🔑",
       title: {
         th: "ลองอีกที",
         en: "One More Time",
@@ -163,6 +175,7 @@
     {
       id: "the-blessing",
       category: "hidden",
+      icon: "🔑",
       title: {
         th: "คำอวยพร",
         en: "The Blessing",
@@ -314,6 +327,15 @@
 
   function renderAchievementItem(item, definition) {
     var unlocked = isUnlocked(definition.id);
+    var icon = item.querySelector(".achievement-icon");
+    if (!icon) {
+      icon = document.createElement("span");
+      icon.className = "achievement-icon";
+      icon.setAttribute("aria-hidden", "true");
+      item.insertBefore(icon, item.firstChild);
+    }
+    icon.textContent = unlocked ? definition.icon : "";
+
     var title = item.querySelector(".achievement-name");
     if (!title) {
       title = document.createElement("span");
