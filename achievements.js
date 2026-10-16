@@ -312,6 +312,12 @@
     }
 
     title.textContent = unlocked ? getAchievementText(definition, "title") : "???";
+    if (definition.category === "hidden") {
+      var badge = document.createElement("span");
+      badge.className = "achievement-secret-badge";
+      badge.textContent = state.language === "en" ? "secret" : "ลับ";
+      title.appendChild(badge);
+    }
     description.textContent = unlocked ? getAchievementText(definition, "description") : "";
     description.hidden = !unlocked;
     item.classList.toggle("is-unlocked", unlocked);
