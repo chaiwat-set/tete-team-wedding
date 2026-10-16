@@ -453,8 +453,8 @@
       });
       reportGalleryChange(cur % N);
       countEl.textContent = (cur % N) + 1 + " / " + N;
-      preload((cur % N) + 5);
-      preload((cur % N) - 5);
+      preload((cur % N) + 3);
+      preload((cur % N) - 3);
       playVisible();
     }
     function normalize() {
@@ -693,8 +693,8 @@
         } else old.remove();
       }
       lbCount.textContent = lbI + 1 + " / " + N;
-      preload(lbI + 5);
-      preload(lbI - 5);
+      preload(lbI + 3);
+      preload(lbI - 3);
     }
     function lbGo(n) {
       if (busy) return;
