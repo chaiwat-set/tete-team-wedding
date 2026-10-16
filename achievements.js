@@ -625,13 +625,7 @@
       state.progress["the-secret-garden"] = nextProgress;
       storeState();
       renderSecretGarden();
-
-      var nextPiece = garden.querySelector('.secret-garden-piece[data-index="' + nextIndex + '"]');
-      if (nextPiece) {
-        nextPiece.classList.remove("is-active");
-        void nextPiece.offsetWidth;
-        nextPiece.classList.add("is-active");
-      }
+      triggerGardenAnimation(garden, "is-blooming");
 
       if (nextProgress.length >= 6) {
         unlockAchievement("the-secret-garden");
