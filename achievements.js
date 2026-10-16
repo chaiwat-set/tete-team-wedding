@@ -116,7 +116,7 @@
       id: "google-maps-expert",
       category: "hidden",
       title: {
-        th: "ปักหมุดไว้แล้ว",
+        th: "ผู้เชี่ยวชาญเส้นทาง",
         en: "Google Maps Expert",
       },
       description: {
@@ -132,7 +132,7 @@
         en: "The Secret Garden",
       },
       description: {
-        th: "ความอยากเพียงรู้นิดเดียว ทำให้ดอกไม้เบ่งบาน",
+        th: "ความอยากรู้เพียงนิดเดียว ทำให้ดอกไม้เบ่งบาน",
         en: "A little curiosity made everything bloom.",
       },
     },
