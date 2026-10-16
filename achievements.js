@@ -178,6 +178,7 @@
   var activeToasts = [];
   var TOAST_DURATION = 5000;
   var TOAST_FADE_DURATION = 250;
+  var ACHIEVEMENT_HIGHLIGHT_DURATION = 700;
 
   function createDefaultState() {
     return {
@@ -414,6 +415,7 @@
       element: toast,
       item: item,
       timeoutId: null,
+      highlightTimeoutId: null,
     };
     activeToasts.push(entry);
     toast.addEventListener("click", function (event) {
@@ -423,7 +425,7 @@
       if (toggle && popup && popup.hidden) {
         toggle.click();
       }
-      removeToast(entry);
+      removeToast(entry, true);
       var list = popup && popup.querySelector("ul");
       if (item && list) {
         var listRect = list.getBoundingClientRect();
@@ -434,6 +436,14 @@
           var itemCenter = itemRect.top + itemRect.height / 2;
           list.scrollTop += (itemCenter - listCenter) * scale;
         }
+      }
+      if (item) {
+        item.classList.remove("just-unlocked");
+        void item.offsetWidth;
+        item.classList.add("just-unlocked");
+        entry.highlightTimeoutId = window.setTimeout(function () {
+          item.classList.remove("just-unlocked");
+        }, ACHIEVEMENT_HIGHLIGHT_DURATION);
       }
     });
 
@@ -447,10 +457,11 @@
     }, TOAST_DURATION - TOAST_FADE_DURATION);
   }
 
-  function removeToast(entry) {
+  function removeToast(entry, keepHighlight) {
     window.clearTimeout(entry.timeoutId);
+    window.clearTimeout(entry.highlightTimeoutId);
     entry.element.remove();
-    if (entry.item) entry.item.classList.remove("just-unlocked");
+    if (!keepHighlight && entry.item) entry.item.classList.remove("just-unlocked");
     activeToasts = activeToasts.filter(function (activeEntry) {
       return activeEntry !== entry;
     });
