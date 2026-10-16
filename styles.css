@@ -39,12 +39,6 @@ html {
   scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 64px);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
 body {
   margin: 0;
   background: var(--page);
@@ -213,17 +207,6 @@ p {
 
 .gate.gone {
   display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gate {
-    transition: opacity 0.3s;
-  }
-
-  .gate.open {
-    transform: none;
-    opacity: 0;
-  }
 }
 
 @media (max-height: 640px) {
@@ -643,21 +626,6 @@ p {
   to {
     opacity: 1;
     transform: translateY(-3px) rotate(20deg) scale(1.2);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .achievement-popup li.just-unlocked,
-  .achievement-toggle img.secret-revealed,
-  .achievement-toast-sparkle,
-  .achievement-toast.is-secret .achievement-toast-sparkle::before,
-  .achievement-toast.is-secret .achievement-toast-sparkle::after {
-    animation: none;
-  }
-
-  .achievement-toast {
-    transition: none;
-    transform: none;
   }
 }
 
@@ -1427,14 +1395,6 @@ p {
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .gal-track.anim,
-  .gal-slide,
-  .lb-media {
-    transition-duration: 0.01s;
-  }
-}
-
 /* ---------- Surin guide ---------- */
 .guide-map {
   height: 300px;
@@ -1947,17 +1907,6 @@ select:focus {
   }
   80% {
     transform: translateX(3px) rotate(2deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .secret-garden-piece,
-  .secret-garden,
-  .secret-garden.is-blooming,
-  .secret-garden.is-shaking {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
   }
 }
 
