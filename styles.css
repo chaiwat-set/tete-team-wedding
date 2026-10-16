@@ -60,6 +60,7 @@ img {
   display: block;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
   -webkit-user-drag: none;
 }
 
@@ -554,16 +555,16 @@ p {
 
 @media (max-width: 699px) {
   .achievement-popup {
-    transform: scale(0.8);
+    transform: scale(0.88);
     transform-origin: top left;
   }
 
   .achievement-toast {
-    transform: translateY(12px) scale(0.768);
+    transform: translateY(12px) scale(0.8448);
   }
 
   .achievement-toast.is-visible {
-    transform: translateY(0) scale(0.8);
+    transform: translateY(0) scale(0.88);
   }
 }
 
