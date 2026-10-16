@@ -312,6 +312,10 @@ p {
   user-select: none;
 }
 
+.achievement-toggle.is-secret {
+  background: #f2c96d;
+}
+
 .achievement-toggle img {
   display: block;
   width: 76%;

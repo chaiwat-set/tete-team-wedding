@@ -258,6 +258,20 @@
     return state.unlocked.indexOf(id) !== -1;
   }
 
+  function renderAchievementToggleIcon() {
+    var toggle = document.getElementById("achievementToggle");
+    var icon = toggle && toggle.querySelector("img");
+    if (!icon) return;
+
+    var hasUnlockedSecret = ACHIEVEMENTS.some(function (definition) {
+      return definition.category === "hidden" && isUnlocked(definition.id);
+    });
+    toggle.classList.toggle("is-secret", hasUnlockedSecret);
+    icon.src = hasUnlockedSecret
+      ? "images/achievement-secret.png"
+      : "images/achievement.png";
+  }
+
   function getAchievementText(definition, field) {
     if (!definition) return "";
     var language = state.language === "en" ? "en" : "th";
@@ -324,6 +338,7 @@
   }
 
   function renderAchievementRows() {
+    renderAchievementToggleIcon();
     var list = document.querySelector("#achievementPopup ul");
     if (!list) return;
 
