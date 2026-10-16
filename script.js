@@ -270,6 +270,14 @@
   // ---------- Dress color selector ----------
   var dressColors = document.querySelector("#dress .dots"),
     dressArt = document.querySelector("#dress .dress-art");
+  window.addEventListener("load", function () {
+    dressColors
+      .querySelectorAll("button[data-image]")
+      .forEach(function (button) {
+        var image = new Image();
+        image.src = button.dataset.image;
+      });
+  });
   dressColors.addEventListener("click", function (event) {
     var button = event.target.closest("button[data-image]");
     if (!button) return;
