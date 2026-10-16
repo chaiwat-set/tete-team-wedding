@@ -412,23 +412,35 @@
     var entry = {
       definition: definition,
       element: toast,
+      item: item,
       timeoutId: null,
     };
     activeToasts.push(entry);
     toast.addEventListener("click", function (event) {
       event.stopPropagation();
       var toggle = document.getElementById("achievementToggle");
-      if (toggle && toggle.getAttribute("aria-expanded") !== "true") {
+      var popup = document.getElementById("achievementPopup");
+      if (toggle && popup && popup.hidden) {
         toggle.click();
       }
       removeToast(entry);
+      var list = popup && popup.querySelector("ul");
+      if (item && list) {
+        var listRect = list.getBoundingClientRect();
+        var itemRect = item.getBoundingClientRect();
+        if (listRect.height > 0 && list.offsetHeight > 0) {
+          var scale = list.offsetHeight / listRect.height;
+          var listCenter = listRect.top + listRect.height / 2;
+          var itemCenter = itemRect.top + itemRect.height / 2;
+          list.scrollTop += (itemCenter - listCenter) * scale;
+        }
+      }
     });
 
     void toast.offsetWidth;
     toast.classList.add("is-visible");
     entry.timeoutId = window.setTimeout(function () {
       toast.classList.remove("is-visible");
-      if (item) item.classList.remove("just-unlocked");
       window.setTimeout(function () {
         removeToast(entry);
       }, TOAST_FADE_DURATION);
@@ -438,6 +450,7 @@
   function removeToast(entry) {
     window.clearTimeout(entry.timeoutId);
     entry.element.remove();
+    if (entry.item) entry.item.classList.remove("just-unlocked");
     activeToasts = activeToasts.filter(function (activeEntry) {
       return activeEntry !== entry;
     });

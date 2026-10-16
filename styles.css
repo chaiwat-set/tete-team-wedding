@@ -330,7 +330,7 @@ p {
   display: flex;
   flex-direction: column;
   z-index: 51;
-  width: 330px;
+  width: 360px;
   max-width: calc(100vw - 28px);
   max-height: min(var(--achievement-popup-max-height), calc(100vh - 24px));
   overflow: hidden;
@@ -1755,7 +1755,7 @@ select:focus {
 .secret-garden {
   position: relative;
   display: inline-block;
-  width: clamp(70px, 9vw, 120px);
+  width: clamp(84px, 10.8vw, 144px);
   margin: 0 auto 6px;
   padding: 0;
   border: 0;
@@ -1975,7 +1975,7 @@ select:focus {
   }
 
   .secret-garden {
-    width: 52px;
+    width: 62px;
     margin-bottom: 2px;
   }
 
