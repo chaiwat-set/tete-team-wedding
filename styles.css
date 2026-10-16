@@ -424,9 +424,7 @@ p {
   overflow: hidden;
   align-content: start;
   padding: 6px 0;
-  border-bottom: 0;
-  background: var(--cream);
-  border-radius: 10px;
+  border-bottom: 1px solid var(--line);
   padding-left: 6px;
   padding-right: 6px;
   color: var(--ink);
@@ -437,9 +435,15 @@ p {
   font-weight: 600;
 }
 
+.achievement-popup li[data-achievement-id="completionist"] {
+  border-bottom: 0;
+}
+
 .achievement-popup li.is-secret {
-  background: linear-gradient(135deg, #17172f 55%, #FFD700);
-  color: var(--cream);
+  border-bottom: 0;
+  border-radius: 10px;
+  background: #17172f;
+  color: #fff8e8;
 }
 
 .achievement-popup li .achievement-description {
