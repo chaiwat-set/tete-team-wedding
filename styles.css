@@ -1202,15 +1202,18 @@ p {
   border-radius: 14px;
   overflow: hidden;
   background: var(--cream);
-  opacity: 0.45;
-  transform: scale(0.93);
+  opacity: 0.20;
+  filter: grayscale(100%) blur(1px);
+  transform: scale(0.9);
   transition:
     opacity 0.45s var(--gal-ease),
+    filter 0.45s var(--gal-ease),
     transform 0.45s var(--gal-ease);
 }
 
 .gal-slide.on {
   opacity: 1;
+  filter: none;
   transform: none;
   cursor: zoom-in;
   box-shadow: 0 10px 30px rgba(20, 50, 90, 0.16);
