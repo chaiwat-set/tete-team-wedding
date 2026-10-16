@@ -520,6 +520,99 @@
     return state.progress[id];
   }
 
+  function getSecretGardenProgress() {
+    var progress = getAchievementProgressList("the-secret-garden");
+    var nextProgress = [];
+    progress.forEach(function (value) {
+      var numericValue = Number(value);
+      if (!isNaN(numericValue) && numericValue >= 0 && numericValue < 6) {
+        nextProgress.push(numericValue);
+      }
+    });
+    state.progress["the-secret-garden"] = uniqueList(nextProgress);
+    return state.progress["the-secret-garden"];
+  }
+
+  function getNextSecretGardenIndex() {
+    var progress = getSecretGardenProgress();
+    for (var index = 0; index < 6; index += 1) {
+      if (progress.indexOf(index) === -1) {
+        return index;
+      }
+    }
+    return null;
+  }
+
+  function renderSecretGarden() {
+    var garden = document.getElementById("secretGarden");
+    if (!garden) return;
+
+    var pieces = Array.prototype.slice.call(garden.querySelectorAll(".secret-garden-piece"));
+    var progress = getSecretGardenProgress();
+    var hasGardenUnlock = isUnlocked("the-secret-garden");
+    pieces.forEach(function (piece) {
+      var index = Number(piece.dataset.index);
+      var isActive = hasGardenUnlock || progress.indexOf(index) !== -1;
+      piece.classList.toggle("is-active", isActive);
+    });
+    garden.classList.toggle("is-complete", hasGardenUnlock || progress.length >= 6);
+    garden.setAttribute("aria-pressed", hasGardenUnlock ? "true" : "false");
+  }
+
+  function triggerGardenAnimation(target, animationClass) {
+    if (!target || !animationClass) return;
+    target.classList.remove(animationClass);
+    void target.offsetWidth;
+    target.classList.add(animationClass);
+    window.setTimeout(function () {
+      target.classList.remove(animationClass);
+    }, 460);
+  }
+
+  function bindSecretGarden() {
+    var garden = document.getElementById("secretGarden");
+    if (!garden) return;
+
+    garden.addEventListener("click", function () {
+      if (isUnlocked("the-secret-garden")) {
+        if (isUnlocked("one-more-time")) return;
+        var clicks = Number(state.progress["one-more-time"]) || 0;
+        state.progress["one-more-time"] = clicks + 1;
+        storeState();
+        triggerGardenAnimation(garden, "is-shaking");
+        if (state.progress["one-more-time"] >= 5) {
+          unlockAchievement("one-more-time");
+        }
+        return;
+      }
+
+      var nextIndex = getNextSecretGardenIndex();
+      if (nextIndex === null) {
+        unlockAchievement("the-secret-garden");
+        return;
+      }
+
+      var progress = getSecretGardenProgress();
+      var nextProgress = uniqueList(progress.concat(nextIndex));
+      state.progress["the-secret-garden"] = nextProgress;
+      storeState();
+      renderSecretGarden();
+
+      var nextPiece = garden.querySelector('.secret-garden-piece[data-index="' + nextIndex + '"]');
+      if (nextPiece) {
+        nextPiece.classList.remove("is-active");
+        void nextPiece.offsetWidth;
+        nextPiece.classList.add("is-active");
+      }
+
+      if (nextProgress.length >= 6) {
+        unlockAchievement("the-secret-garden");
+      }
+    });
+
+    renderSecretGarden();
+  }
+
   function syncTravelCategoryProgress() {
     var buttons = Array.prototype.slice.call(document.querySelectorAll("#tabs button"));
     if (!buttons.length) return;
@@ -905,11 +998,18 @@
 
   function init() {
     loadState();
+    if (getSecretGardenProgress().length >= 6 && !isUnlocked("the-secret-garden")) {
+      unlockAchievement("the-secret-garden");
+    }
+    if ((Number(state.progress["one-more-time"]) || 0) >= 5 && !isUnlocked("one-more-time")) {
+      unlockAchievement("one-more-time");
+    }
     bindLanguageToggle();
     bindAchievementToggle();
     bindColorButtons();
     bindFirstContact();
     bindMapsAchievement();
+    bindSecretGarden();
     document.addEventListener("wedding-rsvp-success", handleRsvpSuccess);
     observeWhenAvailable("#tabs", bindTravelCategoryProgress);
     observeWhenAvailable("#galTrack", bindGalleryProgress);

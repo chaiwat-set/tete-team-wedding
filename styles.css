@@ -1732,15 +1732,169 @@ select:focus {
   padding: 0 20px;
 }
 
-.thanks .flowers {
+.secret-garden {
+  position: relative;
+  display: inline-block;
   width: clamp(70px, 9vw, 120px);
   margin: 0 auto 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  border-radius: 50%;
+  color: inherit;
+  appearance: none;
+}
+
+.secret-garden:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.9);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.secret-garden .flowers {
+  display: block;
+  width: 100%;
+  margin: 0;
+  filter: drop-shadow(0 2px 12px rgba(10, 30, 18, 0.18));
+}
+
+.secret-garden-pieces {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  pointer-events: none;
+}
+
+.secret-garden-piece {
+  position: relative;
+  display: block;
+  transform: scale(0.9) rotate(-12deg);
+  opacity: 0.2;
+  background: transparent;
+  transition:
+    opacity 0.28s ease,
+    transform 0.36s ease,
+    filter 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.secret-garden-piece::before {
+  content: "";
+  position: absolute;
+  inset: 12% 10% 18% 10%;
+  border-radius: 58% 42% 54% 46% / 52% 56% 44% 48%;
+  background: var(--piece-color, rgba(255, 255, 255, 0.8));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24);
+  opacity: 0;
+  transform: scale(0.7);
+  transition:
+    opacity 0.26s ease,
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.secret-garden-piece[data-index="0"] {
+  --piece-color: rgba(156, 208, 123, 0.9);
+}
+
+.secret-garden-piece[data-index="1"] {
+  --piece-color: rgba(248, 198, 82, 0.9);
+}
+
+.secret-garden-piece[data-index="2"] {
+  --piece-color: rgba(244, 166, 119, 0.9);
+}
+
+.secret-garden-piece[data-index="3"] {
+  --piece-color: rgba(237, 120, 128, 0.9);
+}
+
+.secret-garden-piece[data-index="4"] {
+  --piece-color: rgba(121, 168, 214, 0.9);
+}
+
+.secret-garden-piece[data-index="5"] {
+  --piece-color: rgba(247, 214, 145, 0.9);
+}
+
+.secret-garden-piece.is-active {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  filter: saturate(1.4);
+  animation: secret-garden-bloom 0.7s cubic-bezier(0.2, 0.8, 0.24, 1.15);
+}
+
+.secret-garden-piece.is-active::before {
+  opacity: 1;
+  transform: scale(1);
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.26),
+    0 12px 18px rgba(43, 96, 30, 0.24);
+}
+
+.secret-garden.is-complete .secret-garden-piece {
+  opacity: 1;
+}
+
+.secret-garden.is-shaking {
+  animation: secret-garden-shake 0.42s ease-in-out 1;
+}
+
+@keyframes secret-garden-bloom {
+  0% {
+    opacity: 0.12;
+    transform: scale(0.68) rotate(-12deg);
+  }
+  35% {
+    opacity: 1;
+    transform: scale(1.12) rotate(4deg);
+  }
+  62% {
+    transform: scale(0.96) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes secret-garden-shake {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(-4px) rotate(-3deg);
+  }
+  40% {
+    transform: translateX(4px) rotate(4deg);
+  }
+  60% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  80% {
+    transform: translateX(3px) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secret-garden-piece,
+  .secret-garden-piece::before,
+  .secret-garden,
+  .secret-garden.is-shaking {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .thanks h2 {
   font-family: var(--latin);
   font-weight: 500;
-  font-size: clamp(34px, 5.6vw, 72px);
+  font-size: clamp(30px, 4.8vw, 62px);
   line-height: 1.02;
   letter-spacing: 0.04em;
   margin: 0 0 0.28em;
@@ -1800,8 +1954,8 @@ select:focus {
     top: 22%;
   }
 
-  .thanks .flowers {
-    width: 50px;
+  .secret-garden {
+    width: 52px;
     margin-bottom: 2px;
   }
 
