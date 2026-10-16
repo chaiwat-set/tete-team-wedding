@@ -19,8 +19,7 @@
   --d-pink: #f59da3;
   --achievement-popup-max-height: 50vh;
   --thai:
-    "IBM Plex Sans Thai Looped", "Noto Sans Thai Looped", "Leelawadee UI",
-    Tahoma, sans-serif;
+    "Bai Jamjuree", "Noto Sans Thai", "Leelawadee UI", Tahoma, sans-serif;
   --latin: "Jost", "Futura", "Century Gothic", "Avenir Next", sans-serif;
   --r-cut: 30px 38px 32px 42px / 36px 30px 42px 32px;
   box-sizing: border-box;
@@ -110,6 +109,10 @@ h3 {
 
 p {
   margin: 0 0 0.9em;
+}
+
+.keep-together {
+  white-space: nowrap;
 }
 
 .small {
