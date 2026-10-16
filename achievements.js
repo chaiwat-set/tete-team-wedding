@@ -258,7 +258,7 @@
     return state.unlocked.indexOf(id) !== -1;
   }
 
-  function renderAchievementToggleIcon() {
+  function renderAchievementToggleIcon(animateSecretReveal) {
     var toggle = document.getElementById("achievementToggle");
     var icon = toggle && toggle.querySelector("img");
     if (!icon) return;
@@ -267,6 +267,9 @@
       return definition.category === "hidden" && isUnlocked(definition.id);
     });
     toggle.classList.toggle("is-secret", hasUnlockedSecret);
+    if (hasUnlockedSecret && animateSecretReveal) {
+      icon.classList.add("secret-revealed");
+    }
     icon.src = hasUnlockedSecret
       ? "images/achievement-secret.png"
       : "images/achievement.png";
@@ -337,8 +340,8 @@
     return index === -1 ? ACHIEVEMENT_MENU_ORDER.length : index;
   }
 
-  function renderAchievementRows() {
-    renderAchievementToggleIcon();
+  function renderAchievementRows(animateSecretReveal) {
+    renderAchievementToggleIcon(animateSecretReveal);
     var list = document.querySelector("#achievementPopup ul");
     if (!list) return;
 
@@ -509,7 +512,7 @@
       state.pendingToast = uniqueList(state.pendingToast.concat(id));
     }
     storeState();
-    renderAchievementRows();
+    renderAchievementRows(definition.category === "hidden");
     if (id !== "completionist") {
       maybeUnlockCompletionist();
     }
