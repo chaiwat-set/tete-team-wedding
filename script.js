@@ -312,7 +312,7 @@
   });
   function fill(c, ms) {
     var s = Math.max(0, Math.floor(ms / 1000));
-    c.d.textContent = Math.floor(s / 86400);
+    c.d.textContent = String(Math.floor(s / 86400)).padStart(2, "0");
     c.h.textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
     c.m.textContent = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
     c.s.textContent = String(s % 60).padStart(2, "0");
@@ -327,7 +327,7 @@
     var t = now();
     if (t >= DAY_END) {
       show("after");
-      fill(upCells, t - DAY_START);
+      fill(upCells, t - DAY_END);
       return;
     }
     if (t >= DAY_START) {
