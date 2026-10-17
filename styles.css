@@ -423,6 +423,7 @@ p {
   grid-column: 1;
   grid-row: 1 / span 2;
   align-self: center;
+  color: var(--d-orange);
   font-size: 18px;
   line-height: 1;
   text-align: center;
