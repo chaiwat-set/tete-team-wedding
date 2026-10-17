@@ -258,6 +258,7 @@
     document.body.style.overflow = "hidden";
     window.scrollTo({ top: 0, behavior: "instant" });
     window.addEventListener("pageshow", function () {
+      if (gate.classList.contains("open")) return;
       window.scrollTo({ top: 0, behavior: "instant" });
     });
   }
