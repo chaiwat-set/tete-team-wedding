@@ -300,7 +300,6 @@
   });
 
   // ---------- Countdown: ก่อนงาน / วันงาน / หลังงาน ----------
-  var START = new Date("2027-01-15T06:00:00+07:00").getTime();
   var DAY_START = new Date("2027-01-15T00:00:00+07:00").getTime();
   var DAY_END = new Date("2027-01-16T00:00:00+07:00").getTime();
   var cells = {};
@@ -326,10 +325,9 @@
   var timer;
   function tick() {
     var t = now();
-    // หลังวันงาน: นับเวลาเดินหน้าต่อ นับจากเวลาเริ่มพิธี 06.00 น. วันที่ 15 ม.ค.
     if (t >= DAY_END) {
       show("after");
-      fill(upCells, t - START);
+      fill(upCells, t - DAY_START);
       return;
     }
     if (t >= DAY_START) {
@@ -337,7 +335,7 @@
       return;
     }
     show("before");
-    fill(cells, START - t);
+    fill(cells, DAY_START - t);
   }
   tick();
   timer = setInterval(tick, 1000);
