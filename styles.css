@@ -299,7 +299,7 @@ p {
 }
 
 .achievement-toggle.is-secret {
-  background: #f2c96d;
+  background: #17172f;
 }
 
 .achievement-toggle img {
@@ -309,6 +309,10 @@ p {
   object-fit: contain;
   pointer-events: none;
   user-select: none;
+}
+
+.achievement-toggle:not(.is-secret) img {
+  transform: translateY(7.5%);
 }
 
 .achievement-toggle img.secret-revealed {

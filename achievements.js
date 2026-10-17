@@ -1,5 +1,7 @@
 (function () {
   var STORAGE_KEY = "teteTeamWedding.achievements";
+  var NORMAL_ACHIEVEMENT_ICON = "✦";
+  var HIDDEN_ACHIEVEMENT_ICON = "🔑";
   var ACHIEVEMENT_MENU_ORDER = [
     "achievementFirstContact",
     "countdown-started",
@@ -19,7 +21,7 @@
     {
       id: "achievementFirstContact",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "จุดเริ่มต้น",
         en: "First Contact",
@@ -32,7 +34,7 @@
     {
       id: "countdown-started",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "เริ่มนับถอยหลัง",
         en: "Countdown Started",
@@ -45,7 +47,7 @@
     {
       id: "definitely-not-planning-trips",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "ไม่ได้วางแผนเที่ยว จริง ๆ นะ",
         en: "Definitely Not Planning Trips",
@@ -58,7 +60,7 @@
     {
       id: "color-me-impressed",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "ทุกสีมีความหมาย",
         en: "Color Me Impressed",
@@ -71,7 +73,7 @@
     {
       id: "certified-third-wheeler",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "กขค. มืออาชีพ",
         en: "Certified Third Wheeler",
@@ -84,7 +86,7 @@
     {
       id: "the-grand-tour",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "นักสำรวจเว็บ",
         en: "The Grand Tour",
@@ -97,7 +99,7 @@
     {
       id: "bilingual",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "ภาษาไหนก็ได้",
         en: "Bilingual",
@@ -110,7 +112,7 @@
     {
       id: "completionist",
       category: "normal",
-      icon: "✦",
+      icon: NORMAL_ACHIEVEMENT_ICON,
       title: {
         th: "เก็บครบจบทุกอัน",
         en: "Completionist",
@@ -123,7 +125,7 @@
     {
       id: "google-maps-expert",
       category: "hidden",
-      icon: "🔑",
+      icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
         th: "ผู้เชี่ยวชาญเส้นทาง",
         en: "Google Maps Expert",
@@ -136,7 +138,7 @@
     {
       id: "the-secret-garden",
       category: "hidden",
-      icon: "🔑",
+      icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
         th: "สวนแห่งความลับ",
         en: "The Secret Garden",
@@ -149,7 +151,7 @@
     {
       id: "touch-grass-later",
       category: "hidden",
-      icon: "🔑",
+      icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
         th: "เรื่องราวทั้งหมด",
         en: "The Whole Story",
@@ -162,7 +164,7 @@
     {
       id: "one-more-time",
       category: "hidden",
-      icon: "🔑",
+      icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
         th: "ลองอีกที",
         en: "One More Time",
@@ -175,7 +177,7 @@
     {
       id: "the-blessing",
       category: "hidden",
-      icon: "🔑",
+      icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
         th: "คำอวยพร",
         en: "The Blessing",
@@ -520,7 +522,9 @@
     toastLabel.textContent = state.language === "en"
       ? "Secret Achievement Unlocked"
       : "ความสำเร็จลับ";
-    toastIcon.textContent = isSecret ? "🔑" : "✦";
+    toastIcon.textContent = isSecret
+      ? HIDDEN_ACHIEVEMENT_ICON
+      : NORMAL_ACHIEVEMENT_ICON;
     toastName.textContent = getAchievementText(definition, "title");
     toastDescription.textContent = getAchievementText(definition, "description");
   }
