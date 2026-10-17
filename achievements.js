@@ -151,12 +151,12 @@
       category: "hidden",
       icon: "🔑",
       title: {
-        th: "ไปใช้ชีวิตบ้าง",
-        en: "Touch Grass Later",
+        th: "เรื่องราวทั้งหมด",
+        en: "The Whole Story",
       },
       description: {
-        th: "ไม่มีอะไรให้ค้นหาแล้ว เจอกันที่งานแต่งนะ!",
-        en: "You found every secret. Please go enjoy the wedding now.",
+        th: "ทุกความลับ ทุกเรื่องราวเล็ก ๆ คุณค้นพบครบหมดแล้ว",
+        en: "Every little secret, every little story. You’ve found them all.",
       },
     },
     {
