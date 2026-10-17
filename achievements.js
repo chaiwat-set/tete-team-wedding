@@ -15,7 +15,7 @@
     "the-blessing",
     "the-secret-garden",
     "one-more-time",
-    "touch-grass-later"
+    "the-whole-story"
   ];
   var ACHIEVEMENTS = [
     {
@@ -149,7 +149,7 @@
       },
     },
     {
-      id: "touch-grass-later",
+      id: "the-whole-story",
       category: "hidden",
       icon: HIDDEN_ACHIEVEMENT_ICON,
       title: {
@@ -542,7 +542,7 @@
     if (id !== "completionist") {
       maybeUnlockCompletionist();
     }
-    if (definition.category === "hidden" && id !== "touch-grass-later") {
+    if (definition.category === "hidden" && id !== "the-whole-story") {
       maybeUnlockTouchGrassLater();
     }
     if (!deferToast) queueToast(definition);
@@ -791,13 +791,13 @@
 
   function maybeUnlockTouchGrassLater() {
     var hiddenIds = ACHIEVEMENTS.filter(function (definition) {
-      return definition.category === "hidden" && definition.id !== "touch-grass-later";
+      return definition.category === "hidden" && definition.id !== "the-whole-story";
     }).map(function (definition) {
       return definition.id;
     });
 
     if (hiddenIds.length > 0 && hiddenIds.every(function (id) { return isUnlocked(id); })) {
-      unlockAchievement("touch-grass-later");
+      unlockAchievement("the-whole-story");
     }
   }
 
