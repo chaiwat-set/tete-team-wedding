@@ -1,3 +1,5 @@
 .github/*
 !.github/copilot-instructions.md
+!.github/prompt/
+!.github/prompt/ceremony-game.txt
 .DS_STORE
