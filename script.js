@@ -1185,17 +1185,40 @@
       form.querySelector("input[name=attend]:checked").value === "มาแน่นอน"
     );
   }
-  form.addEventListener("change", function () {
-    var on = attending();
+  var gangSelect = document.getElementById("f-gang"),
+    gangOtherWrap = document.getElementById("gangOtherWrap"),
+    gangOtherInput = document.getElementById("f-gang-other"),
+    partSelect = document.getElementById("f-part");
+  function updateRsvpFields() {
+    var on = attending(),
+      otherGang = gangSelect.value === "other";
     document.getElementById("attendBits").style.display = on ? "" : "none";
+    gangOtherWrap.hidden = !otherGang;
+    gangOtherInput.required = otherGang;
+    partSelect.required = on;
+    if (!otherGang) {
+      gangOtherInput.value = "";
+      document.getElementById("e-gang-other").style.display = "none";
+    }
+  }
+  form.addEventListener("change", function () {
+    updateRsvpFields();
   });
+  updateRsvpFields();
   function collect() {
-    var on = attending();
+    var on = attending(),
+      selectedGang = gangSelect.options[gangSelect.selectedIndex];
     return {
       name: document.getElementById("f-name").value.trim(),
+      gang:
+        gangSelect.value === "other"
+          ? "อื่นๆ: " + gangOtherInput.value.trim()
+          : selectedGang && gangSelect.value
+            ? selectedGang.textContent.trim()
+            : "",
       attend: form.querySelector("input[name=attend]:checked").value,
       count: on ? document.getElementById("f-count").value || "1" : "0",
-      part: on ? document.getElementById("f-part").value : "",
+      part: on ? partSelect.value : "",
       wish: document.getElementById("f-wish").value.trim(),
     };
   }
@@ -1203,6 +1226,7 @@
     var lines = [
       "ตอบรับงานแต่ง เตเต้ & ทีม 15.01.2570",
       "ชื่อ: " + d.name,
+      "แก้งค์: " + d.gang,
       "สถานะ: " + d.attend,
     ];
     if (d.attend === "มาแน่นอน") {
@@ -1239,13 +1263,34 @@
       return;
     }
     var d = collect(),
-      en = document.getElementById("e-name");
+      en = document.getElementById("e-name"),
+      eg = document.getElementById("e-gang"),
+      ego = document.getElementById("e-gang-other"),
+      ep = document.getElementById("e-part");
     if (!d.name) {
       en.style.display = "block";
       document.getElementById("f-name").focus();
       return;
     }
     en.style.display = "none";
+    if (!d.gang) {
+      eg.style.display = "block";
+      gangSelect.focus();
+      return;
+    }
+    eg.style.display = "none";
+    if (gangSelect.value === "other" && !gangOtherInput.value.trim()) {
+      ego.style.display = "block";
+      gangOtherInput.focus();
+      return;
+    }
+    ego.style.display = "none";
+    if (attending() && !partSelect.value) {
+      ep.style.display = "block";
+      partSelect.focus();
+      return;
+    }
+    ep.style.display = "none";
     document.getElementById("result").classList.remove("show");
     if (!RSVP_URL) {
       fallback(d);

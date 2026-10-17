@@ -485,6 +485,27 @@
             <input id="f-name" type="text" autocomplete="name" required />
             <div class="err" id="e-name">กรอกชื่อก่อนนะ</div>
           </div>
+           <div>
+            <label for="f-gang">อยู่แก้งค์ไหนกันนะ</label>
+            <select id="f-gang" autocomplete="Gang" required>
+              <option value="" selected disabled hidden></option>
+              <option value="แก้งค์1">ญาติเจ้าบ่าว</option>
+              <option value="แก้งค์2">ญาติเจ้าสาว</option>
+              <option value="แก้งค์3">เพื่อนเจ้าบ่าว</option>
+              <option value="แก้งค์4">เพื่อนเจ้าสาว</option>
+              <option value="แก้งค์5">เพื่อนพ่อเจ้าบ่าว</option>
+              <option value="แก้งค์6">เพื่อนแม่เจ้าบ่าว</option>
+              <option value="แก้งค์7">เพื่อนพ่อเจ้าสาว</option>
+              <option value="แก้งค์8">เพื่อนแม่เจ้าสาว</option>
+              <option value="other">อื่นๆ</option>
+            </select>
+            <div class="err" id="e-gang">เลือกแก้งค์ก่อนนะ</div>
+            <div id="gangOtherWrap" hidden>
+              <label for="f-gang-other">ระบุแก้งค์มาได้เลย</label>
+              <input id="f-gang-other" type="text" />
+              <div class="err" id="e-gang-other">ช่วยระบุแก้งค์ด้วยนะ</div>
+            </div>
+          </div>
           <div>
             <label id="l-attend">สะดวกมาร่วมงานไหม</label>
             <div class="choice" role="radiogroup" aria-labelledby="l-attend">
@@ -512,10 +533,12 @@
             </div>
             <div>
               <label for="f-part">ร่วมช่วงไหน</label>
-              <select id="f-part">
+              <select id="f-part" required>
+                <option value="" selected disabled hidden></option>
                 <option>ฉลองมงคลสมรส 12:00</option>
                 <option>ตั้งแต่พิธีเช้า 06:00</option>
               </select>
+              <div class="err" id="e-part">เลือกช่วงที่สะดวกมาร่วมงานก่อนนะ</div>
             </div>
           </div>
           <div>
@@ -529,7 +552,7 @@
         <div class="result" id="rsvpClosed" aria-live="polite">
           <strong>ปิดรับคำตอบแล้ว</strong>
           <p class="small" style="margin: 6px 0 0">
-            ขอบคุณที่สนใจร่วมงานนะคะ/ครับ หากมีคำถาม ติดต่อบ่าวสาวได้เลย
+            ขอบคุณที่สนใจร่วมงานนะคะ/ครับ หากมีคำถาม ติดต่อบ่าวสาว หรือ ปาป๊า-หม่าม้าได้เลย
           </p>
         </div>
         <div class="result" id="sent" aria-live="polite">
